@@ -15,17 +15,38 @@ local controls = {
 }
 
 function game_load()
-    
+    objects = {}
+    objects.player = { player:new() }
 end
 
-function game_update()
-    --do stuff before updating keys
+function game_update(delta)
+    delta = delta * 60
+    delta = math.min(delta, 2)
 
-    for key, value in pairs(controls) do
-        if value > 0 then controls[key] = value + 1
-        else controls[key] = value - 1
+    for k, v in pairs(objects) do
+        for i, _ in ipairs(objects[k]) do
+            if objects[k][i].update then
+                objects[k][i]:update(delta)
+            end
+        end
+    end 
+
+    --update keys last
+    for k, v in pairs(controls) do
+        if v > 0 then controls[k] = v + 1
+        else controls[k] = v - 1
         end
     end
+end
+
+function game_draw()
+    for k, v in pairs(objects) do
+        for i, _ in ipairs(objects[k]) do
+            if objects[k][i].draw then
+                objects[k][i]:draw()
+            end
+        end
+    end 
 end
 
 function game_keypressed(key, scancode, isrepeat)

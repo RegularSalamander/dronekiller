@@ -2,6 +2,7 @@ require "class"
 util = require "util"
 
 require "game"
+require "player"
 
 gameState = ""
 
@@ -9,9 +10,9 @@ function love.load()
     changeGameState("game")
 end
 
-function love.update()
+function love.update(delta)
     if _G[gameState .. "_update"] then
-        _G[gameState .. "_update"]()
+        _G[gameState .. "_update"](delta)
     end
 end
 
