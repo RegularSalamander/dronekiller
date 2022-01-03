@@ -21,15 +21,15 @@ function love.draw()
     end
 end
 
-function love.keypressed(key, unicode)
-	if _G[gamestate .. "_keypressed"] then
-		_G[gamestate .. "_keypressed"](key, unicode)
+function love.keypressed(key, scancode, isrepeat)
+	if _G[gameState .. "_keypressed"] then
+		_G[gameState .. "_keypressed"](key, scancode, isrepeat)
 	end
 end
 
-function love.keyreleased(key, unicode)
-	if _G[gamestate .. "_keyreleased"] then
-		_G[gamestate .. "_keyreleased"](key, unicode)
+function love.keyreleased(key, scancode, isrepeat)
+	if _G[gameState .. "_keyreleased"] then
+		_G[gameState .. "_keyreleased"](key, scancode, isrepeat)
 	end
 end
 
