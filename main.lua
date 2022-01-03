@@ -1,6 +1,7 @@
 require "class"
-util = require "util"
+util = require "salamanderUtils"
 
+require "variables"
 require "game"
 require "player"
 

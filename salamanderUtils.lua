@@ -13,7 +13,7 @@ function util.map(item, min1, max1, min2, max2)
 end
 
 function util.sign(a)
-    if(a == 0) then return 1 end
+    if(a == 0) then return 0 end
     return a / math.abs(a)
 end
 

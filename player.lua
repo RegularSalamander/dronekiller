@@ -20,8 +20,22 @@ function player:init()
     self.spinAngle = 0
 end
 
-function player:control()
-    
+function player:control(controls, delta)
+    if self.state == "ground" then
+        if controls.right > 0 then
+            self.vel.x = self.vel.x + playerAccelerationOnGround * delta
+        elseif controls.left > 0 then
+            self.vel.x = self.vel.x - playerAccelerationOnGround * delta
+        else
+            --slow down at the same rate?
+            self.vel.x = self.vel.x - util.sign(self.vel.x) * playerAccelerationOnGround * delta
+            if math.abs(self.vel.x) < 0.1 then
+                self.vel.x = 0
+            end
+        end
+        --constrain speed
+        self.vel.x = util.constrain(self.vel.x, -1 * playerMaxSpeedOnGround, playerMaxSpeedOnGround)
+    end
 end
 
 function player:update(delta)

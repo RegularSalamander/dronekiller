@@ -23,6 +23,8 @@ function game_update(delta)
     delta = delta * 60
     delta = math.min(delta, 2)
 
+    objects.player[1]:control(controls, delta)
+
     for k, v in pairs(objects) do
         for i, _ in ipairs(objects[k]) do
             if objects[k][i].update then
@@ -33,8 +35,8 @@ function game_update(delta)
 
     --update keys last
     for k, v in pairs(controls) do
-        if v > 0 then controls[k] = v + 1
-        else controls[k] = v - 1
+        if v > 0 then controls[k] = v + delta
+        else controls[k] = v - delta
         end
     end
 end
