@@ -17,6 +17,7 @@ local controls = {
 function game_load()
     objects = {}
     objects.player = { player:new() }
+    objects.buildings = { building:new(-10, 100, 100) }
 end
 
 function game_update(delta)
@@ -28,10 +29,12 @@ function game_update(delta)
     for k, v in pairs(objects) do
         for i, _ in ipairs(objects[k]) do
             if objects[k][i].update then
-                objects[k][i]:update(delta)
+                for _ = 1, 3 do
+                    objects[k][i]:update(delta / 3)
+                end
             end
         end
-    end 
+    end
 
     --update keys last
     for k, v in pairs(controls) do
