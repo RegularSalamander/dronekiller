@@ -5,7 +5,18 @@ function util.dist(a, b, c, d)
 end
 
 function util.mag(x, y)
-    return dist(0, 0, x, y)
+    return util.dist(0, 0, x, y)
+end
+
+function util.normalize(x, y)
+    local m = util.mag(x, y)
+    return x / m, y / m
+end
+
+function util.dotProduct(a, b, c, d)
+    a, b = util.normalize(a, b)
+    c, d = util.normalize(c, d)
+    return (a*c)+(b*d)
 end
 
 function util.map(item, min1, max1, min2, max2)

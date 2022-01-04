@@ -43,6 +43,7 @@ end
 
 function player:control(delta)
     if self.state == "ground" then
+        local maxControlSpeed = math.max(playerMaxSpeedGround, math.abs(self.vel.x) - playerBoostSpeedLoss)
         if controls.right > 0 then
             self.vel.x = self.vel.x + playerAccelerationGround * delta
         elseif controls.left > 0 then
@@ -55,7 +56,7 @@ function player:control(delta)
             end
         end
 
-        self.vel.x = util.constrain(self.vel.x, -1 * playerMaxSpeedGround, playerMaxSpeedGround)
+        self.vel.x = util.constrain(self.vel.x, -1 * maxControlSpeed, maxControlSpeed)
     elseif self.state == "air" then
         --getting direction
         local x = 0
@@ -93,9 +94,6 @@ function player:control(delta)
             self.state = "air"
             self.vel.y = playerWallJumpVelY
             self.vel.x = playerWallJumpVelX * self.walledDir
-        elseif self.state == "posthit" then
-            self.state = "air"
-            self.vel.y = playerAttackJumpVel
         end
     end
 
@@ -135,6 +133,27 @@ function player:update(delta)
             self.stateChange = playerPostHitTime
         elseif self.state == "posthit" then
             self.state = "air"
+            --getting direction
+            local x = 0
+            if controls.left > 0 then x = x - 1 end
+            if controls.right > 0 then x = x + 1 end
+            local y = 0
+            if controls.up > 0 then y = y - 1 end
+            if controls.down > 0 then y = y + 1 end
+            if x ~= 0 or y ~= 0 then
+                local newDir = math.atan2(y, x)
+                local mag = util.mag(self.vel.x, self.vel.y)
+                io.write(util.dotProduct(self.vel.x, self.vel.y, math.cos(newDir), math.sin(newDir)))
+                io.write("\n")
+                if util.dotProduct(self.vel.x, self.vel.y, math.cos(newDir), math.sin(newDir)) > 0.9 then
+                    self.vel.x = self.vel.x * playerHitBoost
+                    self.vel.y = self.vel.y * playerHitBoost
+                else
+                    self.vel.x = math.cos(newDir) * mag
+                    self.vel.y = math.sin(newDir) * mag
+                end
+            end
+            if controls.z > 0 then self.vel.y = playerAttackJumpVel end
         end
     end
 
@@ -182,6 +201,7 @@ function player:update(delta)
         if self.state == "dash" and util.intersect(self.hitBox, objects.drones[i].hurtBox) then
             --kill drone
             objects.drones[i].alive = false
+            cameraShake = cameraShakeLevel
             self.canDash = true
             self.state = "hit"
             self.stateChange = playerHitTime

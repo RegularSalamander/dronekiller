@@ -22,12 +22,12 @@ function generate()
         generateCloud(lastX+50, lastY - cloudDistance*2, 3, 2, 3)
         lastX = lastX + 100+100
         lastY = lastY
-    elseif r == 2 then
-        --medium gap + thin building, cloud in gap
-        table.insert(objects.buildings, building:new(lastX + 50, lastY, 200))
-        generateCloud(lastX+125, lastY - cloudDistance*2, 3, 2, 2)
-        lastX = lastX + 50 + 200
-        lastY = lastY
+    elseif r == 4 then
+        --go up with a cloud
+        table.insert(objects.buildings, building:new(lastX + 200, lastY - 100, 200))
+        generateCloud(lastX+50, lastY - cloudDistance*2, 2, 2, 3)
+        lastX = lastX + 200 + 200
+        lastY = lastY - 100
     end
 end
 

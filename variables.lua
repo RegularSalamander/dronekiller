@@ -15,6 +15,7 @@ playerPostHitTime = 10
 playerMissTime = 20
 playerMissEffect = 0.98
 playerVelToDirInfluence = 0--0.5
+playerHitBoost = 1.3
 
 cloudDistance = 50
 
@@ -22,3 +23,6 @@ gravity = 0.05
 
 screenWidth = 1920/5
 screenHeight = 1080/5
+
+cameraShakeLevel = 10
+cameraShakeDeplete = 1
