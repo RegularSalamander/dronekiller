@@ -8,7 +8,10 @@ playerWallJumpVelY = -1
 playerWallJumpVelX = 0.7
 playerSpinSpeed = 0.1
 playerDashSpeed = 3
-playerDashDuration = 10
+playerDashDuration = 50/4
+playerAttackHitTime = 4
+playerPostHitSpeed = 2
+playerTargetRange = 50
 
 gravity = 0.05
 

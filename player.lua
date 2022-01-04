@@ -4,7 +4,7 @@ function player:init()
     self.vel = {x=0, y=0}
     
     self.colliderBox = {x=0, y=0, w=5, h=5}
-    self.hitBox = {x=0, y=0, w=5, h=5}
+    self.hitBox = {x=-2, y=-2, w=7, h=7}
     self.hurtBox = {x=0, y=0, w=5, h=5}
 
     self.state = "ground"
@@ -16,14 +16,30 @@ function player:init()
         walled: hanging onto a wall
     ]]
     self.stateChange = 0 --time until state changes automatically
+
     self.canDash = false
     self.canJump = false
     self.spinAngle = 0
     self.spinDir = 0
     self.walledDir = 0 --direction *away from* the wall
+    self.targetAngle = 0
 end
 
-function player:control(controls, delta)
+function player:checkTarget()
+    local minDist = 100
+    for i, v in ipairs(objects.drones) do
+        local d = util.dist(self.pos.x+2.5, self.pos.y+2.5, objects.drones[i].pos.x, objects.drones[i].pos.y)
+        if d < playerTargetRange then
+            if d < minDist then
+                minDist = d
+                self.targetAngle = math.atan2(objects.drones[i].pos.y - self.pos.y, objects.drones[i].pos.x - self.pos.x)
+            end
+        end
+    end
+    return minDist < playerTargetRange
+end
+
+function player:control(delta)
     if self.state == "ground" then
         if controls.right > 0 then
             self.vel.x = self.vel.x + playerAccelerationGround * delta
@@ -69,7 +85,7 @@ function player:control(controls, delta)
     if controls.x == 1 then
         if self.state == "air" then
             self.state = "dash"
-            local tangent = self.spinAngle + (math.pi/2) * self.spinDir
+            local tangent = self.spinAngle-- + (math.pi/2) * self.spinDir
             self.vel.x = math.cos(tangent) * playerDashSpeed
             self.vel.y = math.sin(tangent) * playerDashSpeed
             self.stateChange = playerDashDuration
@@ -84,8 +100,8 @@ function player:move(dx, dy)
     self.colliderBox.y = self.pos.y
     self.hurtBox.x = self.pos.x
     self.hurtBox.y = self.pos.y
-    self.hitBox.x = self.pos.x
-    self.hitBox.y = self.pos.y
+    self.hitBox.x = self.pos.x-2
+    self.hitBox.y = self.pos.y-2
 end
 
 function player:update(delta)
@@ -94,6 +110,15 @@ function player:update(delta)
         if self.state == "dash" then
             self.state = "air"
             self.spinAngle = self.spinAngle + math.pi
+        end
+        if self.state == "attackhit" then
+            self.state = "air"
+            self.vel.x = self.vel.x * 0.5
+            self.vel.y = self.vel.y * 0.5
+            if controls.up > 0 then self.vel.y = self.vel.y + -1 * playerPostHitSpeed end
+            if controls.down > 0 then self.vel.y = self.vel.y + playerPostHitSpeed end
+            if controls.left > 0 then self.vel.x = self.vel.x + -1 * playerPostHitSpeed end
+            if controls.right > 0 then self.vel.x = self.vel.x + playerPostHitSpeed end
         end
     end
 
@@ -107,12 +132,18 @@ function player:update(delta)
         end
     end
     if self.state == "air" then
-        self.spinAngle = self.spinAngle + playerSpinSpeed * delta * self.spinDir
+        local dif = math.abs( (self.spinAngle%(2*math.pi)) - self.targetAngle)
+        local good = dif < 0.2
+        if not self:checkTarget() then
+            self.spinAngle = self.spinAngle + playerSpinSpeed * delta * self.spinDir
+        else
+            self.spinAngle = self.targetAngle
+        end
     end
     if self.state == "walled" then
         self.vel.y = 0
         self.vel.x = 0
-        self.spinAngle = math.pi/2
+        self.spinAngle = self.walledDir * math.pi/2 - math.pi/2
         self.spinDir = -1 * self.walledDir
     end
 
@@ -137,6 +168,18 @@ function player:update(delta)
     end
 
     self.vel.y = self.vel.y + gravity * delta
+
+    for i, v in ipairs(objects.drones) do
+        if self.state == "dash" and util.intersect(self.hitBox, objects.drones[i].hurtBox) then
+            --kill drone
+            objects.drones[i].alive = false
+            self.state = "attackhit"
+            self.stateChange = playerAttackHitTime
+        end
+        if self.state ~= "dash" and util.intersect(self.hurtBox, objects.drones[i].hitBox) then
+            --kill player
+        end
+    end
 end
 
 function player:draw()
@@ -145,6 +188,6 @@ function player:draw()
     local radius = 7
     love.graphics.line(self.pos.x+2.5, self.pos.y+2.5, self.pos.x+2.5+math.cos(self.spinAngle)*radius, self.pos.y+2.5+math.sin(self.spinAngle)*radius)
     if self.state == "dash" then
-        love.graphics.arc("fill", self.pos.x+2.5, self.pos.y+2.5, radius, self.spinAngle, self.spinAngle+math.pi*self.spinDir)
+        love.graphics.arc("fill", self.pos.x+2.5, self.pos.y+2.5, radius, self.spinAngle-math.pi/2, self.spinAngle+math.pi*self.spinDir-math.pi/2)
     end
 end

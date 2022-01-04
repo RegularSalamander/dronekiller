@@ -5,7 +5,7 @@
     (0 means it was just released this frame)
     (1 means it was just pressed this frame)
 ]]
-local controls = {
+controls = {
     left = 0,
     right = 0,
     up = 0,
@@ -17,14 +17,20 @@ local controls = {
 function game_load()
     objects = {}
     objects.player = { player:new() }
-    objects.buildings = { building:new(-10, 100, 100), building:new(-10+150, 100, 100) }
+    objects.buildings = { 
+        building:new(-10, 100, 100),
+        building:new(-10+150, 100, 100)
+    }
+    objects.drones = {
+        drone:new(130, 70)
+    }
 end
 
 function game_update(delta)
     delta = delta * 60
     delta = math.min(delta, 2)
 
-    objects.player[1]:control(controls, delta)
+    objects.player[1]:control(delta)
 
     for k, v in pairs(objects) do
         for i, _ in ipairs(objects[k]) do

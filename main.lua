@@ -5,6 +5,7 @@ require "variables"
 require "game"
 require "player"
 require "building"
+require "drone"
 
 gameState = ""
 scale = 5
