@@ -7,8 +7,15 @@ require "player"
 require "building"
 
 gameState = ""
+scale = 5
 
 function love.load()
+    love.graphics.setDefaultFilter("nearest", "nearest")
+    love.graphics.setLineStyle("rough")
+    love.window.setMode(screenWidth*scale, screenHeight*scale)
+
+    gameCanvas = love.graphics.newCanvas(1920/6, 1080/6)
+
     changeGameState("game")
 end
 
@@ -19,9 +26,18 @@ function love.update(delta)
 end
 
 function love.draw()
+    love.graphics.setCanvas(gameCanvas)
+
     if _G[gameState .. "_draw"] then
         _G[gameState .. "_draw"]()
     end
+
+    love.graphics.setCanvas()
+
+    local w, h = love.graphics.getDimensions()
+    local scl = math.floor(math.min(w/screenWidth, h/screenHeight))*1
+    love.graphics.setColor(1, 1, 1, 1)
+    love.graphics.draw(gameCanvas, w/2, h/2, 0, scl, scl, screenWidth/2, screenHeight/2)
 end
 
 function love.keypressed(key, scancode, isrepeat)

@@ -19,6 +19,7 @@ function player:init()
     self.canDash = false
     self.canJump = false
     self.spinAngle = 0
+    self.spinDir = 0
     self.walledDirection = 0 --direction *away from* the wall
 end
 
@@ -82,6 +83,18 @@ function player:update(delta)
         self.vel.y = 0
         self.vel.x = 0
     end
+    if self.state == "air" then
+        self.spinAngle = self.spinAngle + playerSpinSpeed * delta * self.spinDir
+    end
+    if self.state == "ground" then
+        if self.vel.x > 0 then
+            self.spinAngle = 0
+            self.spinDir = 1
+        elseif self.vel.x < 0 then
+            self.spinAngle = math.pi
+            self.spinDir = -1
+        end
+    end
 
     self:move(0, self.vel.y * delta)
     if self.state == "ground" then self.state = "air" end --set to air, so the collision will set it back to ground (or not, if you fall)
@@ -98,7 +111,7 @@ function player:update(delta)
             self:move(-1 * self.vel.x * delta, 0)
             if self.state == "air" then
                 self.state = "walled"
-                self.walledDirection = util.sign(-1 * self.vel.x)
+                self.walledDirection = util.sign(-1 * self.vel.x) or 1
             end
         end
     end
@@ -109,4 +122,5 @@ end
 function player:draw()
     love.graphics.setColor(1, 1, 1, 1)
     love.graphics.rectangle("fill", self.pos.x, self.pos.y, 5, 5)
+    love.graphics.line(self.pos.x+2.5, self.pos.y+2.5, self.pos.x+2.5+math.cos(self.spinAngle)*5, self.pos.y+2.5+math.sin(self.spinAngle)*5)
 end

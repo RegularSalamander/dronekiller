@@ -17,7 +17,7 @@ local controls = {
 function game_load()
     objects = {}
     objects.player = { player:new() }
-    objects.buildings = { building:new(-10, 100, 100) }
+    objects.buildings = { building:new(-10, 100, 100), building:new(-10+150, 100, 100) }
 end
 
 function game_update(delta)
@@ -45,6 +45,8 @@ function game_update(delta)
 end
 
 function game_draw()
+    love.graphics.clear()
+
     for k, v in pairs(objects) do
         for i, _ in ipairs(objects[k]) do
             if objects[k][i].draw then
