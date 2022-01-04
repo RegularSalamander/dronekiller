@@ -18,19 +18,20 @@ function game_load()
     objects = {}
     objects.player = { player:new() }
     objects.buildings = { 
-        building:new(-10, 100, 100),
-        building:new(-10+100+150, 100, 100)
+        building:new(0, 100, 100)
     }
-    objects.drones = {
-        drone:new(115, 70),
-        drone:new(115+25, 70-25),
-        drone:new(115+75, 70-25)
-    }
+    lastX = 100 --worldGeneration
+    lastY = 100
+    objects.drones = {}
 end
 
 function game_update(delta)
     delta = delta * 60
     delta = math.min(delta, 2)
+
+    while objects.player[1].pos.x > lastX - 200 do
+        generate()
+    end
 
     objects.player[1]:control(delta)
 
@@ -55,13 +56,19 @@ end
 function game_draw()
     love.graphics.clear()
 
+    love.graphics.push()
+    love.graphics.translate(-objects.player[1].pos.x, -objects.player[1].pos.y)
+    love.graphics.translate(screenWidth/2, screenHeight/2)
+
     for k, v in pairs(objects) do
         for i, _ in ipairs(objects[k]) do
             if objects[k][i].draw then
                 objects[k][i]:draw()
             end
         end
-    end 
+    end
+
+    love.graphics.pop()
 end
 
 function game_keypressed(key, scancode, isrepeat)

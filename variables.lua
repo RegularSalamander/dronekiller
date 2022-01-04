@@ -14,7 +14,9 @@ playerHitTime = 3
 playerPostHitTime = 10
 playerMissTime = 20
 playerMissEffect = 0.98
-playerVelToDirInfluence = 0.5
+playerVelToDirInfluence = 0--0.5
+
+cloudDistance = 50
 
 gravity = 0.05
 

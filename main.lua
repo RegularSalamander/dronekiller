@@ -6,6 +6,7 @@ require "game"
 require "player"
 require "building"
 require "drone"
+require "worldGeneration"
 
 gameState = ""
 scale = 5
