@@ -20,7 +20,7 @@ function player:init()
     self.canJump = false
     self.spinAngle = 0
     self.spinDir = 0
-    self.walledDirection = 0 --direction *away from* the wall
+    self.walledDir = 0 --direction *away from* the wall
 end
 
 function player:control(controls, delta)
@@ -39,6 +39,7 @@ function player:control(controls, delta)
         --constrain speed
         self.vel.x = util.constrain(self.vel.x, -1 * playerMaxSpeedGround, playerMaxSpeedGround)
     elseif self.state == "air" then
+        local maxControlSpeed = math.max(playerMaxSpeedAir, math.abs(self.vel.x) - playerBoostSpeedLoss)
         if controls.right > 0 then
             self.vel.x = self.vel.x + playerAccelerationAir * delta
         elseif controls.left > 0 then
@@ -50,8 +51,8 @@ function player:control(controls, delta)
                 self.vel.x = 0
             end
         end
-        --constrain speed
-        self.vel.x = util.constrain(self.vel.x, -1 * playerMaxSpeedAir, playerMaxSpeedAir)
+
+        self.vel.x = util.constrain(self.vel.x, -1 * maxControlSpeed, maxControlSpeed)
     end
 
     if controls.z > 0 then
@@ -61,10 +62,19 @@ function player:control(controls, delta)
         elseif self.state == "walled" then
             self.state = "air"
             self.vel.y = playerWallJumpVelY
-            self.vel.x = playerWallJumpVelX * self.walledDirection
+            self.vel.x = playerWallJumpVelX * self.walledDir
         end
     end
-    
+
+    if controls.x == 1 then
+        if self.state == "air" then
+            self.state = "dash"
+            local tangent = self.spinAngle + (math.pi/2) * self.spinDir
+            self.vel.x = math.cos(tangent) * playerDashSpeed
+            self.vel.y = math.sin(tangent) * playerDashSpeed
+            self.stateChange = playerDashDuration
+        end
+    end
 end
 
 function player:move(dx, dy)
@@ -79,13 +89,14 @@ function player:move(dx, dy)
 end
 
 function player:update(delta)
-    if self.state == "walled" then
-        self.vel.y = 0
-        self.vel.x = 0
+    self.stateChange = self.stateChange - delta
+    if self.stateChange <= 0 then
+        if self.state == "dash" then
+            self.state = "air"
+            self.spinAngle = self.spinAngle + math.pi
+        end
     end
-    if self.state == "air" then
-        self.spinAngle = self.spinAngle + playerSpinSpeed * delta * self.spinDir
-    end
+
     if self.state == "ground" then
         if self.vel.x > 0 then
             self.spinAngle = 0
@@ -94,6 +105,15 @@ function player:update(delta)
             self.spinAngle = math.pi
             self.spinDir = -1
         end
+    end
+    if self.state == "air" then
+        self.spinAngle = self.spinAngle + playerSpinSpeed * delta * self.spinDir
+    end
+    if self.state == "walled" then
+        self.vel.y = 0
+        self.vel.x = 0
+        self.spinAngle = math.pi/2
+        self.spinDir = -1 * self.walledDir
     end
 
     self:move(0, self.vel.y * delta)
@@ -109,9 +129,9 @@ function player:update(delta)
     for i, v in ipairs(objects.buildings) do
         if util.intersect(self.colliderBox, objects.buildings[i].colliderBox) then
             self:move(-1 * self.vel.x * delta, 0)
-            if self.state == "air" then
+            if self.state ~= "ground" then
                 self.state = "walled"
-                self.walledDirection = util.sign(-1 * self.vel.x) or 1
+                self.walledDir = util.sign(-1 * self.vel.x) or 1
             end
         end
     end
@@ -122,5 +142,9 @@ end
 function player:draw()
     love.graphics.setColor(1, 1, 1, 1)
     love.graphics.rectangle("fill", self.pos.x, self.pos.y, 5, 5)
-    love.graphics.line(self.pos.x+2.5, self.pos.y+2.5, self.pos.x+2.5+math.cos(self.spinAngle)*5, self.pos.y+2.5+math.sin(self.spinAngle)*5)
+    local radius = 7
+    love.graphics.line(self.pos.x+2.5, self.pos.y+2.5, self.pos.x+2.5+math.cos(self.spinAngle)*radius, self.pos.y+2.5+math.sin(self.spinAngle)*radius)
+    if self.state == "dash" then
+        love.graphics.arc("fill", self.pos.x+2.5, self.pos.y+2.5, radius, self.spinAngle, self.spinAngle+math.pi*self.spinDir)
+    end
 end
