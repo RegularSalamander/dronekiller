@@ -28,17 +28,18 @@ function player:init()
 end
 
 function player:checkTargets()
-    local minDist = 100
+    local maxProd = -1
     for i, v in ipairs(objects.drones) do
-        local d = util.dist(self.pos.x+2.5, self.pos.y+2.5, objects.drones[i].pos.x, objects.drones[i].pos.y)
-        if d < playerTargetRange then
-            if d < minDist then
-                minDist = d
-                self.targetAngle = math.atan2(objects.drones[i].pos.y - self.pos.y, objects.drones[i].pos.x - self.pos.x)
+        if util.dist(objects.drones[i].pos.x, objects.drones[i].pos.y, self.pos.x, self.pos.y) < playerTargetDistance and objects.drones[i].alive then
+            local ang = math.atan2(objects.drones[i].pos.y-self.pos.y, objects.drones[i].pos.x-self.pos.x)
+            local prod = util.dotProduct(math.cos(self.spinAngle), math.sin(self.spinAngle), math.cos(ang), math.sin(ang))
+            if prod > maxProd then
+                maxProd = prod
+                self.targetAngle = ang
             end
         end
     end
-    return minDist < playerTargetRange
+    return maxProd > playerTargetThreshhold
 end
 
 function player:control(delta)
@@ -101,9 +102,11 @@ function player:control(delta)
         if self.state == "air" then
             self.state = "dash"
             self.canDash = false
-            local tangent = self.spinAngle-- + (math.pi/2) * self.spinDir
-            self.vel.x = math.cos(tangent) * playerDashSpeed
-            self.vel.y = math.sin(tangent) * playerDashSpeed
+            if self:checkTargets() then
+                self.spinAngle = self.targetAngle
+            end
+            self.vel.x = math.cos(self.spinAngle) * playerDashSpeed
+            self.vel.y = math.sin(self.spinAngle) * playerDashSpeed
             self.stateChange = playerDashDuration
         end
     end
