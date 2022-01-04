@@ -17,7 +17,7 @@ playerMissEffect = 0.98
 playerVelToDirInfluence = 0--0.5
 playerHitBoost = 1.3
 playerTargetDistance = 50
-playerTargetThreshhold = 0.8
+playerTargetThreshhold = 0.6
 
 cloudDistance = 50
 
@@ -26,5 +26,5 @@ gravity = 0.05
 screenWidth = 1920/5
 screenHeight = 1080/5
 
-cameraShakeLevel = 10
-cameraShakeDeplete = 1
+cameraShakeLevel = 15
+cameraShakeDeplete = 1.5
