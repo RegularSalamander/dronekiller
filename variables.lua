@@ -29,3 +29,5 @@ screenHeight = 1080/5
 
 cameraShakeLevel = 15
 cameraShakeDeplete = 1.5
+
+updatesPerFrame = 3

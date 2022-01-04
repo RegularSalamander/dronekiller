@@ -1,33 +1,25 @@
-drone = class:new()
-function drone:init(x, y)
+debris = class:new()
+function debris:init(x, y)
     self.pos = {x=x, y=y}
     self.usualPos = {x=x, y=y}
     self.vel = {x=0, y=0}
-    self.timeOffset = math.random()*60
-    self.hurtBox = {x=x, y=y, w=3, h=2}
-    self.hitBox = {x=x, y=y, w=3, h=2}
-    self.active = true
 end
 
-function drone:update(delta)
+function debris:update(delta)
     self.timeOffset = self.timeOffset + delta
     self.pos.y = math.sin(self.timeOffset*0.05)*3+self.usualPos.y
     self.pos.y = self.pos.y + math.sin(self.timeOffset*0.01)*7
     self.pos.x = math.sin(self.timeOffset*0.008+10)*7+self.usualPos.x
+    
+    self.vel.y = self.vel.y + (gravity + 0.01) * delta
+    if self.vel.x == 0 then self.vel.x = math.random()*3-1.5 end
+    self.usualPos.x = self.usualPos.x + self.vel.x * delta
+    self.usualPos.y = self.usualPos.y + self.vel.y * delta
 
-    self.hurtBox.x = self.pos.x
-    self.hurtBox.y = self.pos.y
-    self.hitBox.x = self.pos.x
-    self.hitBox.y = self.pos.y
-
-    return self.active
+    return self.pos.y < lastY + 500
 end
 
-function drone:draw()
+function debris:draw()
     love.graphics.setColor(1, 1, 1, 1)
     love.graphics.rectangle("fill", self.pos.x, self.pos.y, 3, 2)
-end
-
-function drone:kill()
-    self.active = false
 end

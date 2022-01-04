@@ -19,12 +19,14 @@ cameraShake = 0
 function game_load()
     objects = {}
     objects.player = { player:new() }
-    objects.buildings = { 
-        building:new(0, 100, 100)
-    }
+    objects.buildings = {}
+    objects.drones = {}
+    objects.debris = {}
+    objects.explosions = {}
+
+    objects.buildings[1] = building:new(0, 100, 100)
     lastX = 100 --worldGeneration
     lastY = 100
-    objects.drones = {}
 end
 
 function game_update(delta)
@@ -40,12 +42,25 @@ function game_update(delta)
 
     objects.player[1]:control(delta)
 
+    
     for k, v in pairs(objects) do
+        local inactive = {}
         for i, _ in ipairs(objects[k]) do
             if objects[k][i].update then
-                for _ = 1, 3 do
-                    objects[k][i]:update(delta / 3)
+                local continue = true
+                for _ = 1, updatesPerFrame do
+                    if continue and not objects[k][i]:update(delta / updatesPerFrame) then
+                        continue = false
+                        table.insert(inactive, i)
+                    end
                 end
+            end
+        end
+        if #inactive then
+            for i = #inactive, 1, -1 do
+                table.remove(objects[k], inactive[i])
+                io.write(k)
+                io.write("\n")
             end
         end
     end

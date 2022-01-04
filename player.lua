@@ -31,7 +31,7 @@ end
 function player:checkTargets()
     local maxProd = -1
     for i, v in ipairs(objects.drones) do
-        if util.dist(objects.drones[i].pos.x, objects.drones[i].pos.y, self.pos.x, self.pos.y) < playerDashDuration*playerDashSpeed*self.dashMultiplier and objects.drones[i].alive then
+        if util.dist(objects.drones[i].pos.x, objects.drones[i].pos.y, self.pos.x, self.pos.y) < playerDashDuration*playerDashSpeed*self.dashMultiplier then
             local ang = math.atan2(objects.drones[i].pos.y-self.pos.y, objects.drones[i].pos.x-self.pos.x)
             local prod = util.dotProduct(math.cos(self.spinAngle), math.sin(self.spinAngle), math.cos(ang), math.sin(ang))
             if prod > maxProd then
@@ -40,6 +40,8 @@ function player:checkTargets()
             end
         end
     end
+    io.write(maxProd)
+    io.write("\n")
     return maxProd > playerTargetThreshhold
 end
 
@@ -150,8 +152,6 @@ function player:update(delta)
             if x ~= 0 or y ~= 0 then
                 local newDir = math.atan2(y, x)
                 local mag = util.mag(self.vel.x, self.vel.y)
-                io.write(util.dotProduct(self.vel.x, self.vel.y, math.cos(newDir), math.sin(newDir)))
-                io.write("\n")
                 if util.dotProduct(self.vel.x, self.vel.y, math.cos(newDir), math.sin(newDir)) > 0.9 then
                     self.vel.x = self.vel.x * playerHitBoost
                     self.vel.y = self.vel.y * playerHitBoost
@@ -172,7 +172,7 @@ function player:update(delta)
         self.canDash = true
         self.dashMultiplier = 1
     elseif self.state == "posthit" then
-        return
+        return true
     elseif self.state == "missed" then
         self.vel.x = self.vel.x * playerMissEffect
         self.vel.y = self.vel.y * playerMissEffect
@@ -208,7 +208,7 @@ function player:update(delta)
     for i, v in ipairs(objects.drones) do
         if self.state == "dash" and util.intersect(self.hitBox, objects.drones[i].hurtBox) then
             --kill drone
-            objects.drones[i].alive = false
+            objects.drones[i]:kill()
             cameraShake = cameraShakeLevel
             self.canDash = true
             self.state = "hit"
@@ -218,6 +218,8 @@ function player:update(delta)
             --kill player
         end
     end
+
+    return true --never destroy player
 end
 
 function player:draw()
