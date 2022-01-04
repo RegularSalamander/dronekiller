@@ -14,7 +14,7 @@ function player:init()
         dash: player is attacking
         hit: player just hit an attack, hasn't stopped moving yet
         posthit: player hit an attack, just stopped moving to allow a jump
-
+        missed: player missed a dash, and can't control
         walled: hanging onto a wall
     ]]
     self.stateChange = 0 --time until state changes automatically
@@ -64,6 +64,7 @@ function player:control(delta)
         local y = 0
         if controls.up > 0 then y = y - 1 end
         if controls.down > 0 then y = y + 1 end
+        if y > 0 and x ~= 0 then x = x + self.vel.x*playerVelToDirInfluence end
         if x ~= 0 or y ~= 0 then
             self.spinAngle = math.atan2(y, x)
         end
@@ -98,9 +99,10 @@ function player:control(delta)
         end
     end
 
-    if controls.x == 1 then
+    if controls.x == 1 and self.canDash then
         if self.state == "air" then
             self.state = "dash"
+            self.canDash = false
             local tangent = self.spinAngle-- + (math.pi/2) * self.spinDir
             self.vel.x = math.cos(tangent) * playerDashSpeed
             self.vel.y = math.sin(tangent) * playerDashSpeed
@@ -124,6 +126,9 @@ function player:update(delta)
     self.stateChange = self.stateChange - delta
     if self.stateChange <= 0 then
         if self.state == "dash" then
+            self.state = "missed"
+            self.stateChange = playerMissTime
+        elseif self.state == "missed" then
             self.state = "air"
         elseif self.state == "hit" then
             self.state = "posthit"
@@ -136,9 +141,15 @@ function player:update(delta)
     if self.state == "walled" then
         self.vel.y = 0
         self.vel.x = 0
+        self.canDash = true
+    elseif self.state == "ground" then
+        self.canDash = true
+    elseif self.state == "posthit" then
+        return
+    elseif self.state == "missed" then
+        self.vel.x = self.vel.x * playerMissEffect
+        self.vel.y = self.vel.y * playerMissEffect
     end
-
-    if self.state == "posthit" then return end
 
     self:move(0, self.vel.y * delta)
     if self.state == "ground" then self.state = "air" end --set to air, so the collision will set it back to ground (or not, if you fall)
@@ -160,12 +171,15 @@ function player:update(delta)
         end
     end
 
-    self.vel.y = self.vel.y + gravity * delta
+    if self.state ~= "dash" then
+        self.vel.y = self.vel.y + gravity * delta
+    end
 
     for i, v in ipairs(objects.drones) do
         if self.state == "dash" and util.intersect(self.hitBox, objects.drones[i].hurtBox) then
             --kill drone
             objects.drones[i].alive = false
+            self.canDash = true
             self.state = "hit"
             self.stateChange = playerHitTime
         end
