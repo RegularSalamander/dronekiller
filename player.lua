@@ -160,7 +160,7 @@ function player:update(delta)
                     self.vel.y = math.sin(newDir) * mag
                 end
             end
-            if controls.z > 0 then self.vel.y = playerAttackJumpVel end
+            if y == 0 then self.vel.y = playerAttackJumpVel end
         end
     end
 
@@ -225,7 +225,7 @@ function player:draw()
     love.graphics.rectangle("fill", self.pos.x, self.pos.y, 5, 5)
     local radius = 7
     love.graphics.line(self.pos.x+2.5, self.pos.y+2.5, self.pos.x+2.5+math.cos(self.spinAngle)*radius, self.pos.y+2.5+math.sin(self.spinAngle)*radius)
-    if self.state == "dash" then
+    if self.state == "hit" or self.state == "posthit" then
         love.graphics.arc("fill", self.pos.x+2.5, self.pos.y+2.5, radius, self.spinAngle-math.pi/2, self.spinAngle+math.pi/2)
     end
 end
