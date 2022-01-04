@@ -25,7 +25,7 @@ function player:init()
     self.targetAngle = 0
 end
 
-function player:checkTarget()
+function player:checkTargets()
     local minDist = 100
     for i, v in ipairs(objects.drones) do
         local d = util.dist(self.pos.x+2.5, self.pos.y+2.5, objects.drones[i].pos.x, objects.drones[i].pos.y)
@@ -86,6 +86,13 @@ function player:control(delta)
         if self.state == "air" then
             self.state = "dash"
             local tangent = self.spinAngle-- + (math.pi/2) * self.spinDir
+            if self:checkTargets() then
+                local dif = math.abs( (self.spinAngle%(2*math.pi)) - self.targetAngle)
+                local closeEnough = dif < 1 or dif > 2*math.pi-1
+                io.write(closeEnough and "yes" or "no")
+                io.write("\n")
+            end
+            if closeEnough then tangent = self.targetAngle end 
             self.vel.x = math.cos(tangent) * playerDashSpeed
             self.vel.y = math.sin(tangent) * playerDashSpeed
             self.stateChange = playerDashDuration
@@ -113,12 +120,10 @@ function player:update(delta)
         end
         if self.state == "attackhit" then
             self.state = "air"
-            self.vel.x = self.vel.x * 0.5
-            self.vel.y = self.vel.y * 0.5
-            if controls.up > 0 then self.vel.y = self.vel.y + -1 * playerPostHitSpeed end
-            if controls.down > 0 then self.vel.y = self.vel.y + playerPostHitSpeed end
-            if controls.left > 0 then self.vel.x = self.vel.x + -1 * playerPostHitSpeed end
-            if controls.right > 0 then self.vel.x = self.vel.x + playerPostHitSpeed end
+            if controls.up > 0 then self.vel.y = -1 * playerPostHitSpeed end
+            if controls.down > 0 then self.vel.y = playerPostHitSpeed end
+            if controls.left > 0 then self.vel.x = -1 * playerPostHitSpeed end
+            if controls.right > 0 then self.vel.x = playerPostHitSpeed end
         end
     end
 
@@ -134,11 +139,7 @@ function player:update(delta)
     if self.state == "air" then
         local dif = math.abs( (self.spinAngle%(2*math.pi)) - self.targetAngle)
         local good = dif < 0.2
-        if not self:checkTarget() then
-            self.spinAngle = self.spinAngle + playerSpinSpeed * delta * self.spinDir
-        else
-            self.spinAngle = self.targetAngle
-        end
+        self.spinAngle = self.spinAngle + playerSpinSpeed * delta * self.spinDir
     end
     if self.state == "walled" then
         self.vel.y = 0

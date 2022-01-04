@@ -19,10 +19,12 @@ function game_load()
     objects.player = { player:new() }
     objects.buildings = { 
         building:new(-10, 100, 100),
-        building:new(-10+150, 100, 100)
+        building:new(-10+100+50, 100, 100)
     }
     objects.drones = {
-        drone:new(130, 70)
+        drone:new(115, 70),
+        drone:new(115+25, 70-25),
+        drone:new(115+75, 70-25)
     }
 end
 
