@@ -12,7 +12,8 @@ end
 function drone:update(delta)
     self.timeOffset = self.timeOffset + delta
     self.pos.y = math.sin(self.timeOffset*0.05)*3+self.usualPos.y
-    self.pos.x = math.sin(self.timeOffset*0.01)*3+self.usualPos.x
+    self.pos.y = self.pos.y + math.sin(self.timeOffset*0.01)*7
+    self.pos.x = math.sin(self.timeOffset*0.008+10)*7+self.usualPos.x
     
     if not self.alive then
         self.vel.y = self.vel.y + (gravity + 0.01) * delta
@@ -34,5 +35,5 @@ end
 
 function drone:draw()
     love.graphics.setColor(1, 1, 1, 1)
-    love.graphics.rectangle("fill", self.hurtBox.x, self.hurtBox.y, self.hurtBox.w, self.hurtBox.h)
+    love.graphics.rectangle("fill", self.pos.x, self.pos.y, 3, 2)
 end

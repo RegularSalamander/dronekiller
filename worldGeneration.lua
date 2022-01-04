@@ -45,6 +45,9 @@ function generateCloud(x, y, width, height, number)
     end
 
     for i, v in ipairs(choices) do
-        table.insert(objects.drones, drone:new(x + (v%width)*cloudDistance, y + math.floor(v/width)*cloudDistance))
+        table.insert(objects.drones, drone:new(
+            x + (v%width)*cloudDistance + (math.random()-0.5)*cloudDistance*0.5,
+            y + math.floor(v/width)*cloudDistance + (math.random()-0.5)*cloudDistance*0.5
+        ))
     end
 end
