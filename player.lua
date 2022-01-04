@@ -4,7 +4,7 @@ function player:init()
     self.vel = {x=0, y=0}
     
     self.colliderBox = {x=0, y=0, w=5, h=5}
-    self.hitBox = {x=-2, y=-2, w=7, h=7}
+    self.hitBox = {x=-4, y=-4, w=13, h=13}
     self.hurtBox = {x=0, y=0, w=5, h=5}
 
     self.state = "ground"
@@ -12,7 +12,9 @@ function player:init()
         ground: player is on ground, continues forward
         air: player is in the air, spinning, effected by gravity
         dash: player is attacking
-        attackhit: player hit an attack, and has these frames to pick a direction
+        hit: player just hit an attack, hasn't stopped moving yet
+        posthit: player hit an attack, just stopped moving to allow a jump
+
         walled: hanging onto a wall
     ]]
     self.stateChange = 0 --time until state changes automatically
@@ -46,15 +48,26 @@ function player:control(delta)
         elseif controls.left > 0 then
             self.vel.x = self.vel.x - playerAccelerationGround * delta
         else
-            --slow down at the same rate?
+            --slow down at the same rate
             self.vel.x = self.vel.x - util.sign(self.vel.x) * playerAccelerationGround * delta
             if math.abs(self.vel.x) < 0.1 then
                 self.vel.x = 0
             end
         end
-        --constrain speed
+
         self.vel.x = util.constrain(self.vel.x, -1 * playerMaxSpeedGround, playerMaxSpeedGround)
     elseif self.state == "air" then
+        --getting direction
+        local x = 0
+        if controls.left > 0 then x = x - 1 end
+        if controls.right > 0 then x = x + 1 end
+        local y = 0
+        if controls.up > 0 then y = y - 1 end
+        if controls.down > 0 then y = y + 1 end
+        if x ~= 0 or y ~= 0 then
+            self.spinAngle = math.atan2(y, x)
+        end
+
         local maxControlSpeed = math.max(playerMaxSpeedAir, math.abs(self.vel.x) - playerBoostSpeedLoss)
         if controls.right > 0 then
             self.vel.x = self.vel.x + playerAccelerationAir * delta
@@ -79,6 +92,9 @@ function player:control(delta)
             self.state = "air"
             self.vel.y = playerWallJumpVelY
             self.vel.x = playerWallJumpVelX * self.walledDir
+        elseif self.state == "posthit" then
+            self.state = "air"
+            self.vel.y = playerAttackJumpVel
         end
     end
 
@@ -86,13 +102,6 @@ function player:control(delta)
         if self.state == "air" then
             self.state = "dash"
             local tangent = self.spinAngle-- + (math.pi/2) * self.spinDir
-            if self:checkTargets() then
-                local dif = math.abs( (self.spinAngle%(2*math.pi)) - self.targetAngle)
-                local closeEnough = dif < 1 or dif > 2*math.pi-1
-                io.write(closeEnough and "yes" or "no")
-                io.write("\n")
-            end
-            if closeEnough then tangent = self.targetAngle end 
             self.vel.x = math.cos(tangent) * playerDashSpeed
             self.vel.y = math.sin(tangent) * playerDashSpeed
             self.stateChange = playerDashDuration
@@ -107,8 +116,8 @@ function player:move(dx, dy)
     self.colliderBox.y = self.pos.y
     self.hurtBox.x = self.pos.x
     self.hurtBox.y = self.pos.y
-    self.hitBox.x = self.pos.x-2
-    self.hitBox.y = self.pos.y-2
+    self.hitBox.x = self.pos.x-4
+    self.hitBox.y = self.pos.y-4
 end
 
 function player:update(delta)
@@ -116,37 +125,20 @@ function player:update(delta)
     if self.stateChange <= 0 then
         if self.state == "dash" then
             self.state = "air"
-            self.spinAngle = self.spinAngle + math.pi
-        end
-        if self.state == "attackhit" then
+        elseif self.state == "hit" then
+            self.state = "posthit"
+            self.stateChange = playerPostHitTime
+        elseif self.state == "posthit" then
             self.state = "air"
-            if controls.up > 0 then self.vel.y = -1 * playerPostHitSpeed end
-            if controls.down > 0 then self.vel.y = playerPostHitSpeed end
-            if controls.left > 0 then self.vel.x = -1 * playerPostHitSpeed end
-            if controls.right > 0 then self.vel.x = playerPostHitSpeed end
         end
     end
 
-    if self.state == "ground" then
-        if self.vel.x > 0 then
-            self.spinAngle = 0
-            self.spinDir = 1
-        elseif self.vel.x < 0 then
-            self.spinAngle = math.pi
-            self.spinDir = -1
-        end
-    end
-    if self.state == "air" then
-        local dif = math.abs( (self.spinAngle%(2*math.pi)) - self.targetAngle)
-        local good = dif < 0.2
-        self.spinAngle = self.spinAngle + playerSpinSpeed * delta * self.spinDir
-    end
     if self.state == "walled" then
         self.vel.y = 0
         self.vel.x = 0
-        self.spinAngle = self.walledDir * math.pi/2 - math.pi/2
-        self.spinDir = -1 * self.walledDir
     end
+
+    if self.state == "posthit" then return end
 
     self:move(0, self.vel.y * delta)
     if self.state == "ground" then self.state = "air" end --set to air, so the collision will set it back to ground (or not, if you fall)
@@ -174,8 +166,8 @@ function player:update(delta)
         if self.state == "dash" and util.intersect(self.hitBox, objects.drones[i].hurtBox) then
             --kill drone
             objects.drones[i].alive = false
-            self.state = "attackhit"
-            self.stateChange = playerAttackHitTime
+            self.state = "hit"
+            self.stateChange = playerHitTime
         end
         if self.state ~= "dash" and util.intersect(self.hurtBox, objects.drones[i].hitBox) then
             --kill player
@@ -189,6 +181,6 @@ function player:draw()
     local radius = 7
     love.graphics.line(self.pos.x+2.5, self.pos.y+2.5, self.pos.x+2.5+math.cos(self.spinAngle)*radius, self.pos.y+2.5+math.sin(self.spinAngle)*radius)
     if self.state == "dash" then
-        love.graphics.arc("fill", self.pos.x+2.5, self.pos.y+2.5, radius, self.spinAngle-math.pi/2, self.spinAngle+math.pi*self.spinDir-math.pi/2)
+        love.graphics.arc("fill", self.pos.x+2.5, self.pos.y+2.5, radius, self.spinAngle-math.pi/2, self.spinAngle+math.pi/2)
     end
 end
