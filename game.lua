@@ -59,8 +59,6 @@ function game_update(delta)
         if #inactive then
             for i = #inactive, 1, -1 do
                 table.remove(objects[k], inactive[i])
-                io.write(k)
-                io.write("\n")
             end
         end
     end

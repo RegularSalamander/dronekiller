@@ -28,6 +28,8 @@ function drone:draw()
     love.graphics.rectangle("fill", self.pos.x, self.pos.y, 3, 2)
 end
 
-function drone:kill()
+function drone:kill(dx, dy)
     self.active = false
+    table.insert(objects.debris, debris:new(self.pos.x, self.pos.y, dx, dy))
+    table.insert(objects.debris, debris:new(self.pos.x, self.pos.y, dx, dy))
 end

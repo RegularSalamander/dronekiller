@@ -40,8 +40,6 @@ function player:checkTargets()
             end
         end
     end
-    io.write(maxProd)
-    io.write("\n")
     return maxProd > playerTargetThreshhold
 end
 
@@ -208,7 +206,7 @@ function player:update(delta)
     for i, v in ipairs(objects.drones) do
         if self.state == "dash" and util.intersect(self.hitBox, objects.drones[i].hurtBox) then
             --kill drone
-            objects.drones[i]:kill()
+            objects.drones[i]:kill(self.vel.x, self.vel.y)
             cameraShake = cameraShakeLevel
             self.canDash = true
             self.state = "hit"

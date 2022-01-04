@@ -2,10 +2,12 @@ require "class"
 util = require "salamanderUtils"
 require "variables"
 
-require "game"
 require "player"
 require "building"
 require "drone"
+require "debris"
+
+require "game"
 require "worldGeneration"
 
 gameState = ""
