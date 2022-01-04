@@ -17,7 +17,8 @@ playerMissEffect = 0.98
 playerVelToDirInfluence = 0--0.5
 playerHitBoost = 1.3
 playerTargetDistance = 50
-playerTargetThreshhold = 0.6
+playerTargetThreshhold = 0.5
+playerDashMultiplierIncrement = 0.1
 
 cloudDistance = 50
 

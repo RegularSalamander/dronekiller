@@ -25,12 +25,13 @@ function player:init()
     self.spinDir = 0
     self.walledDir = 0 --direction *away from* the wall
     self.targetAngle = 0
+    self.dashMultiplier = 1
 end
 
 function player:checkTargets()
     local maxProd = -1
     for i, v in ipairs(objects.drones) do
-        if util.dist(objects.drones[i].pos.x, objects.drones[i].pos.y, self.pos.x, self.pos.y) < playerTargetDistance and objects.drones[i].alive then
+        if util.dist(objects.drones[i].pos.x, objects.drones[i].pos.y, self.pos.x, self.pos.y) < playerDashDuration*playerDashSpeed*self.dashMultiplier and objects.drones[i].alive then
             local ang = math.atan2(objects.drones[i].pos.y-self.pos.y, objects.drones[i].pos.x-self.pos.x)
             local prod = util.dotProduct(math.cos(self.spinAngle), math.sin(self.spinAngle), math.cos(ang), math.sin(ang))
             if prod > maxProd then
@@ -91,6 +92,8 @@ function player:control(delta)
         if self.state == "ground" then
             self.vel.y = playerGroundJumpVel
             self.state = "air"
+            self.dashMultiplier = 1
+            self.canDash = true
         elseif self.state == "walled" then
             self.state = "air"
             self.vel.y = playerWallJumpVelY
@@ -98,15 +101,15 @@ function player:control(delta)
         end
     end
 
-    if controls.x == 1 and self.canDash then
+    if controls.x > 0 and self.canDash then
         if self.state == "air" then
             self.state = "dash"
             self.canDash = false
             if self:checkTargets() then
                 self.spinAngle = self.targetAngle
             end
-            self.vel.x = math.cos(self.spinAngle) * playerDashSpeed
-            self.vel.y = math.sin(self.spinAngle) * playerDashSpeed
+            self.vel.x = math.cos(self.spinAngle) * playerDashSpeed * self.dashMultiplier
+            self.vel.y = math.sin(self.spinAngle) * playerDashSpeed * self.dashMultiplier
             self.stateChange = playerDashDuration
         end
     end
@@ -136,6 +139,7 @@ function player:update(delta)
             self.stateChange = playerPostHitTime
         elseif self.state == "posthit" then
             self.state = "air"
+            self.dashMultiplier = self.dashMultiplier + playerDashMultiplierIncrement
             --getting direction
             local x = 0
             if controls.left > 0 then x = x - 1 end
@@ -166,6 +170,7 @@ function player:update(delta)
         self.canDash = true
     elseif self.state == "ground" then
         self.canDash = true
+        self.dashMultiplier = 1
     elseif self.state == "posthit" then
         return
     elseif self.state == "missed" then
