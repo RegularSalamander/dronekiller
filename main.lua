@@ -9,14 +9,14 @@ require "drone"
 require "worldGeneration"
 
 gameState = ""
-scale = 5
+scale = 4
 
 function love.load()
     love.graphics.setDefaultFilter("nearest", "nearest")
     love.graphics.setLineStyle("rough")
     love.window.setMode(screenWidth*scale, screenHeight*scale)
 
-    gameCanvas = love.graphics.newCanvas(1920/6, 1080/6)
+    gameCanvas = love.graphics.newCanvas(screenWidth, screenHeight)
 
     changeGameState("game")
 end

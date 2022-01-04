@@ -3,7 +3,7 @@ lastY = 0
 
 --call with the x of the edge of the last placed building, and the y of that building
 function generate()
-    local options = 2
+    local options = 4
     local r = util.randInt(1, options)
     if r == 1 then
         --small gap + thin building
@@ -11,9 +11,21 @@ function generate()
         lastX = lastX + 50 + 100
         lastY = lastY
     elseif r == 2 then
-        --small gap + thick building + 3x2x2
+        --medium gap + thick building + 3x2x2
+        table.insert(objects.buildings, building:new(lastX + 100, lastY, 200))
+        generateCloud(lastX+175, lastY - cloudDistance*2, 3, 2, 2)
+        lastX = lastX + 100 + 200
+        lastY = lastY
+    elseif r == 3 then
+        --medium gap + thin building, cloud in gap
+        table.insert(objects.buildings, building:new(lastX + 100, lastY, 100))
+        generateCloud(lastX+50, lastY - cloudDistance*2, 3, 2, 3)
+        lastX = lastX + 100+100
+        lastY = lastY
+    elseif r == 2 then
+        --medium gap + thin building, cloud in gap
         table.insert(objects.buildings, building:new(lastX + 50, lastY, 200))
-        generateCloud(lastX+125, lastY - cloudDistance*2, 3, 2, 4)
+        generateCloud(lastX+125, lastY - cloudDistance*2, 3, 2, 2)
         lastX = lastX + 50 + 200
         lastY = lastY
     end

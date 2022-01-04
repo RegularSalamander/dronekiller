@@ -173,6 +173,9 @@ function player:update(delta)
 
     if self.state ~= "dash" then
         self.vel.y = self.vel.y + gravity * delta
+        if controls.down > 0 then
+            self.vel.y = self.vel.y + gravity * delta
+        end
     end
 
     for i, v in ipairs(objects.drones) do
