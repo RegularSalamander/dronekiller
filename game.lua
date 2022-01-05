@@ -33,6 +33,7 @@ function game_load()
 end
 
 function game_update(delta)
+    if not love.window.hasFocus() then return end
     delta = delta * 60
     delta = math.min(delta, 2)
 
@@ -82,7 +83,7 @@ function game_draw()
     love.graphics.clear()
 
     love.graphics.push()
-    love.graphics.translate(-cameraPos.x, -cameraPos.y)
+    love.graphics.translate(math.floor(-cameraPos.x), math.floor(-cameraPos.y))
     love.graphics.translate(screenWidth/2, screenHeight/2)
     love.graphics.translate(cameraShake*(math.random()-0.5), cameraShake*(math.random()-0.5))
 

@@ -3,6 +3,7 @@ util = require "salamanderUtils"
 require "variables"
 
 require "player"
+require "playerdraw"
 require "building"
 require "drone"
 require "debris"
@@ -13,6 +14,9 @@ require "worldGeneration"
 
 gameState = ""
 scale = 4
+
+images = {}
+images.player = love.graphics.newImage("images/playerrun.png")
 
 function love.load()
     math.randomseed(os.time())

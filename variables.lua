@@ -22,6 +22,8 @@ playerTargetThreshhold = 0.5
 playerDashMultiplierIncrement = 0.1
 playerExplosionMultiplier = -0.1
 
+animSpeedPlayerRun = 0.1
+
 cloudDistance = 50
 
 gravity = 0.05

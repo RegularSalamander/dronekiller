@@ -26,6 +26,8 @@ function player:init()
     self.walledDir = 0 --direction *away from* the wall
     self.targetAngle = 0
     self.dashMultiplier = 1
+    self.dir = 1
+    self.runFrame = 0
 end
 
 function player:checkTargets()
@@ -128,6 +130,9 @@ function player:move(dx, dy)
 end
 
 function player:update(delta)
+    self.runFrame = self.runFrame + animSpeedPlayerRun * delta
+    self.runFrame = self.runFrame % 8
+
     self.stateChange = self.stateChange - delta
     if self.stateChange <= 0 then
         if self.state == "dash" then
@@ -171,6 +176,7 @@ function player:update(delta)
     elseif self.state == "ground" then
         self.canDash = true
         self.dashMultiplier = 1
+        if self.vel.x ~= 0 then self.dir = util.sign(self.vel.x) end
     elseif self.state == "posthit" then
         return true
     elseif self.state == "missed" then
@@ -220,14 +226,4 @@ function player:update(delta)
     end
 
     return true --never destroy player
-end
-
-function player:draw()
-    love.graphics.setColor(1, 1, 1, 1)
-    love.graphics.rectangle("fill", self.pos.x, self.pos.y, 5, 5)
-    local radius = 7
-    love.graphics.line(self.pos.x+2.5, self.pos.y+2.5, self.pos.x+2.5+math.cos(self.spinAngle)*radius, self.pos.y+2.5+math.sin(self.spinAngle)*radius)
-    if self.state == "hit" or self.state == "posthit" then
-        love.graphics.arc("fill", self.pos.x+2.5, self.pos.y+2.5, radius, self.spinAngle-math.pi/2, self.spinAngle+math.pi/2)
-    end
 end
