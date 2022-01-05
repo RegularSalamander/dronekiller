@@ -32,14 +32,14 @@ screenWidth = 1920/6
 screenHeight = 1080/6
 
 backgroundParallax = -0.05
-backgroundHighlightChange = 0.5
+backgroundHighlightChange = 0.1
 
 cameraShakeLevel = 20
 cameraShakeDeplete = 1.5
 cameraLookAhead = 70
 cameraSpeedLookAhead = 0
 cameraYSpeed = 2
-cameraAutoScrollSpeed = 0--.5
+cameraAutoScrollSpeed = 0.5
 
 updatesPerFrame = 3
 

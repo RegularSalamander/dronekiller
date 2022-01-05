@@ -48,7 +48,7 @@ function explosion:init(x, y, type, dx, dy)
     if self.type == "flash" then
         self.vel = {x=0, y=0}
         self.timeUntilActive = 2
-        self.timeToLive = 3
+        self.timeToLive = 6
         self.rad = 7
     end
     if self.type == "fire" then

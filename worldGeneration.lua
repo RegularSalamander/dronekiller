@@ -10,6 +10,7 @@ function generate()
     if r == 1 then
         --small gap + thin building
         table.insert(objects.buildings, building:new(lastX + 50, lastY, 100))
+        generateCloud(lastX+75, lastY - cloudDistance*1, 2, 1, 2)
         lastX = lastX + 50 + 100
         lastY = lastY
     elseif r == 2 then
