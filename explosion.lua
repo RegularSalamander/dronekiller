@@ -84,7 +84,7 @@ function explosion:update(delta)
         self.rad = self.rad + delta
     end
     if self.type == "fire" then
-        self.rad = self.rad + delta * math.pow(self.timeToLive, 1.1) * 0.005
+        self.rad = self.rad + delta * math.pow(self.timeToLive, 3) * 0.000004
     end
     self.pos.x = self.pos.x + self.vel.x * delta
     self.pos.y = self.pos.y + self.vel.y * delta

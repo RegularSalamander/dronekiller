@@ -34,6 +34,6 @@ cameraShakeDeplete = 1.5
 updatesPerFrame = 3
 
 debrisMovement = 1.5
-explosionSpread = 0.5
-explosionInitialSpread = 10
+explosionSpread = 0.3
+explosionInitialSpread = 7
 explosionSmallInitialSpread = 3
