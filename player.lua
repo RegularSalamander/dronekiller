@@ -113,7 +113,6 @@ function player:control(delta)
             self.vel.x = math.cos(self.spinAngle) * playerDashSpeed * self.dashMultiplier
             self.vel.y = math.sin(self.spinAngle) * playerDashSpeed * self.dashMultiplier
             self.stateChange = playerDashDuration
-            spawnDirectionalExplosion(self.pos.x, self.pos.y, self.vel.x * playerExplosionMultiplier, self.vel.y * playerExplosionMultiplier)
         end
     end
 end
@@ -146,6 +145,7 @@ function player:update(delta)
         elseif self.state == "posthit" then
             self.state = "air"
             self.dashMultiplier = self.dashMultiplier + playerDashMultiplierIncrement
+            self.dashMultiplier = math.min(self.dashMultiplier, playerMaxDashMultiplier)
             --getting direction
             local x = 0
             if controls.left > 0 then x = x - 1 end
@@ -182,6 +182,8 @@ function player:update(delta)
     elseif self.state == "missed" then
         self.vel.x = self.vel.x * playerMissEffect
         self.vel.y = self.vel.y * playerMissEffect
+    elseif self.state == "dash" then
+        spawnDirectionalExplosion(self.pos.x, self.pos.y+3, self.vel.x * playerExplosionMultiplier, self.vel.y * playerExplosionMultiplier)
     end
 
     self:move(0, self.vel.y * delta)

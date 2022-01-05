@@ -15,14 +15,15 @@ require "worldGeneration"
 gameState = ""
 scale = 4
 
-images = {}
-images.player = love.graphics.newImage("images/playerrun.png")
-
 function love.load()
     math.randomseed(os.time())
+    
     love.graphics.setDefaultFilter("nearest", "nearest")
     love.graphics.setLineStyle("rough")
     love.window.setMode(screenWidth*scale, screenHeight*scale)
+
+    images = {}
+    images.player = love.graphics.newImage("images/playerrun.png")
 
     gameCanvas = love.graphics.newCanvas(screenWidth, screenHeight)
 

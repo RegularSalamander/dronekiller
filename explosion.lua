@@ -49,7 +49,7 @@ function explosion:init(x, y, type, dx, dy)
         self.vel = {x=0, y=0}
         self.timeUntilActive = 2
         self.timeToLive = 5
-        self.rad = 15
+        self.rad = 7
     end
     if self.type == "fire" then
         self.vel = {
@@ -59,7 +59,7 @@ function explosion:init(x, y, type, dx, dy)
         self.timeUntilActive = math.random() * 15
         if dx ~= 0 or dy ~= 0 then self.timeUntilActive = 0 end
         self.timeToLive = 60 - math.random() * 10
-        self.rad = 3
+        self.rad = 1
     end
     if self.type == "smoke" then
         self.type = "fire"
@@ -69,7 +69,7 @@ function explosion:init(x, y, type, dx, dy)
         }
         self.timeUntilActive = 7 + math.random() * 15
         self.timeToLive = 30
-        self.rad = 3
+        self.rad = 1
     end
 end
 function explosion:update(delta)
@@ -84,7 +84,7 @@ function explosion:update(delta)
         self.rad = self.rad + delta
     end
     if self.type == "fire" then
-        self.rad = self.rad + delta * math.pow(self.timeToLive, 3) * 0.000004
+        self.rad = self.rad + delta * util.map(self.timeToLive, 60, 10, 0.4, -0.4)
     end
     self.pos.x = self.pos.x + self.vel.x * delta
     self.pos.y = self.pos.y + self.vel.y * delta

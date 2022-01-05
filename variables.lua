@@ -9,20 +9,20 @@ playerAttackJumpVel = -2
 playerWallJumpVelY = -2
 playerWallJumpVelX = 1
 playerSpinSpeed = 0.1
-playerDashSpeed = 3
-playerDashDuration = 50/3
-playerHitTime = 3
-playerPostHitTime = 10
+playerDashSpeed = 2
+playerDashDuration = 50/2
+playerHitTime = 10
+playerPostHitTime = 3
 playerMissTime = 20
 playerMissEffect = 0.98
 playerVelToDirInfluence = 0
 playerHitBoost = 1.3
-playerTargetDistance = 50
 playerTargetThreshhold = 0.5
-playerDashMultiplierIncrement = 0.1
+playerMaxDashMultiplier = 3
+playerDashMultiplierIncrement = 0.05
 playerExplosionMultiplier = -0.1
 
-animSpeedPlayerRun = 0.1
+animSpeedPlayerRun = 0.2
 
 cloudDistance = 50
 
@@ -36,7 +36,7 @@ cameraShakeDeplete = 1.5
 cameraLookAhead = 70
 cameraSpeedLookAhead = 0
 cameraYSpeed = 2
-cameraAutoScrollSpeed = 1
+cameraAutoScrollSpeed = 0.5
 
 updatesPerFrame = 3
 
