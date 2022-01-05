@@ -111,6 +111,7 @@ function player:control(delta)
             self.vel.x = math.cos(self.spinAngle) * playerDashSpeed * self.dashMultiplier
             self.vel.y = math.sin(self.spinAngle) * playerDashSpeed * self.dashMultiplier
             self.stateChange = playerDashDuration
+            spawnDirectionalExplosion(self.pos.x, self.pos.y, self.vel.x * playerExplosionMultiplier, self.vel.y * playerExplosionMultiplier)
         end
     end
 end
@@ -159,6 +160,7 @@ function player:update(delta)
                 end
             end
             if y == 0 then self.vel.y = playerAttackJumpVel end
+            spawnDirectionalExplosion(self.pos.x, self.pos.y, self.vel.x * playerExplosionMultiplier, self.vel.y * playerExplosionMultiplier)
         end
     end
 

@@ -6,6 +6,7 @@ require "player"
 require "building"
 require "drone"
 require "debris"
+require "explosion"
 
 require "game"
 require "worldGeneration"

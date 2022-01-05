@@ -32,4 +32,5 @@ function drone:kill(dx, dy)
     self.active = false
     table.insert(objects.debris, debris:new(self.pos.x, self.pos.y, dx, dy))
     table.insert(objects.debris, debris:new(self.pos.x, self.pos.y, dx, dy))
+    spawnLargeExplosion(self.pos.x, self.pos.y)
 end

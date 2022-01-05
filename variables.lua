@@ -19,6 +19,7 @@ playerHitBoost = 1.3
 playerTargetDistance = 50
 playerTargetThreshhold = 0.5
 playerDashMultiplierIncrement = 0.1
+playerExplosionMultiplier = -0.1
 
 cloudDistance = 50
 
@@ -31,3 +32,8 @@ cameraShakeLevel = 15
 cameraShakeDeplete = 1.5
 
 updatesPerFrame = 3
+
+debrisMovement = 1.5
+explosionSpread = 0.5
+explosionInitialSpread = 10
+explosionSmallInitialSpread = 3
