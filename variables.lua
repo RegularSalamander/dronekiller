@@ -11,8 +11,8 @@ playerWallJumpVelX = 1
 playerSpinSpeed = 0.1
 playerDashSpeed = 2
 playerDashDuration = 50/2
-playerHitTime = 10
-playerPostHitTime = 3
+playerHitTime = 3
+playerPostHitTime = 10
 playerMissTime = 20
 playerMissEffect = 0.98
 playerVelToDirInfluence = 0
@@ -31,12 +31,12 @@ gravity = 0.05
 screenWidth = 1920/6
 screenHeight = 1080/6
 
-cameraShakeLevel = 15
+cameraShakeLevel = 20
 cameraShakeDeplete = 1.5
 cameraLookAhead = 70
 cameraSpeedLookAhead = 0
 cameraYSpeed = 2
-cameraAutoScrollSpeed = 0.5
+cameraAutoScrollSpeed = 0--.5
 
 updatesPerFrame = 3
 

@@ -1,12 +1,12 @@
 function spawnLargeExplosion(x, y)
-    for i = 1, 10 do
+    for i = 1, 100 do
         table.insert(objects.explosions, explosion:new(
             x + util.randRange(-1 * explosionInitialSpread, explosionInitialSpread),
             y + util.randRange(-1 * explosionInitialSpread, 0),
             "fire"
         ))
     end
-    for i = 1, 10 do
+    for i = 1, 100 do
         table.insert(objects.explosions, explosion:new(
             x + util.randRange(-1 * explosionInitialSpread, explosionInitialSpread),
             y + util.randRange(0, explosionInitialSpread),
@@ -48,7 +48,7 @@ function explosion:init(x, y, type, dx, dy)
     if self.type == "flash" then
         self.vel = {x=0, y=0}
         self.timeUntilActive = 2
-        self.timeToLive = 5
+        self.timeToLive = 3
         self.rad = 7
     end
     if self.type == "fire" then

@@ -176,7 +176,6 @@ function player:update(delta)
     elseif self.state == "ground" then
         self.canDash = true
         self.dashMultiplier = 1
-        if self.vel.x ~= 0 then self.dir = util.sign(self.vel.x) end
     elseif self.state == "posthit" then
         return true
     elseif self.state == "missed" then
@@ -226,6 +225,8 @@ function player:update(delta)
             --kill player
         end
     end
+
+    if self.vel.x ~= 0 then self.dir = util.sign(self.vel.x) end
 
     return true --never destroy player
 end

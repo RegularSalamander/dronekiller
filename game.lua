@@ -87,6 +87,23 @@ function game_draw()
     love.graphics.translate(math.floor(screenWidth/2), math.floor(screenHeight/2))
     love.graphics.translate(math.floor(cameraShake*(math.random()-0.5)), math.floor(cameraShake*(math.random()-0.5)))
 
+    if love.mouse.isDown(1) then
+        local x, y = love.mouse.getPosition()
+        x = x / (love.graphics.getWidth() / screenWidth)
+        y = y / (love.graphics.getHeight() / screenHeight)
+        x = x + cameraPos.x - screenWidth/2
+        y = y + cameraPos.y - screenHeight/2
+        spawnSmallExplosion(x, y)
+    end
+    if love.mouse.isDown(2) then
+        local x, y = love.mouse.getPosition()
+        x = x / (love.graphics.getWidth() / screenWidth)
+        y = y / (love.graphics.getHeight() / screenHeight)
+        x = x + cameraPos.x - screenWidth/2
+        y = y + cameraPos.y - screenHeight/2
+        spawnLargeExplosion(x, y)
+    end
+
     for k, v in pairs(objects) do
         for i, _ in ipairs(objects[k]) do
             if objects[k][i].draw then
