@@ -1,8 +1,10 @@
 lastX = 0
 lastY = 0
+nowY = 0
 
 --call with the x of the edge of the last placed building, and the y of that building
 function generate()
+    nowY = lastY
     local options = 6
     local r = util.randInt(1, options)
     if r == 1 then

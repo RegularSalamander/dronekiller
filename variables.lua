@@ -26,11 +26,15 @@ cloudDistance = 50
 
 gravity = 0.05
 
-screenWidth = 1920/5
-screenHeight = 1080/5
+screenWidth = 1920/6
+screenHeight = 1080/6
 
 cameraShakeLevel = 15
 cameraShakeDeplete = 1.5
+cameraLookAhead = 70
+cameraSpeedLookAhead = 0
+cameraYSpeed = 2
+cameraAutoScrollSpeed = 1
 
 updatesPerFrame = 3
 

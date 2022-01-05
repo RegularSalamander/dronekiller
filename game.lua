@@ -14,6 +14,9 @@ controls = {
     x = 0
 }
 
+cameraPos = {x=0, y=0}
+targetCameraY = 0
+
 cameraShake = 0
 
 function game_load()
@@ -35,6 +38,10 @@ function game_update(delta)
 
     cameraShake = cameraShake - cameraShakeDeplete * delta
     cameraShake = math.max(0, cameraShake)
+
+    cameraPos.x = math.max(cameraPos.x + cameraAutoScrollSpeed, objects.player[1].pos.x + cameraLookAhead + objects.player[1].vel.x * cameraSpeedLookAhead)
+    targetCameraY = targetCameraY + util.sign((math.max(nowY, lastY)-50) - targetCameraY) * cameraYSpeed
+    cameraPos.y = (objects.player[1].pos.y + targetCameraY)/2
 
     while objects.player[1].pos.x > lastX - 200 do
         generate()
@@ -75,7 +82,7 @@ function game_draw()
     love.graphics.clear()
 
     love.graphics.push()
-    love.graphics.translate(-objects.player[1].pos.x, -objects.player[1].pos.y)
+    love.graphics.translate(-cameraPos.x, -cameraPos.y)
     love.graphics.translate(screenWidth/2, screenHeight/2)
     love.graphics.translate(cameraShake*(math.random()-0.5), cameraShake*(math.random()-0.5))
 
