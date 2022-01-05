@@ -31,6 +31,9 @@ gravity = 0.05
 screenWidth = 1920/6
 screenHeight = 1080/6
 
+backgroundParallax = -0.05
+backgroundHighlightChange = 0.5
+
 cameraShakeLevel = 20
 cameraShakeDeplete = 1.5
 cameraLookAhead = 70

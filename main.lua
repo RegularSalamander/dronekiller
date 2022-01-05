@@ -24,6 +24,10 @@ function love.load()
 
     images = {}
     images.player = love.graphics.newImage("images/playerrun.png")
+    images.drone = love.graphics.newImage("images/drone.png")
+    images.bg1 = love.graphics.newImage("images/background1.png")
+    images.bg2 = love.graphics.newImage("images/background2.png")
+    images.bgmask = love.graphics.newImage("images/backgroundmask.png")
 
     gameCanvas = love.graphics.newCanvas(screenWidth, screenHeight)
 
@@ -37,13 +41,9 @@ function love.update(delta)
 end
 
 function love.draw()
-    love.graphics.setCanvas(gameCanvas)
-
     if _G[gameState .. "_draw"] then
         _G[gameState .. "_draw"]()
     end
-
-    love.graphics.setCanvas()
 
     local w, h = love.graphics.getDimensions()
     local scl = math.floor(math.min(w/screenWidth, h/screenHeight))*1

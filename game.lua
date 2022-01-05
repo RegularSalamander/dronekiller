@@ -1,25 +1,27 @@
---[[
-    ints for controls
-    positive means the amount of time it's been pressed
-    negative means the amount of time since it was last pressed
-    (0 means it was just released this frame)
-    (1 means it was just pressed this frame)
-]]
-controls = {
-    left = 0,
-    right = 0,
-    up = 0,
-    down = 0,
-    z = 0,
-    x = 0
-}
-
-cameraPos = {x=0, y=0}
-targetCameraY = 0
-
-cameraShake = 0
-
 function game_load()
+    --[[
+        ints for controls
+        positive means the amount of time it's been pressed
+        negative means the amount of time since it was last pressed
+        (0 means it was just released this frame)
+        (1 means it was just pressed this frame)
+    ]]
+    controls = {
+        left = 0,
+        right = 0,
+        up = 0,
+        down = 0,
+        z = 0,
+        x = 0
+    }
+    cameraPos = {x=0, y=0}
+    targetCameraY = 0
+
+    bgPos = {x=0, y=0}
+    bgHighlightX = 0
+
+    cameraShake = 0
+
     objects = {}
     objects.player = { player:new() }
     objects.buildings = {}
@@ -30,6 +32,8 @@ function game_load()
     objects.buildings[1] = building:new(0, 100, 100)
     lastX = 100 --worldGeneration
     lastY = 100
+
+    backgroundHighlightCanvas = love.graphics.newCanvas(screenWidth, screenHeight)
 end
 
 function game_update(delta)
@@ -43,6 +47,12 @@ function game_update(delta)
     cameraPos.x = math.max(cameraPos.x + cameraAutoScrollSpeed, objects.player[1].pos.x + cameraLookAhead + objects.player[1].vel.x * cameraSpeedLookAhead)
     targetCameraY = targetCameraY + util.sign((math.max(nowY, lastY)-screenHeight/2) - targetCameraY) * cameraYSpeed
     cameraPos.y = (objects.player[1].pos.y + targetCameraY)/2
+
+    bgPos = {
+        x=cameraPos.x * backgroundParallax,
+        y=0
+    }
+    bgHighlightX = bgHighlightX + backgroundHighlightChange
 
     while objects.player[1].pos.x > lastX - screenWidth do
         generate()
@@ -80,7 +90,25 @@ function game_update(delta)
 end
 
 function game_draw()
+    love.graphics.setCanvas(backgroundHighlightCanvas)
+    love.graphics.setBackgroundColor(0, 0, 0, 0)
     love.graphics.clear()
+    love.graphics.draw(images.bg2)
+    love.graphics.setBlendMode("multiply", "premultiplied")
+    love.graphics.draw(images.bgmask, bgHighlightX%screenWidth - screenWidth, bgPos.y)
+    love.graphics.draw(images.bgmask, bgHighlightX%screenWidth, bgPos.y)
+    love.graphics.setBlendMode("alpha")
+
+    love.graphics.setCanvas(gameCanvas)
+
+    love.graphics.setBackgroundColor(10/255, 10/255, 10/255)
+    love.graphics.clear()
+
+    love.graphics.setColor(1, 1, 1, 1)
+    love.graphics.draw(images.bg1, bgPos.x%screenWidth - screenWidth, bgPos.y)
+    love.graphics.draw(images.bg1, bgPos.x%screenWidth, bgPos.y)
+    love.graphics.draw(backgroundHighlightCanvas, bgPos.x%screenWidth - screenWidth, bgPos.y)
+    love.graphics.draw(backgroundHighlightCanvas, bgPos.x%screenWidth, bgPos.y)
 
     love.graphics.push()
     love.graphics.translate(math.floor(-cameraPos.x), math.floor(-cameraPos.y))
@@ -114,6 +142,8 @@ function game_draw()
     objects.player[1]:draw() --draw on top
 
     love.graphics.pop()
+
+    love.graphics.setCanvas()
 end
 
 function game_keypressed(key, scancode, isrepeat)

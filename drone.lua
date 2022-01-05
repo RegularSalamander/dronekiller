@@ -25,7 +25,7 @@ end
 
 function drone:draw()
     love.graphics.setColor(1, 1, 1, 1)
-    love.graphics.rectangle("fill", self.pos.x, self.pos.y, 3, 2)
+    love.graphics.draw(images.drone, self.pos.x, self.pos.y)
 end
 
 function drone:kill(dx, dy)
