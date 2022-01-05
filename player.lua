@@ -45,7 +45,7 @@ end
 
 function player:control(delta)
     if self.state == "ground" then
-        local maxControlSpeed = math.max(playerMaxSpeedGround, math.abs(self.vel.x) - playerBoostSpeedLoss)
+        local maxControlSpeed = math.max(playerMaxSpeedGround, math.abs(self.vel.x) - playerBoostSpeedLossGround)
         if controls.right > 0 then
             self.vel.x = self.vel.x + playerAccelerationGround * delta
         elseif controls.left > 0 then
