@@ -15,6 +15,7 @@ gameState = ""
 scale = 4
 
 function love.load()
+    math.randomseed(os.time())
     love.graphics.setDefaultFilter("nearest", "nearest")
     love.graphics.setLineStyle("rough")
     love.window.setMode(screenWidth*scale, screenHeight*scale)
