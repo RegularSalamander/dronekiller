@@ -10,6 +10,8 @@ function player:draw()
         self:drawAir()
     elseif self.state == "dash" then
         self:drawDash()
+    elseif self.state == "walled" then
+        self:drawWalled()
     elseif self.state == "hit" or self.state == "posthit" then
         love.graphics.setColor(colorRed3)
         love.graphics.arc("fill", self.pos.x+2.5, self.pos.y+2.5, animSlashRadius, self.spinAngle-math.pi/2, self.spinAngle+math.pi/2)
@@ -58,7 +60,6 @@ function player:drawAir()
 end
 
 function player:drawDash()
-    if self.vel.y > 0 then xf = 2 end
     love.graphics.draw(
         images.player,
         love.graphics.newQuad(12, 0, 5, 5, 47, 11),
@@ -66,6 +67,18 @@ function player:drawDash()
         util.round(self.pos.y) + 1,
         0,
         self.dir,
+        1
+    )
+end
+
+function player:drawWalled()
+    love.graphics.draw(
+        images.player,
+        love.graphics.newQuad(18, 6, 5, 5, 47, 11),
+        util.round(self.pos.x + util.map(self.walledDir, 1, -1, 0, 5)),
+        util.round(self.pos.y) + 1,
+        0,
+        self.walledDir,
         1
     )
 end

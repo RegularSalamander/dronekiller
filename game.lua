@@ -17,7 +17,7 @@ function game_load()
     cameraPos = {x=0, y=0}
     targetCameraY = 0
 
-    bgPos = {x=0, y=0}
+    bgPos = {x=0, y=backgroundDefaultPosY}
     bgHighlightX = 0
 
     cameraShake = 0
@@ -44,15 +44,15 @@ function game_update(delta)
     cameraShake = cameraShake - cameraShakeDeplete * delta
     cameraShake = math.max(0, cameraShake)
 
+    local prevCameraY = cameraPos.y
+
     cameraPos.x = math.max(cameraPos.x + cameraAutoScrollSpeed, objects.player[1].pos.x + cameraLookAhead + objects.player[1].vel.x * cameraSpeedLookAhead)
     targetCameraY = targetCameraY + util.sign((math.max(nowY, lastY)-screenHeight/2) - targetCameraY) * cameraYSpeed
     cameraPos.y = (objects.player[1].pos.y + targetCameraY)/2
 
-    bgPos = {
-        x=cameraPos.x * backgroundParallax,
-        y=0
-    }
-    bgHighlightX = bgHighlightX + backgroundHighlightChange
+    local cameraYChange = cameraPos.y - prevCameraY
+
+    setBackgroundPos(cameraYChange)
 
     while objects.player[1].pos.x > lastX - screenWidth do
         generate()
@@ -91,24 +91,14 @@ end
 
 function game_draw()
     love.graphics.setCanvas(backgroundHighlightCanvas)
-    love.graphics.setBackgroundColor(0, 0, 0, 0)
-    love.graphics.clear()
-    love.graphics.draw(images.bg2)
-    love.graphics.setBlendMode("multiply", "premultiplied")
-    love.graphics.draw(images.bgmask, bgHighlightX%screenWidth - screenWidth, bgPos.y)
-    love.graphics.draw(images.bgmask, bgHighlightX%screenWidth, bgPos.y)
-    love.graphics.setBlendMode("alpha")
+    drawBackgroundHighlight()
 
     love.graphics.setCanvas(gameCanvas)
 
-    love.graphics.setBackgroundColor(10/255, 10/255, 10/255)
+    love.graphics.setBackgroundColor(colorGray4)
     love.graphics.clear()
 
-    love.graphics.setColor(1, 1, 1, 1)
-    love.graphics.draw(images.bg1, bgPos.x%screenWidth - screenWidth, bgPos.y)
-    love.graphics.draw(images.bg1, bgPos.x%screenWidth, bgPos.y)
-    love.graphics.draw(backgroundHighlightCanvas, bgPos.x%screenWidth - screenWidth, bgPos.y)
-    love.graphics.draw(backgroundHighlightCanvas, bgPos.x%screenWidth, bgPos.y)
+    drawBackground()
 
     love.graphics.push()
     love.graphics.translate(math.floor(-cameraPos.x), math.floor(-cameraPos.y))

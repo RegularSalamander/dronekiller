@@ -33,7 +33,9 @@ screenWidth = 1920/6
 screenHeight = 1080/6
 
 backgroundParallax = -0.05
+backgroundDefaultPosY = 50
 backgroundHighlightChange = 0.1
+backgroundYParallaxReturnSpeed = 0.005
 
 --bright to dark
 colorRed1 = {255/255, 247/255, 104/255, 1}

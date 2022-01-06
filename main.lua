@@ -8,6 +8,7 @@ require "building"
 require "drone"
 require "debris"
 require "explosion"
+require "background"
 
 require "game"
 require "worldGeneration"
