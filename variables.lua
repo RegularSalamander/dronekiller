@@ -35,6 +35,22 @@ screenHeight = 1080/6
 backgroundParallax = -0.05
 backgroundHighlightChange = 0.1
 
+--bright to dark
+colorRed1 = {255/255, 247/255, 104/255, 1}
+colorRed2 = {246/255, 168/255, 10/255, 1}
+colorRed3 = {189/255, 46/255, 12/255, 1}
+colorRed4 = {69/255, 10/255, 14/255, 1}
+colorBlue1 = {52/255, 201/255, 207/255, 1}
+colorBlue2 = {0/255, 140/255, 150/255, 1}
+colorBlue3 = {2/255, 201/255, 128/255, 1}
+colorBlue4 = {3/255, 70/255, 87/255, 1}
+colorGray1 = {255/255, 255/255, 255/255, 1}
+colorGray2 = {41/255, 38/255, 38/255, 1}
+colorGray3 = {26/255, 26/255, 26/255, 1}
+colorGray4 = {10/255, 10/255, 10/255, 1}
+colorPurple1 = {135/255, 39/255, 122/255, 1}
+colorPurple2 = {92/255, 18/255, 83/255, 1}
+
 cameraShakeLevel = 20
 cameraShakeDeplete = 1.5
 cameraLookAhead = 70

@@ -11,7 +11,7 @@ function player:draw()
     elseif self.state == "dash" then
         self:drawDash()
     elseif self.state == "hit" or self.state == "posthit" then
-        love.graphics.setColor(52/255, 201/255, 207/255, 1)
+        love.graphics.setColor(colorRed3)
         love.graphics.arc("fill", self.pos.x+2.5, self.pos.y+2.5, animSlashRadius, self.spinAngle-math.pi/2, self.spinAngle+math.pi/2)
     else
         self:drawAir()

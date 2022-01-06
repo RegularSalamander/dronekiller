@@ -23,6 +23,6 @@ function debris:update(delta)
 end
 
 function debris:draw()
-    love.graphics.setColor(1, 1, 1, 1)
-    love.graphics.rectangle("fill", self.pos.x, self.pos.y, 3, 2)
+    love.graphics.setColor(colorPurple2)
+    love.graphics.rectangle("fill", self.pos.x, self.pos.y, 2, 2)
 end

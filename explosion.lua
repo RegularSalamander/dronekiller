@@ -113,19 +113,19 @@ function explosion:draw()
         return
     end
     if self.type == "flash" then
-        love.graphics.setColor(1, 1, 1, 1)
+        love.graphics.setColor(colorGray1)
     elseif self.type == "fire" then
         if self.timeToLive > 55 then
-            love.graphics.setColor(255/255, 247/255, 104/255, 1)
+            love.graphics.setColor(colorRed1)
         elseif self.timeToLive > 45 then
-            love.graphics.setColor(246/255, 168/255, 10/255, 1)
+            love.graphics.setColor(colorRed2)
         elseif self.timeToLive > 30 then
-            love.graphics.setColor(189/255, 46/255, 12/255, 1)
+            love.graphics.setColor(colorRed3)
         elseif self.timeToLive > 10 then
-            love.graphics.setColor(69/255, 10/255, 14/255, 1)
+            love.graphics.setColor(colorRed4)
         else
-            local fade = self.timeToLive / 10
-            love.graphics.setColor(69/255, 10/255, 14/255, 0)--fade)
+            --nothing?
+            love.graphics.setColor(1,1,1, 0)
         end
     end
     love.graphics.circle("fill", self.pos.x, self.pos.y, self.rad)
