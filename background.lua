@@ -5,9 +5,6 @@ function setBackgroundPos(cameraYChange)
     }
     bgHighlightX = bgHighlightX + backgroundHighlightChange
     bgPos.y = bgPos.y + util.sign(backgroundDefaultPosY - bgPos.y) * backgroundYParallaxReturnSpeed
-
-    io.write(bgPos.y)
-    io.write('\n')
 end
 
 function drawBackgroundHighlight()

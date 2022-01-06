@@ -5,13 +5,14 @@ require "variables"
 require "player"
 require "playerdraw"
 require "building"
+require "worldGeneration"
 require "drone"
 require "debris"
 require "explosion"
 require "background"
 
 require "game"
-require "worldGeneration"
+require "tutorial"
 
 gameState = ""
 scale = 4
@@ -24,15 +25,15 @@ function love.load()
     love.window.setMode(screenWidth*scale, screenHeight*scale)
 
     images = {}
-    images.player = love.graphics.newImage("images/playerrun.png")
-    images.drone = love.graphics.newImage("images/drone.png")
-    images.bg1 = love.graphics.newImage("images/background1.png")
-    images.bg2 = love.graphics.newImage("images/background2.png")
-    images.bgmask = love.graphics.newImage("images/backgroundmask.png")
+    images.player = love.graphics.newImage("assets/playerrun.png")
+    images.drone = love.graphics.newImage("assets/drone.png")
+    images.bg1 = love.graphics.newImage("assets/background1.png")
+    images.bg2 = love.graphics.newImage("assets/background2.png")
+    images.bgmask = love.graphics.newImage("assets/backgroundmask.png")
 
     gameCanvas = love.graphics.newCanvas(screenWidth, screenHeight)
 
-    changeGameState("game")
+    changeGameState("tutorial")
 end
 
 function love.update(delta)

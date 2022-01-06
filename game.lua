@@ -24,6 +24,7 @@ function game_load()
 
     objects = {}
     objects.player = { player:new() }
+    objects.player[1].pos.y = 94
     objects.buildings = {}
     objects.drones = {}
     objects.debris = {}
@@ -46,7 +47,9 @@ function game_update(delta)
 
     local prevCameraY = cameraPos.y
 
-    cameraPos.x = math.max(cameraPos.x + cameraAutoScrollSpeed, objects.player[1].pos.x + cameraLookAhead + objects.player[1].vel.x * cameraSpeedLookAhead)
+    local scrollSpeed = cameraAutoScrollSpeed
+    if gameState == "tutorial" then scrollSpeed = 0 end
+    cameraPos.x = math.max(cameraPos.x + scrollSpeed, objects.player[1].pos.x + cameraLookAhead + objects.player[1].vel.x * cameraSpeedLookAhead)
     targetCameraY = targetCameraY + util.sign((math.max(nowY, lastY)-screenHeight/2) - targetCameraY) * cameraYSpeed
     cameraPos.y = (objects.player[1].pos.y + targetCameraY)/2
 
@@ -54,7 +57,7 @@ function game_update(delta)
 
     setBackgroundPos(cameraYChange)
 
-    while objects.player[1].pos.x > lastX - screenWidth do
+    while objects.player[1].pos.x > lastX - screenWidth and gameState ~= "tutorial" do --tutorial has preset world
         generate()
     end
 

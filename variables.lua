@@ -29,8 +29,8 @@ cloudDistance = 50
 
 gravity = 0.05
 
-screenWidth = 1920/6
-screenHeight = 1080/6
+screenWidth = 320
+screenHeight = 180
 
 backgroundParallax = -0.05
 backgroundDefaultPosY = 50
