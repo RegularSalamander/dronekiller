@@ -47,3 +47,4 @@ debrisMovement = 1.5
 explosionSpread = 0.3
 explosionInitialSpread = 7
 explosionSmallInitialSpread = 3
+explosionGiantInitialSpread = 20

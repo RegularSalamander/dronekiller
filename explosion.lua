@@ -1,19 +1,22 @@
-function spawnLargeExplosion(x, y)
+function spawnLargeExplosion(x, y, delay)
+    delay = delay or 0
     for i = 1, 100 do
         table.insert(objects.explosions, explosion:new(
             x + util.randRange(-1 * explosionInitialSpread, explosionInitialSpread),
             y + util.randRange(-1 * explosionInitialSpread, 0),
-            "fire"
+            "fire",
+            0, 0, delay
         ))
     end
     for i = 1, 100 do
         table.insert(objects.explosions, explosion:new(
             x + util.randRange(-1 * explosionInitialSpread, explosionInitialSpread),
             y + util.randRange(0, explosionInitialSpread),
-            "smoke"
+            "smoke",
+            0, 0, delay
         ))
     end
-    table.insert(objects.explosions, explosion:new(x, y, "flash"))
+    table.insert(objects.explosions, explosion:new(x, y, "flash", 0, 0, delay))
 end
 
 function spawnSmallExplosion(x, y)
@@ -38,10 +41,21 @@ function spawnDirectionalExplosion(x, y, dx, dy)
     end
 end
 
+function spawnGiantExplosion(x, y)
+    for i = 1, 5 do
+        spawnLargeExplosion(
+            x + util.randRange(-1 * explosionGiantInitialSpread, explosionGiantInitialSpread),
+            y + util.randRange(-1 * explosionGiantInitialSpread, explosionGiantInitialSpread),
+            i*6
+        )
+    end
+end
+
 explosion = class:new()
-function explosion:init(x, y, type, dx, dy)
+function explosion:init(x, y, type, dx, dy, delay)
     dx = dx or 0
     dy = dy or 0
+    delay = delay or 0
 
     self.pos = {x=x, y=y}
     self.type = type
@@ -71,6 +85,8 @@ function explosion:init(x, y, type, dx, dy)
         self.timeToLive = 30
         self.rad = 1
     end
+
+    self.timeUntilActive = self.timeUntilActive + delay
 end
 function explosion:update(delta)
     if self.timeUntilActive > 0 then
