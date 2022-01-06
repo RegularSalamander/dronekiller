@@ -66,8 +66,8 @@ function game_update(delta)
         for i, _ in ipairs(objects[k]) do
             if objects[k][i].update then
                 local continue = true
-                for _ = 1, updatesPerFrame do
-                    if continue and not objects[k][i]:update(delta / updatesPerFrame) then
+                for updateNum = 1, updatesPerFrame do
+                    if continue and not objects[k][i]:update(delta / updatesPerFrame, updateNum) then
                         continue = false
                         table.insert(inactive, i)
                     end

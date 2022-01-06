@@ -14,7 +14,7 @@ playerDashDuration = 50/2
 playerHitTime = 3
 playerPostHitTime = 10
 playerMissTime = 20
-playerMissEffect = 0.98
+playerMissEffect = 0.08
 playerVelToDirInfluence = 0
 playerHitBoost = 1.3
 playerTargetThreshhold = 0.5
@@ -41,7 +41,7 @@ cameraSpeedLookAhead = 0
 cameraYSpeed = 2
 cameraAutoScrollSpeed = 0.5
 
-updatesPerFrame = 3
+updatesPerFrame = 10
 
 debrisMovement = 1.5
 explosionSpread = 0.3

@@ -128,7 +128,7 @@ function player:move(dx, dy)
     self.hitBox.y = self.pos.y-4
 end
 
-function player:update(delta)
+function player:update(delta, updateNum)
     self.runFrame = self.runFrame + animSpeedPlayerRun * delta
     self.runFrame = self.runFrame % 8
 
@@ -179,10 +179,12 @@ function player:update(delta)
     elseif self.state == "posthit" then
         return true
     elseif self.state == "missed" then
-        self.vel.x = self.vel.x * playerMissEffect
-        self.vel.y = self.vel.y * playerMissEffect
+        self.vel.x = self.vel.x * (1 - playerMissEffect * delta)
+        self.vel.y = self.vel.y * (1 - playerMissEffect * delta)
     elseif self.state == "dash" then
-        spawnDirectionalExplosion(self.pos.x, self.pos.y+3, self.vel.x * playerExplosionMultiplier, self.vel.y * playerExplosionMultiplier)
+        if updateNum == 1 then
+            spawnDirectionalExplosion(self.pos.x, self.pos.y+3, self.vel.x * playerExplosionMultiplier, self.vel.y * playerExplosionMultiplier)
+        end
     end
 
     self:move(0, self.vel.y * delta)
