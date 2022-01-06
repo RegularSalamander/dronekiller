@@ -23,6 +23,7 @@ playerDashMultiplierIncrement = 0.05
 playerExplosionMultiplier = -0.1
 
 animSpeedPlayerRun = 0.2
+animSlashRadius = 8
 
 cloudDistance = 50
 
