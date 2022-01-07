@@ -35,6 +35,8 @@ function game_load()
     lastY = 100
 
     backgroundHighlightCanvas = love.graphics.newCanvas(screenWidth, screenHeight)
+
+    gameCanvas = love.graphics.newCanvas(screenWidth, screenHeight)
 end
 
 function game_update(delta)
@@ -55,7 +57,7 @@ function game_update(delta)
 
     local cameraYChange = cameraPos.y - prevCameraY
 
-    setBackgroundPos(cameraYChange)
+    setBackgroundPos(cameraYChange, delta)
 
     while objects.player[1].pos.x > lastX - screenWidth and gameState ~= "tutorial" do --tutorial has preset world
         generate()

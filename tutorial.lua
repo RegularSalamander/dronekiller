@@ -22,11 +22,15 @@ end
 function tutorial_update(delta)
     if tutorialProgress == 0 then --stop for player to move right
         tutorialPaused = true
+        controls.x = 0
+        controls.z = 0
         if controls.right > 0 then
             tutorialProgress = 1
         end
     elseif tutorialProgress == 1 then -- wait for player to get to the edge
         tutorialPaused = false
+        controls.x = 0
+        controls.z = 0
         if objects.player[1].pos.x > 90 then
             tutorialProgress = 2
             io.write("\n")
@@ -34,12 +38,15 @@ function tutorial_update(delta)
         end
     elseif tutorialProgress == 2 then --stop for player to jump
         tutorialPaused = true
+        controls.x = 0
         if controls.z > 0 then
             tutorialProgress = 3
         end
-    elseif tutorialProgress == 3 then -- wait for player to get to the edge
+    elseif tutorialProgress == 3 then -- wait for player to get to the edge again
         tutorialPaused = false
         controls.right = 1 --keep them going
+        controls.x = 0
+        controls.z = 0
         if objects.player[1].pos.x > 240 then
             controls.right = 0
             tutorialProgress = 4
@@ -49,14 +56,18 @@ function tutorial_update(delta)
         end
     elseif tutorialProgress == 4 then --stop for player to jump again
         tutorialPaused = true
+        controls.x = 0
         if controls.z > 0 then
             tutorialProgress = 5
         end
     elseif tutorialProgress == 5 then --wait for the player to get to about half way across the gap
         tutorialPaused = false
+        controls.x = 0
         controls.right = 1 --keep them going
         if objects.player[1].pos.x > 300 then
-            controls.right = 0
+            if not love.keyboard.isDown("right") then
+                controls.right = 0
+            end
             tutorialProgress = 6
             io.write("\n")
             io.write("ooh maybe a little too far")
@@ -76,6 +87,7 @@ function tutorial_update(delta)
         end
     elseif tutorialProgress == 7 then --wait for the player to catch the wall
         tutorialPaused = false
+        controls.x = 0
         controls.right = 1 --keep them going
         if objects.player[1].state == "walled" then
             tutorialProgress = 8
@@ -84,6 +96,7 @@ function tutorial_update(delta)
         end
     elseif tutorialProgress == 8 then --stop for the player to jump
         tutorialPaused = true
+        controls.x = 0
         controls.right = 1 --keep them going
         if controls.z > 0 then
             tutorialProgress = 9
@@ -91,6 +104,7 @@ function tutorial_update(delta)
     elseif tutorialProgress == 9 then --wait for the player to get under the drone
         tutorialPaused = false
         controls.right = 1 --keep them going
+        controls.x = 0
         if objects.player[1].pos.x > 450 then
             controls.right = 0
             tutorialProgress = 10
@@ -120,7 +134,7 @@ function tutorial_update(delta)
         end
     end
     if tutorialPaused then
-        game_update(0)
+        game_update(0.0005)
     else
         game_update(delta)
     end

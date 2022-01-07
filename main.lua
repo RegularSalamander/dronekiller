@@ -15,7 +15,7 @@ require "game"
 require "tutorial"
 
 gameState = ""
-scale = 4
+scale = 5
 
 function love.load()
     math.randomseed(os.time())
@@ -31,9 +31,7 @@ function love.load()
     images.bg2 = love.graphics.newImage("assets/background2.png")
     images.bgmask = love.graphics.newImage("assets/backgroundmask.png")
 
-    gameCanvas = love.graphics.newCanvas(screenWidth, screenHeight)
-
-    changeGameState("tutorial")
+    changeGameState("game")
 end
 
 function love.update(delta)
