@@ -63,6 +63,10 @@ cameraSpeedLookAhead = 0
 cameraYSpeed = 2
 cameraAutoScrollSpeed = 0.5
 
+dialogStartChance = 1
+dialogHighThreshhold = -3
+dialogHighChance = 1
+
 updatesPerFrame = 10
 
 debrisMovement = 1.5

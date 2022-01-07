@@ -113,7 +113,7 @@ function tutorial_update(delta)
             controls.right = 0
             tutorialProgress = 10
             setDialog({
-                "transmute", "Hey, this is one of *his* drones.",
+                "transmute", "Hey, this is one of C-CORP's drones.",
                 "transmute", "Jump and dash up to destroy it."
             })
         end

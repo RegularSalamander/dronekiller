@@ -37,6 +37,10 @@ function game_load()
     backgroundHighlightCanvas = love.graphics.newCanvas(screenWidth, screenHeight)
 
     gameCanvas = love.graphics.newCanvas(screenWidth, screenHeight)
+
+    if math.random() < dialogStartChance then
+        setDialog(startDialog[util.randInt(1, #startDialog)])
+    end
 end
 
 function game_update(delta)
@@ -83,6 +87,10 @@ function game_update(delta)
                 table.remove(objects[k], inactive[i])
             end
         end
+    end
+
+    if objects.player[1].pos.y < cameraPos.y-screenHeight/2 and objects.player[1].vel.y < dialogHighThreshhold and math.random() < dialogStartChance then
+        setDialog(highDialog[util.randInt(1, #highDialog)])
     end
 
     updateDialog(delta)

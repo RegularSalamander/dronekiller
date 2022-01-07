@@ -11,6 +11,7 @@ require "debris"
 require "explosion"
 require "background"
 require "dialog"
+require "randomDialog"
 
 require "game"
 require "tutorial"
@@ -38,7 +39,7 @@ function love.load()
     font:setFilter("nearest", "nearest")
     love.graphics.setFont(font)
 
-    changeGameState("tutorial")
+    changeGameState("game")
 end
 
 function love.update(delta)

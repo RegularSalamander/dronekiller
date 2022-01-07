@@ -11,6 +11,7 @@ function inDialog()
 end
 
 function setDialog(table)
+    if inDialog() then return end
     currentDialog = table
     dialogIndex = 1
     dialogLetter = 0
@@ -32,10 +33,12 @@ end
 function drawDialog()
     if not inDialog() then return end
     dialogCanvas = dialogCanvas or love.graphics.newCanvas(308, 32)
+
     love.graphics.setColor(colorBlue4)
-    love.graphics.rectangle("fill", 5, 5, 310, 34)
+    --love.graphics.rectangle("fill", 5, 5, 310, 34)
     
     love.graphics.setCanvas(dialogCanvas)
+    love.graphics.clear()
     love.graphics.setColor(1, 1, 1, 1)
     love.graphics.draw(images.textbox, dialogScroll%308 - 308, 0)
     love.graphics.draw(images.textbox, dialogScroll%308, 0)
@@ -61,7 +64,7 @@ function drawDialog()
             6,
             6
         )
-        love.graphics.setColor(colorGray2)
+        love.graphics.setColor(colorBlue1)
         love.graphics.print(string.sub(currentDialog[dialogIndex+1], 1, dialogLetter), 40, 4)
     else
         love.graphics.setColor(1, 1, 1, 1)
@@ -71,7 +74,7 @@ function drawDialog()
             282,
             6
         )
-        love.graphics.setColor(colorGray2)
+        love.graphics.setColor(colorBlue1)
         love.graphics.print(string.sub(currentDialog[dialogIndex+1], 1, dialogLetter), 40-32, 4)
     end
 end
