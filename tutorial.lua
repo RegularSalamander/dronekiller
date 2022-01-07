@@ -15,8 +15,9 @@ function tutorial_load()
     tutorialProgress = 0
     tutorialPaused = false
 
-    io.write("\n")
-    io.write("use the arrow keys to move")
+    setDialog({
+        "transmute", "Use the arrow keys to move."
+    })
 end
 
 function tutorial_update(delta)
@@ -33,8 +34,9 @@ function tutorial_update(delta)
         controls.z = 0
         if objects.player[1].pos.x > 90 then
             tutorialProgress = 2
-            io.write("\n")
-            io.write("press z to jump")
+            setDialog({
+                "transmute", "Press z to jump."
+            })
         end
     elseif tutorialProgress == 2 then --stop for player to jump
         tutorialPaused = true
@@ -50,9 +52,10 @@ function tutorial_update(delta)
         if objects.player[1].pos.x > 240 then
             controls.right = 0
             tutorialProgress = 4
-            io.write("\n")
-            io.write("go on, jump")
-            io.write("you can make it, I promise")
+            setDialog({
+                "transmute", "Go on, jump.",
+                "transmute", "I've seen you clear bigger gaps."
+            })
         end
     elseif tutorialProgress == 4 then --stop for player to jump again
         tutorialPaused = true
@@ -69,10 +72,10 @@ function tutorial_update(delta)
                 controls.right = 0
             end
             tutorialProgress = 6
-            io.write("\n")
-            io.write("ooh maybe a little too far")
-            io.write("hold right and press x to use your explosion sword")
-    
+            setDialog({
+                "transmute", "Ooh, maybe not this time.",
+                "transmute", "Hold right and press x to activate your explosion\nsword."
+            })
         end
     elseif tutorialProgress == 6 then --stop for the player to dash right
         tutorialPaused = true
@@ -91,8 +94,9 @@ function tutorial_update(delta)
         controls.right = 1 --keep them going
         if objects.player[1].state == "walled" then
             tutorialProgress = 8
-            io.write("\n")
-            io.write("you got it, just jump onto the roof")    
+            setDialog({
+                "transmute", "There you go. Now just jump onto the roof."
+            })
         end
     elseif tutorialProgress == 8 then --stop for the player to jump
         tutorialPaused = true
@@ -108,18 +112,20 @@ function tutorial_update(delta)
         if objects.player[1].pos.x > 450 then
             controls.right = 0
             tutorialProgress = 10
-            io.write("\n")
-            io.write("hey, jump and boost up into this drone")    
+            setDialog({
+                "transmute", "Hey, this is one of *his* drones.",
+                "transmute", "Jump and dash up to destroy it."
+            })
         end
     elseif tutorialProgress == 10 then --wait for the player to  attack the drone
         tutorialPaused = false
         objects.player[1].pos.x = 450 --keep em steady
         if objects.player[1].state == "posthit" then
             tutorialProgress = 11
-            io.write("\n")
-            io.write("after you kill a drone, you can use the explosion to bounce yourself in any direction")
-            io.write("hold up and right to get to that other drone")
-            io.write("then dash up into it!")
+            setDialog({
+                "transmute", "After you destroy a drone, you can use the\nexplosion to bounce yourself in any direction.",
+                "transmute", "Hold up and right to get to that other drone,\nthen dash up into it."
+            })
         end
     elseif tutorialProgress == 11 then --stop for the player to move right and up
         tutorialPaused = true
@@ -134,7 +140,8 @@ function tutorial_update(delta)
         end
     end
     if tutorialPaused then
-        game_update(0.0005)
+        game_update(0.0001)
+        updateDialog(delta*60) --still go
     else
         game_update(delta)
     end
@@ -145,11 +152,11 @@ function tutorial_draw()
 end
 
 function tutorial_keypressed(key, scancode, isrepeat)
-    if isrepeat then return end
+    if inDialog() or isrepeat then return end
     if controls[scancode] ~= nil then controls[scancode] = 1 end
 end
 
 function tutorial_keyreleased(key, scancode, isrepeat)
-    if isrepeat then return end
+    if inDialog() or isrepeat then return end
     if controls[scancode] ~= nil then controls[scancode] = 0 end
 end

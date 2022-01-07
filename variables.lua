@@ -37,6 +37,9 @@ backgroundDefaultPosY = 50
 backgroundHighlightChange = 0.1
 backgroundYParallaxReturnSpeed = 0.005
 
+dialogScrollSpeed = 1
+dialogLetterSpeed = 0.3
+
 --bright to dark
 colorRed1 = {255/255, 247/255, 104/255, 1}
 colorRed2 = {246/255, 168/255, 10/255, 1}

@@ -65,7 +65,6 @@ function game_update(delta)
 
     objects.player[1]:control(delta)
 
-    
     for k, v in pairs(objects) do
         local inactive = {}
         for i, _ in ipairs(objects[k]) do
@@ -85,6 +84,8 @@ function game_update(delta)
             end
         end
     end
+
+    updateDialog(delta)
 
     --update keys last
     for k, v in pairs(controls) do
@@ -137,6 +138,8 @@ function game_draw()
     objects.player[1]:draw() --draw on top
 
     love.graphics.pop()
+
+    drawDialog()
 
     love.graphics.setCanvas()
 end

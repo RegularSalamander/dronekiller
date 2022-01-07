@@ -10,6 +10,7 @@ require "drone"
 require "debris"
 require "explosion"
 require "background"
+require "dialog"
 
 require "game"
 require "tutorial"
@@ -22,7 +23,7 @@ function love.load()
     
     love.graphics.setDefaultFilter("nearest", "nearest")
     love.graphics.setLineStyle("rough")
-    love.window.setMode(screenWidth*scale, screenHeight*scale)
+    love.window.setMode(screenWidth*scale, screenHeight*scale, { vsync = true, msaa = 0, highdpi = true })
 
     images = {}
     images.player = love.graphics.newImage("assets/playerrun.png")
@@ -30,8 +31,14 @@ function love.load()
     images.bg1 = love.graphics.newImage("assets/background1.png")
     images.bg2 = love.graphics.newImage("assets/background2.png")
     images.bgmask = love.graphics.newImage("assets/backgroundmask.png")
+    images.textbox = love.graphics.newImage("assets/textbox.png")
+    images.portraits = love.graphics.newImage("assets/portraits.png")
 
-    changeGameState("game")
+    font = love.graphics.newFont("assets/fancySalamander.ttf", 16)
+    font:setFilter("nearest", "nearest")
+    love.graphics.setFont(font)
+
+    changeGameState("tutorial")
 end
 
 function love.update(delta)
