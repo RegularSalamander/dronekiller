@@ -19,7 +19,8 @@ require "game"
 require "tutorial"
 
 gameState = ""
-scale = 5
+nextGameState = ""
+scale = 3
 
 function love.load()
     math.randomseed(os.time())
@@ -49,6 +50,8 @@ function love.update(delta)
     if _G[gameState .. "_update"] then
         _G[gameState .. "_update"](delta)
     end
+
+    setGameState("")
 end
 
 function love.draw()
@@ -75,7 +78,12 @@ function love.keyreleased(key, scancode, isrepeat)
 end
 
 function changeGameState(newState)
-    gameState = newState
+    nextGameState = newState
+end
+
+function setGameState()
+    if gameState == nextGameState then return end
+    gameState = nextGameState
     if _G[gameState .. "_load"] then
         _G[gameState .. "_load"]()
     end

@@ -38,7 +38,7 @@ function game_load()
 
     gameCanvas = love.graphics.newCanvas(screenWidth, screenHeight)
 
-    if math.random() < dialogStartChance then
+    if gameState ~= "tutorial" and math.random() < dialogStartChance then
         setDialog(startDialog[util.randInt(1, #startDialog)])
     end
 end
