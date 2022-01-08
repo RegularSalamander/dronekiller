@@ -78,3 +78,7 @@ function drawDialog()
         love.graphics.print(string.sub(currentDialog[dialogIndex+1], 1, dialogLetter), 40-32, 4)
     end
 end
+
+function triggerRandomDialog(list)
+    setDialog(list[util.randInt(1, #list)])
+end

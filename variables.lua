@@ -19,7 +19,7 @@ playerVelToDirInfluence = 0
 playerHitBoost = 1.3
 playerTargetThreshhold = 0.5
 playerMaxDashMultiplier = 3
-playerDashMultiplierIncrement = 0.05
+playerMaxCombo = 20
 playerExplosionMultiplier = -0.1
 
 animSpeedPlayerRun = 0.2
@@ -78,5 +78,7 @@ cameraAutoScrollSpeed = 0.5
 dialogStartChance = 1
 dialogHighThreshhold = -3
 dialogHighChance = 1
+dialogGoodComboChance = 1
+dialogGreatComboChance = 1
 
 updatesPerFrame = 10
