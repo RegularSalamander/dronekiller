@@ -7,6 +7,8 @@ require "playerdraw"
 require "building"
 require "worldGeneration"
 require "drone"
+require "missile"
+require "targetMissile"
 require "debris"
 require "explosion"
 require "background"
@@ -29,6 +31,7 @@ function love.load()
     images = {}
     images.player = love.graphics.newImage("assets/playerrun.png")
     images.drone = love.graphics.newImage("assets/drone.png")
+    images.missile = love.graphics.newImage("assets/missile.png")
     images.bg1 = love.graphics.newImage("assets/background1.png")
     images.bg2 = love.graphics.newImage("assets/background2.png")
     images.bgmask = love.graphics.newImage("assets/backgroundmask.png")

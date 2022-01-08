@@ -1,6 +1,6 @@
 function spawnLargeExplosion(x, y, delay)
     delay = delay or 0
-    for i = 1, 100 do
+    for i = 1, 10 do
         table.insert(objects.explosions, explosion:new(
             x + util.randRange(-1 * explosionInitialSpread, explosionInitialSpread),
             y + util.randRange(-1 * explosionInitialSpread, 0),
@@ -8,7 +8,7 @@ function spawnLargeExplosion(x, y, delay)
             0, 0, delay
         ))
     end
-    for i = 1, 100 do
+    for i = 1, 10 do
         table.insert(objects.explosions, explosion:new(
             x + util.randRange(-1 * explosionInitialSpread, explosionInitialSpread),
             y + util.randRange(0, explosionInitialSpread),

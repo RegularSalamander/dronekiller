@@ -2,7 +2,6 @@ drone = class:new()
 function drone:init(x, y)
     self.pos = {x=x, y=y}
     self.usualPos = {x=x, y=y}
-    self.vel = {x=0, y=0}
     self.timeOffset = math.random()*60
     self.hurtBox = {x=x, y=y, w=3, h=2}
     self.hitBox = {x=x, y=y, w=3, h=2}

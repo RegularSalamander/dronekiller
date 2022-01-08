@@ -26,6 +26,18 @@ animSpeedPlayerRun = 0.2
 animSlashRadius = 8
 
 cloudDistance = 50
+droneDistance = 300
+missileDistance = 5000
+
+debrisMovement = 1.5
+missileSpeed = 2
+missileTurnSpeed = 0.1
+missileExplosionSpeed = -2
+
+explosionSpread = 0.3
+explosionInitialSpread = 7
+explosionSmallInitialSpread = 3
+explosionGiantInitialSpread = 20
 
 gravity = 0.05
 
@@ -68,9 +80,3 @@ dialogHighThreshhold = -3
 dialogHighChance = 1
 
 updatesPerFrame = 10
-
-debrisMovement = 1.5
-explosionSpread = 0.3
-explosionInitialSpread = 7
-explosionSmallInitialSpread = 3
-explosionGiantInitialSpread = 20
