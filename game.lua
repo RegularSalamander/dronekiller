@@ -98,6 +98,16 @@ function game_update(delta)
         triggerRandomDialog(highDialog)
     end
 
+    if objects.player[1].pos.x < cameraPos.x - screenWidth/2 - offScreenGraceX then
+        objects.player[1].pos.x = cameraPos.x - screenWidth/2  - offScreenGraceX
+        if objects.player[1]:isColliding() then
+            changeGameState("dead")
+        end
+    end
+    if objects.player[1].pos.y > cameraPos.y + screenHeight/2 + offScreenGraceY then
+        changeGameState("dead")
+    end
+
     updateDialog(delta)
 
     --update keys last

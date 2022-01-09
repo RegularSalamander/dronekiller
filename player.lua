@@ -197,21 +197,17 @@ function player:update(delta, updateNum)
 
     self:move(0, self.vel.y * delta)
     if self.state == "ground" then self.state = "air" end --set to air, so the collision will set it back to ground (or not, if you fall)
-    for i, v in ipairs(objects.buildings) do
-        if util.intersect(self.colliderBox, objects.buildings[i].colliderBox) then
-            self:move(0, -1 * self.vel.y * delta)
-            self.vel.y = 0
-            self.state = "ground"
-        end
+    if self:isColliding() then
+        self:move(0, -1 * self.vel.y * delta)
+        self.vel.y = 0
+        self.state = "ground"
     end
     self:move(self.vel.x * delta, 0)
-    for i, v in ipairs(objects.buildings) do
-        if util.intersect(self.colliderBox, objects.buildings[i].colliderBox) then
-            self:move(-1 * self.vel.x * delta, 0)
-            if self.state ~= "ground" then
-                self.state = "walled"
-                self.walledDir = util.sign(-1 * self.vel.x) or 1
-            end
+    if self:isColliding() then
+        self:move(-1 * self.vel.x * delta, 0)
+        if self.state ~= "ground" then
+            self.state = "walled"
+            self.walledDir = util.sign(-1 * self.vel.x) or 1
         end
     end
 
@@ -239,4 +235,13 @@ function player:update(delta, updateNum)
     if self.vel.x ~= 0 then self.dir = util.sign(self.vel.x) end
 
     return true --never destroy player
+end
+
+function player:isColliding()
+    for i, v in ipairs(objects.buildings) do
+        if util.intersect(self.colliderBox, objects.buildings[i].colliderBox) then
+            return true
+        end
+    end
+    return false
 end
