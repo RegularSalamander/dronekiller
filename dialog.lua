@@ -57,6 +57,8 @@ function drawDialog()
         onRight = true
     end
 
+    love.graphics.setFont(font)
+    
     if not onRight then
         love.graphics.setColor(1, 1, 1, 1)
         love.graphics.draw(

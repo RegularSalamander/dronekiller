@@ -29,6 +29,7 @@ function game_load()
     objects.drones = {}
     objects.debris = {}
     objects.explosions = {}
+    objects.comboNumbers = {}
 
     objects.buildings[1] = building:new(0, 100, 100)
     lastX = 100 --worldGeneration
@@ -40,9 +41,7 @@ function game_load()
 
     backgroundHighlightCanvas = love.graphics.newCanvas(screenWidth, screenHeight)
 
-    if gameState ~= "tutorial" and math.random() < dialogStartChance then
-        triggerRandomDialog(startDialog, true)
-    end
+    triggerRandomDialog(startDialog, true)
 end
 
 function game_update(delta)

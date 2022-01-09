@@ -18,7 +18,7 @@ playerMissEffect = 0.08
 playerVelToDirInfluence = 0
 playerHitBoost = 1.3
 playerTargetThreshhold = 0.5
-playerMaxDashMultiplier = 3
+playerMaxDashMultiplier = 2
 playerMaxCombo = 20
 playerExplosionMultiplier = -0.1
 
@@ -74,10 +74,9 @@ cameraAutoScrollSpeed = 0.5
 
 dialogScrollSpeed = 1
 dialogLetterSpeed = 0.3
-dialogStartChance = 1
 dialogHighThreshhold = -3
-dialogHighChance = 1
-dialogGoodComboChance = 1
+dialogHighChance = 0.5
+dialogGoodComboChance = 0.3
 dialogGreatComboChance = 1
 
 fadeTime = 60

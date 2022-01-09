@@ -35,7 +35,8 @@ end
 function player:checkTargets()
     local maxProd = -1
     for i, v in ipairs(objects.drones) do
-        local dashMultiplier = util.map(self.combo, 0, playerMaxCombo, 1, playerMaxDashMultiplier)
+        local effectiveCombo = math.min(self.combo, playerMaxCombo)
+        local dashMultiplier = util.map(effectiveCombo, 0, playerMaxCombo, 1, playerMaxDashMultiplier)
         if util.dist(objects.drones[i].pos.x, objects.drones[i].pos.y, self.pos.x, self.pos.y) < playerDashDuration*playerDashSpeed*dashMultiplier then
             local ang = math.atan2(objects.drones[i].pos.y-self.pos.y, objects.drones[i].pos.x-self.pos.x)
             local prod = util.dotProduct(math.cos(self.spinAngle), math.sin(self.spinAngle), math.cos(ang), math.sin(ang))
@@ -115,7 +116,8 @@ function player:control(delta)
             if self:checkTargets() then
                 self.spinAngle = self.targetAngle
             end
-            local dashMultiplier = util.map(self.combo, 0, playerMaxCombo, 1, playerMaxDashMultiplier)
+            local effectiveCombo = math.min(self.combo, playerMaxCombo)
+            local dashMultiplier = util.map(effectiveCombo, 0, playerMaxCombo, 1, playerMaxDashMultiplier)
             self.vel.x = math.cos(self.spinAngle) * playerDashSpeed * dashMultiplier
             self.vel.y = math.sin(self.spinAngle) * playerDashSpeed * dashMultiplier
             self.stateChange = playerDashDuration
@@ -151,13 +153,15 @@ function player:update(delta, updateNum)
         elseif self.state == "posthit" then
             self.state = "air"
             self.combo = self.combo + 1
+            if self.combo > 1 then
+                table.insert(objects.comboNumbers, comboText:new(self.pos.x, self.pos.y, self.combo))
+            end
             if math.random() < dialogGoodComboChance and self.combo == playerMaxCombo/2 then
                 triggerRandomDialog(goodComboDialog)
             end
             if math.random() < dialogGreatComboChance and self.combo == playerMaxCombo then
                 triggerRandomDialog(greatComboDialog)
             end
-            self.combo = math.min(self.combo, playerMaxCombo)
             --getting direction
             local x = 0
             if controls.left > 0 then x = x - 1 end

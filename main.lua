@@ -10,6 +10,7 @@ require "missile"
 require "targetMissile"
 require "debris"
 require "explosion"
+require "comboText"
 require "worldGeneration"
 require "background"
 require "dialog"
@@ -42,7 +43,8 @@ function love.load()
 
     font = love.graphics.newFont("assets/fancySalamander.ttf", 16)
     font:setFilter("nearest", "nearest")
-    love.graphics.setFont(font)
+    comboFont = love.graphics.newFont("assets/comboFont.ttf", 16)
+    comboFont:setFilter("nearest", "nearest")
 
     gameCanvas = love.graphics.newCanvas(screenWidth, screenHeight)
 
