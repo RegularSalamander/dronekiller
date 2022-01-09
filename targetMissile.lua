@@ -14,16 +14,24 @@ function targetMissile:update(delta, updateNum)
         spawnDirectionalExplosion(self.pos.x, self.pos.y, math.cos(self.ang)*missileExplosionSpeed, math.sin(self.ang)*missileExplosionSpeed)
     end
 
-    self.ang = self.ang%(math.pi*2)
-    local targetAng = math.atan2(objects.player[1].pos.y - self.pos.y, objects.player[1].pos.x - self.pos.x)
-    while self.ang < 0 do self.ang = self.ang + math.pi*2 end
-    if math.abs(self.ang - targetAng) > math.abs(self.ang - targetAng - math.pi*2) then
-        targetAng = targetAng + math.pi*2
+    local allowedToTurn = true
+    for i, v in ipairs(objects.drones) do
+        if objects.drones[i].ang  and objects.drones[i].pos.x ~= self.pos.x then 
+            allowedToTurn = false
+        end
     end
-    if math.abs(self.ang - targetAng) > math.abs(self.ang - targetAng + math.pi*2) then
-        targetAng = targetAng + math.pi*2
+    if allowedToTurn then
+        self.ang = self.ang%(math.pi*2)
+        local targetAng = math.atan2(objects.player[1].pos.y - self.pos.y, objects.player[1].pos.x - self.pos.x)
+        while self.ang < 0 do self.ang = self.ang + math.pi*2 end
+        if math.abs(self.ang - targetAng) > math.abs(self.ang - targetAng - math.pi*2) then
+            targetAng = targetAng + math.pi*2
+        end
+        if math.abs(self.ang - targetAng) > math.abs(self.ang - targetAng + math.pi*2) then
+            targetAng = targetAng + math.pi*2
+        end
+        self.ang = self.ang + util.sign(targetAng - self.ang) * missileTurnSpeed * delta
     end
-    self.ang = self.ang + util.sign(targetAng - self.ang) * missileTurnSpeed * delta
 
     if util.intersect(self.hitBox, objects.player[1].hurtBox) and (objects.player[1].state == "air" or objects.player[1].state == "ground") then
         self:kill()
