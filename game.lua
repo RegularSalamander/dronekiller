@@ -36,6 +36,7 @@ function game_load()
     lastY = 100
     nowY = 100
     generationBag = {}
+    atHeadquarters = false
 
     hasReachedMissileDistance = false
 
@@ -55,16 +56,27 @@ function game_update(delta)
 
     local scrollSpeed = cameraAutoScrollSpeed
     if gameState == "tutorial" then scrollSpeed = 0 end
-    cameraPos.x = math.max(cameraPos.x + scrollSpeed, objects.player[1].pos.x + cameraLookAhead + objects.player[1].vel.x * cameraSpeedLookAhead)
-    targetCameraY = targetCameraY + util.sign((math.max(nowY, lastY)-screenHeight/2) - targetCameraY) * cameraYSpeed
-    cameraPos.y = (objects.player[1].pos.y + targetCameraY)/2
+    if cameraPos.x < headquartersDistance then
+        cameraPos.x = math.max(cameraPos.x + scrollSpeed, objects.player[1].pos.x + cameraLookAhead)
+        targetCameraY = targetCameraY + util.sign((math.max(nowY, lastY)-screenHeight/2) - targetCameraY) * cameraYSpeed
+        cameraPos.y = (objects.player[1].pos.y + targetCameraY)/2
+    else
+        cameraPos.y = math.min(cameraPos.y - scrollSpeed, objects.player[1].pos.y)
+        --targetCameraX = headquartersDistance - cameraLookAhead
+        cameraPos.x = math.max(cameraPos.x, objects.player[1].pos.x)
+    end
 
-    local cameraYChange = cameraPos.y - prevCameraY
+    setBackgroundPos(delta)
 
-    setBackgroundPos(cameraYChange, delta)
-
-    while objects.player[1].pos.x > lastX - screenWidth and gameState ~= "tutorial" do --tutorial has preset world
+    while objects.player[1].pos.x > lastX - screenWidth and
+        not atHeadquarters and
+        gameState ~= "tutorial" do --tutorial has preset world
         generate()
+    end
+    --lastX is really lastY when atHeadquarters
+    while objects.player[1].pos.y < lastX + screenHeight and
+        atHeadquarters do --tutorial has preset world
+        generatePhaseThree()
     end
 
     objects.player[1]:control(delta)
@@ -94,10 +106,10 @@ function game_update(delta)
 
     if not hasReachedMissileDistance and objects.player[1].pos.x > missileDistance - 500 then
         hasReachedMissileDistance = true
-        triggerRandomDialog(farDialog, true)
+        triggerRandomDialog(phase2Dialog, true)
     end
 
-    if gameState ~= "tutorial" and objects.player[1].pos.y < cameraPos.y-screenHeight/2 and objects.player[1].vel.y < dialogHighThreshhold and math.random() < dialogStartChance then
+    if gameState ~= "tutorial" and objects.player[1].pos.y < cameraPos.y-screenHeight/2 and objects.player[1].vel.y < dialogHighThreshhold and math.random() < dialogHighChance then
         triggerRandomDialog(highDialog)
     end
 

@@ -3,29 +3,65 @@ lastY = 0
 nowY = 0
 generationBag = {}
 
---call with the x of the edge of the last placed building, and the y of that building
-function generate()
-    nowY = lastY
-    local options = 2
-    if objects.player[1].pos.x > droneDistance then
-        options = 8
-    end
-    if objects.player[1].pos.x > missileDistance then
-        options = 12
+function generateCloud(x, y, width, height, number)
+    local choices = {}
+    while #choices < number do
+        local newChoice = util.randInt(1, width*height) - 1
+        local isChosen = false
+        for i, v in ipairs(choices) do
+            if v == newChoice then isChosen = true end
+        end
+        if not isChosen then
+            table.insert(choices, newChoice)
+        end
     end
 
-    local r
-    local isDone
-    repeat
-        r = util.randInt(1, options)
-        isDone = false
-        for i, v in ipairs(generationBag) do
-            if v == r then isDone = true end
+    for i, v in ipairs(choices) do
+        table.insert(objects.drones, drone:new(
+            x + (v%width)*cloudDistance + (math.random()-0.5)*cloudDistance*0.5,
+            y + math.floor(v/width)*cloudDistance + (math.random()-0.5)*cloudDistance*0.5
+        ))
+    end
+end
+
+function generateStrikeLeft(x, y, w, h, a)
+    for i = 1, a do
+        table.insert(objects.drones, missile:new(util.randRange(x, x+w), util.randRange(y, y+h), math.pi*3/4))
+    end
+end
+
+function generateStrikeRight(x, y, w, h, a)
+    for i = 1, a do
+        table.insert(objects.drones, missile:new(util.randRange(x, x+w), util.randRange(y, y+h), math.pi*1/4))
+    end
+end
+
+function generate(override)
+    local r --choice
+    if not override then
+        nowY = lastY
+        local options = 2
+        if objects.player[1].pos.x > droneDistance then
+            options = 8
         end
-    until not isDone
-    table.insert(generationBag, r)
-    if #generationBag >= options then
-        generationBag = {}
+        if objects.player[1].pos.x > missileDistance then
+            options = 12
+        end
+
+        local isDone
+        repeat
+            r = util.randInt(1, options)
+            isDone = false
+            for i, v in ipairs(generationBag) do
+                if v == r then isDone = true end
+            end
+        until not isDone
+        table.insert(generationBag, r)
+        if #generationBag >= options then
+            generationBag = {}
+        end
+    else
+        r = override
     end
 
     if r == 1 then
@@ -84,35 +120,47 @@ function generate()
         --medium gap + giant building + air strike
         table.insert(objects.buildings, building:new(lastX + 100, lastY, 400))
         local offset = 800
-        generateStrike(lastX+100+offset, lastY-offset, 300, 200, 10)
+        generateStrikeLeft(lastX+100+offset, lastY-offset, 300, 200, 10)
         lastX = lastX + 100 + 400
         lastY = lastY
     end
-end
 
-function generateStrike(x, y, w, h, a)
-    for i = 1, a do
-        table.insert(objects.drones, missile:new(util.randRange(x, x+w), util.randRange(y, y+h), math.pi*3/4))
+    if lastX >= headquartersDistance then
+        atHeadquarters = true
+        table.insert(objects.buildings, building:new(headquartersDistance, lastY-crystalHeight, 400, crystalHeight+500))
+        generationBag = {}
+        lastX = 100
+        triggerRandomDialog(phase3Dialog, true)
     end
 end
 
-function generateCloud(x, y, width, height, number)
-    local choices = {}
-    while #choices < number do
-        local newChoice = util.randInt(1, width*height) - 1
-        local isChosen = false
-        for i, v in ipairs(choices) do
-            if v == newChoice then isChosen = true end
+function generatePhaseThree(override)
+    --lastX is now used as the lastY because of fuckin awful camera shit
+
+    local r --choice
+    if not override then
+        nowY = lastY
+        local options = 1
+
+        local isDone
+        repeat
+            r = util.randInt(1, options)
+            isDone = false
+            for i, v in ipairs(generationBag) do
+                if v == r then isDone = true end
+            end
+        until not isDone
+        table.insert(generationBag, r)
+        if #generationBag >= options then
+            generationBag = {}
         end
-        if not isChosen then
-            table.insert(choices, newChoice)
-        end
+    else
+        r = override
     end
 
-    for i, v in ipairs(choices) do
-        table.insert(objects.drones, drone:new(
-            x + (v%width)*cloudDistance + (math.random()-0.5)*cloudDistance*0.5,
-            y + math.floor(v/width)*cloudDistance + (math.random()-0.5)*cloudDistance*0.5
-        ))
+    if r == 1 then
+        --5 cloud
+        generateCloud(headquartersDistance - 100, lastX - 200, 2, 3, 5)
+        lastX = lastX - 200
     end
 end

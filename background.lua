@@ -1,10 +1,9 @@
-function setBackgroundPos(cameraYChange, delta)
+function setBackgroundPos(delta)
     bgPos = {
         x=cameraPos.x * backgroundParallax,
-        y=bgPos.y + cameraYChange * backgroundParallax
+        y=cameraPos.y * backgroundParallax+40,
     }
     bgHighlightX = bgHighlightX + backgroundHighlightChange * delta
-    bgPos.y = bgPos.y + util.sign(backgroundDefaultPosY - bgPos.y) * backgroundYParallaxReturnSpeed * delta
 end
 
 function drawBackgroundHighlight()

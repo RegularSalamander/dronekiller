@@ -28,6 +28,8 @@ animSlashRadius = 8
 cloudDistance = 50
 droneDistance = 300
 missileDistance = 5000
+headquartersDistance = 10000
+crystalHeight = 3000
 
 debrisMovement = 1.5
 missileSpeed = 2
@@ -68,7 +70,6 @@ colorPurple2 = {92/255, 18/255, 83/255, 1}
 cameraShakeLevel = 20
 cameraShakeDeplete = 1.5
 cameraLookAhead = 70
-cameraSpeedLookAhead = 0
 cameraYSpeed = 2
 cameraAutoScrollSpeed = 0.5
 

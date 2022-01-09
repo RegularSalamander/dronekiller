@@ -1,7 +1,7 @@
 startDialog = {
     {
         "ceo", "It's too late, Hero. My drones have already been\nreleased.",
-        "hero", "Do these drones have any weaknesses?",
+        "hero", "Transmute, do these drones have any weaknesses?",
         "transmute", "Explosions.",
         "hero", "Perfect."
     },
@@ -15,7 +15,7 @@ startDialog = {
     }
 }
 
-farDialog = {
+phase2Dialog = {
     {
         "transmute", "You're about halfway to C-CORP's HQ.",
         "ceo", "I'm afraid I can't let you get any further.",
@@ -29,6 +29,12 @@ farDialog = {
     {
         "ceo", "I'm always two steps ahead of you, Hero.",
         "hero", "Guess I'll just have to speed up then."
+    }
+}
+
+phase3Dialog = {
+    {
+        "transmute", "hehe."
     }
 }
 
@@ -57,7 +63,7 @@ greatComboDialog = {
         "ceo", "Nobody's giving out points for style."
     },
     {
-        "ceo", "Pace yourself, hero. No need to rush."
+        "ceo", "Why try so hard, Hero?"
     }
 }
 
