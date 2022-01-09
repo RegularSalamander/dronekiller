@@ -152,7 +152,9 @@ function tutorial_draw()
 end
 
 function tutorial_keypressed(key, scancode, isrepeat)
-    if inDialog() or isrepeat then return end
+    if isrepeat then return end
+    if scancode == "escape" then changeGameState("pauseMenu") end
+    if inDialog() then return end
     if controls[scancode] ~= nil then controls[scancode] = 1 end
 end
 

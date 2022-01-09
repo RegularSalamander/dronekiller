@@ -175,6 +175,7 @@ end
 function game_keypressed(key, scancode, isrepeat)
     if isrepeat then return end
     if controls[scancode] ~= nil then controls[scancode] = 1 end
+    if scancode == "escape" then changeGameState("pauseMenu") end
 end
 
 function game_keyreleased(key, scancode, isrepeat)
