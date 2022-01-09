@@ -1,7 +1,7 @@
 require "class"
 util = require "salamanderUtils"
-require "variables"
 
+require "variables"
 require "player"
 require "playerdraw"
 require "building"
@@ -11,6 +11,8 @@ require "targetMissile"
 require "debris"
 require "explosion"
 require "comboText"
+require "menu"
+require "mainMenu"
 require "worldGeneration"
 require "background"
 require "dialog"
@@ -49,7 +51,7 @@ function love.load()
 
     gameCanvas = love.graphics.newCanvas(screenWidth, screenHeight)
 
-    changeGameState("game")
+    changeGameState("mainMenu")
 end
 
 function love.update(delta)

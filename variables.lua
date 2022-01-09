@@ -79,6 +79,8 @@ dialogHighChance = 0.5
 dialogGoodComboChance = 0.3
 dialogGreatComboChance = 1
 
+menuItemSpacing = 20
+
 fadeTime = 60
 fadeSpeed = 1
 
