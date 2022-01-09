@@ -84,6 +84,7 @@ fadeTime = 60
 fadeSpeed = 1
 
 updatesPerFrame = 10
+slowMoMultiplier = 0.25
 
 offScreenGraceX = 30
 offScreenGraceY = 30

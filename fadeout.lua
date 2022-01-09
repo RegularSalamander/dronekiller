@@ -3,6 +3,7 @@ fadingIn = false
 fadeout = 0
 
 function fadeTo(newState)
+    if fadingOut or fadingIn then return end
     fadingOut = true
     fadingIn = false
     fadeout = 0

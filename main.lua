@@ -50,6 +50,8 @@ function love.load()
 end
 
 function love.update(delta)
+    if not love.window.hasFocus() then return end
+    
     if _G[gameState .. "_update"] then
         _G[gameState .. "_update"](delta)
     end

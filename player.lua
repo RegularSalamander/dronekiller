@@ -28,6 +28,7 @@ function player:init()
     self.combo = 0
     self.dir = 1
     self.runFrame = 0
+    self.alive = true
 end
 
 function player:checkTargets()
@@ -47,6 +48,7 @@ function player:checkTargets()
 end
 
 function player:control(delta)
+    if not self.alive then return end
     if self.state == "ground" then
         local maxControlSpeed = math.max(playerMaxSpeedGround, math.abs(self.vel.x) - playerBoostSpeedLossGround)
         if controls.right > 0 then

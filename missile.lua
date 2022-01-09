@@ -25,7 +25,8 @@ function missile:update(delta, updateNum)
 
     if util.intersect(self.hitBox, objects.player[1].hurtBox) and (objects.player[1].state == "air" or objects.player[1].state == "ground") then
         self:kill()
-        changeGameState("dead")
+        fadeTo("dead")
+        objects.player[1].alive = false
     end
 
     for i, v in ipairs(objects.buildings) do

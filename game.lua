@@ -44,7 +44,6 @@ function game_load()
 end
 
 function game_update(delta)
-    if not love.window.hasFocus() then return end
     delta = delta * 60
     delta = math.min(delta, 2)
 
@@ -69,13 +68,16 @@ function game_update(delta)
 
     objects.player[1]:control(delta)
 
+
+    local slowMoDelta = delta
+    if not objects.player[1].alive then slowMoDelta = delta * slowMoMultiplier end
     for k, v in pairs(objects) do
         local inactive = {}
         for i, _ in ipairs(objects[k]) do
             if objects[k][i].update then
                 local continue = true
                 for updateNum = 1, updatesPerFrame do
-                    if continue and not objects[k][i]:update(delta / updatesPerFrame, updateNum) then
+                    if continue and not objects[k][i]:update(slowMoDelta / updatesPerFrame, updateNum) then
                         continue = false
                         table.insert(inactive, i)
                     end
@@ -101,11 +103,13 @@ function game_update(delta)
     if objects.player[1].pos.x < cameraPos.x - screenWidth/2 - offScreenGraceX then
         objects.player[1].pos.x = cameraPos.x - screenWidth/2  - offScreenGraceX
         if objects.player[1]:isColliding() then
-            changeGameState("dead")
+            fadeTo("dead")
+            objects.player[1].alive = false
         end
     end
     if objects.player[1].pos.y > cameraPos.y + screenHeight/2 + offScreenGraceY then
-        changeGameState("dead")
+        fadeTo("dead")
+        objects.player[1].alive = false
     end
 
     updateDialog(delta)
