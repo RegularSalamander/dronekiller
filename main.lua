@@ -39,6 +39,7 @@ function love.load()
     images.bg2 = love.graphics.newImage("assets/background2.png")
     images.bgmask = love.graphics.newImage("assets/backgroundmask.png")
     images.textbox = love.graphics.newImage("assets/textbox.png")
+    images.target = love.graphics.newImage("assets/target.png")
     images.portraits = love.graphics.newImage("assets/portraits.png")
 
     font = love.graphics.newFont("assets/fancySalamander.ttf", 16)
