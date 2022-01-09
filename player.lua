@@ -25,6 +25,7 @@ function player:init()
     self.spinDir = 0
     self.walledDir = 0 --direction *away from* the wall
     self.targetAngle = 0
+    self.targetDrone = 0
     self.combo = 0
     self.dir = 1
     self.runFrame = 0
@@ -41,6 +42,7 @@ function player:checkTargets()
             if prod > maxProd then
                 maxProd = prod
                 self.targetAngle = ang
+                self.targetDrone = v
             end
         end
     end

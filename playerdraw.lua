@@ -18,6 +18,11 @@ function player:draw()
     else
         self:drawAir()
     end
+
+    if self:checkTargets() then
+        love.graphics.setColor(1, 0, 0, 1)
+        love.graphics.rectangle("fill", self.targetDrone.pos.x-2, self.targetDrone.pos.y-2, 7, 7)
+    end
 end
 
 function player:drawRunning()

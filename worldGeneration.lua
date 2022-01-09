@@ -15,7 +15,7 @@ function generate()
     end
 
     local r
-    local isDone 
+    local isDone
     repeat
         r = util.randInt(1, options)
         isDone = false
