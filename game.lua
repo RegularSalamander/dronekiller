@@ -38,10 +38,8 @@ function game_load()
 
     backgroundHighlightCanvas = love.graphics.newCanvas(screenWidth, screenHeight)
 
-    gameCanvas = love.graphics.newCanvas(screenWidth, screenHeight)
-
     if gameState ~= "tutorial" and math.random() < dialogStartChance then
-        triggerRandomDialog(startDialog)
+        triggerRandomDialog(startDialog, true)
     end
 end
 
@@ -93,7 +91,7 @@ function game_update(delta)
 
     if not hasReachedMissileDistance and objects.player[1].pos.x > missileDistance - 500 then
         hasReachedMissileDistance = true
-        triggerRandomDialog(farDialog)
+        triggerRandomDialog(farDialog, true)
     end
 
     if gameState ~= "tutorial" and objects.player[1].pos.y < cameraPos.y-screenHeight/2 and objects.player[1].vel.y < dialogHighThreshhold and math.random() < dialogStartChance then

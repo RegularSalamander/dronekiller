@@ -49,9 +49,6 @@ backgroundDefaultPosY = 50
 backgroundHighlightChange = 0.1
 backgroundYParallaxReturnSpeed = 0.005
 
-dialogScrollSpeed = 1
-dialogLetterSpeed = 0.3
-
 --bright to dark
 colorRed1 = {255/255, 247/255, 104/255, 1}
 colorRed2 = {246/255, 168/255, 10/255, 1}
@@ -75,10 +72,15 @@ cameraSpeedLookAhead = 0
 cameraYSpeed = 2
 cameraAutoScrollSpeed = 0.5
 
+dialogScrollSpeed = 1
+dialogLetterSpeed = 0.3
 dialogStartChance = 1
 dialogHighThreshhold = -3
 dialogHighChance = 1
 dialogGoodComboChance = 1
 dialogGreatComboChance = 1
+
+fadeTime = 60
+fadeSpeed = 1
 
 updatesPerFrame = 10

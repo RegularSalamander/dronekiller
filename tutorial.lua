@@ -17,7 +17,7 @@ function tutorial_load()
 
     setDialog({
         "transmute", "Use the arrow keys to move."
-    })
+    }, true)
 end
 
 function tutorial_update(delta)
@@ -82,7 +82,7 @@ function tutorial_update(delta)
         if controls.x > 0 and controls.right > 0 and controls.up <= 0 and controls.down <= 0 and controls.left <= 0 then
             io.write(controls.right)
             tutorialProgress = 7
-            objects.player[1].vel.x = playerDashSpeed * objects.player[1].dashMultiplier --manually fix the dash
+            objects.player[1].vel.x = playerDashSpeed --manually fix the dash
             objects.player[1].vel.y = 0
         else
             objects.player[1].state = "air" --stop them from dashing prematurely

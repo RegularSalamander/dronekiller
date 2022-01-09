@@ -14,13 +14,13 @@ require "explosion"
 require "background"
 require "dialog"
 require "randomDialog"
-
+require "fadeout"
 require "game"
 require "tutorial"
 
 gameState = ""
 nextGameState = ""
-scale = 3
+scale = 4
 
 function love.load()
     math.randomseed(os.time())
@@ -43,6 +43,8 @@ function love.load()
     font:setFilter("nearest", "nearest")
     love.graphics.setFont(font)
 
+    gameCanvas = love.graphics.newCanvas(screenWidth, screenHeight)
+
     changeGameState("game")
 end
 
@@ -50,6 +52,7 @@ function love.update(delta)
     if _G[gameState .. "_update"] then
         _G[gameState .. "_update"](delta)
     end
+    fade_update(delta*60)
 
     setGameState("")
 end
@@ -58,7 +61,10 @@ function love.draw()
     if _G[gameState .. "_draw"] then
         _G[gameState .. "_draw"]()
     end
+    love.graphics.setCanvas(gameCanvas)
+    fade_draw()
 
+    love.graphics.setCanvas()
     local w, h = love.graphics.getDimensions()
     local scl = math.floor(math.min(w/screenWidth, h/screenHeight))*1
     love.graphics.setColor(1, 1, 1, 1)

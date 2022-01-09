@@ -10,8 +10,9 @@ function inDialog()
     return #currentDialog > 0
 end
 
-function setDialog(table)
-    if inDialog() then return end
+function setDialog(table, forced)
+    forced = forced or false
+    if inDialog() and not forced then return end
     currentDialog = table
     dialogIndex = 1
     dialogLetter = 0
@@ -79,6 +80,6 @@ function drawDialog()
     end
 end
 
-function triggerRandomDialog(list)
-    setDialog(list[util.randInt(1, #list)])
+function triggerRandomDialog(list, forced)
+    setDialog(list[util.randInt(1, #list)], forced)
 end
