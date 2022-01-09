@@ -40,10 +40,10 @@ end
 function generate(override)
     nowY = lastY
     local options = 2
-    if objects.player[1].pos.x > droneDistance then
+    if lastX >= droneDistance then
         options = 8
     end
-    if objects.player[1].pos.x > missileDistance then
+    if lastX >= missileDistance then
         options = 12
     end
 
@@ -56,8 +56,10 @@ function generate(override)
             if v == r then isDone = true end
         end
     until not isDone
+    io.write(r .. "\n")
     table.insert(generationBag, r)
     if #generationBag >= options then
+        io.write(lastX .. "\n")
         generationBag = {}
     end
 
