@@ -4,7 +4,6 @@ function drone:init(x, y)
     self.usualPos = {x=x, y=y}
     self.timeOffset = math.random()*60
     self.hurtBox = {x=x, y=y, w=3, h=2}
-    self.hitBox = {x=x, y=y, w=3, h=2}
     self.active = true
 end
 
@@ -16,8 +15,6 @@ function drone:update(delta)
 
     self.hurtBox.x = self.pos.x
     self.hurtBox.y = self.pos.y
-    self.hitBox.x = self.pos.x
-    self.hitBox.y = self.pos.y
 
     return self.active
 end
