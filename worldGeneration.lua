@@ -11,7 +11,7 @@ function generate()
         options = 8
     end
     if objects.player[1].pos.x > missileDistance then
-        options = 10
+        options = 12
     end
 
     local r
@@ -74,13 +74,13 @@ function generate()
         generateCloud(lastX+50, lastY-cloudDistance*2, math.floor(340/cloudDistance), 3, 13)
         lastX = lastX + 350 + 200
         lastY = lastY
-    elseif r == 9 then
+    elseif r <= 10 then
         --medium gap + thick building + target drone
         table.insert(objects.buildings, building:new(lastX + 100, lastY, 200))
         table.insert(objects.drones, targetMissile:new(lastX+100, lastY-50))
         lastX = lastX + 100 + 200
         lastY = lastY
-    elseif r == 10 then
+    elseif r <= 12 then
         --medium gap + giant building + air strike
         table.insert(objects.buildings, building:new(lastX + 100, lastY, 400))
         local offset = 800
