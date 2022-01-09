@@ -27,9 +27,10 @@ animSlashRadius = 8
 
 cloudDistance = 50
 droneDistance = 550
-missileDistance =  50--00
+missileDistance =  5000
 headquartersDistance = 9950
 transceiverHeight = 2400
+purgeDistance = 320*3
 
 debrisMovement = 1.5
 missileSpeed = 2

@@ -16,7 +16,7 @@ function drone:update(delta)
     self.hurtBox.x = self.pos.x
     self.hurtBox.y = self.pos.y
 
-    return self.active
+    return self.active and lastX - self.pos.x < purgeDistance and lastClimbY - self.pos.y < purgeDistance
 end
 
 function drone:draw()

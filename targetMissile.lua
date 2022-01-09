@@ -45,5 +45,5 @@ function targetMissile:update(delta, updateNum)
         end
     end
 
-    return self.active
+    return self.active and lastX - self.pos.x < purgeDistance and lastClimbY - self.pos.y < purgeDistance
 end
