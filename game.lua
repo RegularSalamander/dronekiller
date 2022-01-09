@@ -34,6 +34,7 @@ function game_load()
     lastX = 100 --worldGeneration
     lastY = 100
     nowY = 100
+    generationBag = {}
 
     hasReachedMissileDistance = false
 

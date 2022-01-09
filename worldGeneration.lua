@@ -13,6 +13,7 @@ function generate()
     if objects.player[1].pos.x > missileDistance then
         options = 10
     end
+
     local r
     local isDone 
     repeat
@@ -23,9 +24,10 @@ function generate()
         end
     until not isDone
     table.insert(generationBag, r)
-    if #generationBag == options then
+    if #generationBag >= options then
         generationBag = {}
     end
+
     if r == 1 then
         --small gap + thin building
         table.insert(objects.buildings, building:new(lastX + 50, lastY, 100))
