@@ -33,6 +33,7 @@ function game_load()
     objects.buildings[1] = building:new(0, 100, 100)
     lastX = 100 --worldGeneration
     lastY = 100
+    nowY = 100
 
     hasReachedMissileDistance = false
 
