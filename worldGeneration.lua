@@ -1,6 +1,7 @@
 lastX = 0
 lastY = 0
 nowY = 0
+generationBag = {}
 
 --call with the x of the edge of the last placed building, and the y of that building
 function generate()
@@ -12,7 +13,19 @@ function generate()
     if objects.player[1].pos.x > missileDistance then
         options = 10
     end
-    local r = util.randInt(1, options)
+    local r
+    local isDone 
+    repeat
+        r = util.randInt(1, options)
+        isDone = false
+        for i, v in ipairs(generationBag) do
+            if v == r then isDone = true end
+        end
+    until not isDone
+    table.insert(generationBag, r)
+    if #generationBag == options then
+        generationBag = {}
+    end
     if r == 1 then
         --small gap + thin building
         table.insert(objects.buildings, building:new(lastX + 50, lastY, 100))
