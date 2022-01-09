@@ -48,12 +48,16 @@ function drawDialog()
 
     local portraitShift = 0
     local onRight = false
+    local colorChoice
     if currentDialog[dialogIndex] == "transmute" then
         portraitShift = 0
+        colorChoice = colorPurple1
     elseif currentDialog[dialogIndex] == "hero" then
         portraitShift = 32
+        colorChoice = colorBlue1
     elseif currentDialog[dialogIndex] == "ceo" then
         portraitShift = 64
+        colorChoice = colorRed3
         onRight = true
     end
 
@@ -67,7 +71,7 @@ function drawDialog()
             6,
             6
         )
-        love.graphics.setColor(colorBlue1)
+        love.graphics.setColor(colorChoice)
         love.graphics.print(string.sub(currentDialog[dialogIndex+1], 1, dialogLetter), 40, 4)
     else
         love.graphics.setColor(1, 1, 1, 1)
@@ -77,7 +81,7 @@ function drawDialog()
             282,
             6
         )
-        love.graphics.setColor(colorBlue1)
+        love.graphics.setColor(colorChoice)
         love.graphics.print(string.sub(currentDialog[dialogIndex+1], 1, dialogLetter), 40-32, 4)
     end
 end

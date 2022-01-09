@@ -24,7 +24,7 @@ phase2Dialog = {
     {
         "ceo", "I've been dying to test out these new toys.",
         "transmute", "What's he talking about?",
-        "hero", "I feel like I'm about to find out."
+        "hero", "I have a feeling I'm about to find out."
     },
     {
         "ceo", "I'm always two steps ahead of you, Hero.",
