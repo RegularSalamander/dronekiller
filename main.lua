@@ -25,7 +25,7 @@ require "tutorial"
 
 gameState = ""
 nextGameState = ""
-scale = 4
+scale = 5
 
 function love.load()
     math.randomseed(os.time())

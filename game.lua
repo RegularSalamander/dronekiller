@@ -61,9 +61,15 @@ function game_update(delta)
         targetCameraY = targetCameraY + util.sign((math.max(nowY, lastY)-screenHeight/2) - targetCameraY) * cameraYSpeed
         cameraPos.y = (objects.player[1].pos.y + targetCameraY)/2
     else
-        cameraPos.y = math.min(cameraPos.y - scrollSpeed, objects.player[1].pos.y)
-        --targetCameraX = headquartersDistance - cameraLookAhead
-        cameraPos.x = math.max(cameraPos.x, objects.player[1].pos.x)
+        if cameraPos.x < lastX-20 then
+            --why we use lastClimbY instead of lastY
+            cameraPos.x = math.max(cameraPos.x + scrollSpeed, objects.player[1].pos.x + cameraLookAhead)
+            targetCameraY = targetCameraY + util.sign((math.max(nowY, lastY)-screenHeight/2) - targetCameraY) * cameraYSpeed
+            cameraPos.y = (objects.player[1].pos.y + targetCameraY)/2
+        else
+            cameraPos.y = math.min(cameraPos.y - scrollSpeed, objects.player[1].pos.y)
+            cameraPos.x = math.max(cameraPos.x, objects.player[1].pos.x)
+        end
     end
 
     setBackgroundPos(delta)
@@ -73,8 +79,7 @@ function game_update(delta)
         gameState ~= "tutorial" do --tutorial has preset world
         generate()
     end
-    --lastX is really lastY when atHeadquarters
-    while objects.player[1].pos.y < lastX + screenHeight and
+    while objects.player[1].pos.y < lastClimbY + screenHeight and
         atHeadquarters do --tutorial has preset world
         generatePhaseThree()
     end

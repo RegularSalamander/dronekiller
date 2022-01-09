@@ -1,5 +1,6 @@
 lastX = 0
 lastY = 0
+lastClimbY = 0
 nowY = 0
 generationBag = {}
 
@@ -37,31 +38,27 @@ function generateStrikeRight(x, y, w, h, a)
 end
 
 function generate(override)
-    local r --choice
-    if not override then
-        nowY = lastY
-        local options = 2
-        if objects.player[1].pos.x > droneDistance then
-            options = 8
-        end
-        if objects.player[1].pos.x > missileDistance then
-            options = 12
-        end
+    nowY = lastY
+    local options = 2
+    if objects.player[1].pos.x > droneDistance then
+        options = 8
+    end
+    if objects.player[1].pos.x > missileDistance then
+        options = 12
+    end
 
-        local isDone
-        repeat
-            r = util.randInt(1, options)
-            isDone = false
-            for i, v in ipairs(generationBag) do
-                if v == r then isDone = true end
-            end
-        until not isDone
-        table.insert(generationBag, r)
-        if #generationBag >= options then
-            generationBag = {}
+    local r --choice
+    local isDone
+    repeat
+        r = util.randInt(1, options)
+        isDone = false
+        for i, v in ipairs(generationBag) do
+            if v == r then isDone = true end
         end
-    else
-        r = override
+    until not isDone
+    table.insert(generationBag, r)
+    if #generationBag >= options then
+        generationBag = {}
     end
 
     if r == 1 then
@@ -127,40 +124,49 @@ function generate(override)
 
     if lastX >= headquartersDistance then
         atHeadquarters = true
-        table.insert(objects.buildings, building:new(headquartersDistance, lastY-crystalHeight, 400, crystalHeight+500))
+        table.insert(objects.buildings, building:new(lastX + 100, lastY-crystalHeight, 400, crystalHeight+500))
+        lastX = lastX + 100
         generationBag = {}
-        lastX = 100
+        lastClimbY = lastY
         triggerRandomDialog(phase3Dialog, true)
     end
 end
 
 function generatePhaseThree(override)
-    --lastX is now used as the lastY because of fuckin awful camera shit
-
     local r --choice
-    if not override then
-        nowY = lastY
-        local options = 1
+    local options = 4
 
-        local isDone
-        repeat
-            r = util.randInt(1, options)
-            isDone = false
-            for i, v in ipairs(generationBag) do
-                if v == r then isDone = true end
-            end
-        until not isDone
-        table.insert(generationBag, r)
-        if #generationBag >= options then
-            generationBag = {}
+    local isDone
+    repeat
+        r = util.randInt(1, options)
+        isDone = false
+        for i, v in ipairs(generationBag) do
+            if v == r then isDone = true end
         end
-    else
-        r = override
+    until not isDone
+    table.insert(generationBag, r)
+    if #generationBag >= options then
+        generationBag = {}
     end
 
     if r == 1 then
         --5 cloud
-        generateCloud(headquartersDistance - 100, lastX - 200, 2, 3, 5)
-        lastX = lastX - 200
+        generateCloud(lastX - 100, lastClimbY - 200, 2, 3, 5)
+        lastClimbY = lastClimbY - 200
+    elseif r == 2 then
+        --nothing
+        lastClimbY = lastClimbY - 100
+    elseif r == 3 then
+        --sign
+        table.insert(objects.buildings, building:new(lastX - 5, lastClimbY-60, 5, 3))
+        table.insert(objects.buildings, building:new(lastX - 5, lastClimbY-70, 5, 3))
+        table.insert(objects.buildings, building:new(lastX - 43, lastClimbY-72, 40, 17))
+        generateCloud(lastX-100, lastClimbY-100, 1, 3, 2)
+        lastClimbY = lastClimbY - 150
+    elseif r == 4 then
+        --medium gap + giant building + air strike
+        local offset = 800
+        generateStrikeRight(lastX-offset, lastClimbY-offset, 300, 200, 10)
+        lastClimbY = lastClimbY - 150
     end
 end
