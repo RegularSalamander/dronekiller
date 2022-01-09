@@ -229,14 +229,12 @@ function player:update(delta, updateNum)
     for i, v in ipairs(objects.drones) do
         if self.state == "dash" and util.intersect(self.hitBox, objects.drones[i].hurtBox) then
             --kill drone
+            if objects.drones[i].ang then self.combo = self.combo + 1 end --missiles worth 2
             objects.drones[i]:kill(self.vel.x, self.vel.y)
             cameraShake = cameraShakeLevel
             self.canDash = true
             self.state = "hit"
             self.stateChange = playerHitTime
-        end
-        if self.state ~= "dash" and util.intersect(self.hurtBox, objects.drones[i].hitBox) then
-            --kill player
         end
     end
 
