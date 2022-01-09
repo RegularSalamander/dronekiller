@@ -38,6 +38,12 @@ phase3Dialog = {
     }
 }
 
+phase4Dialog = {
+    {
+        "transmute", "hoho."
+    }
+}
+
 highDialog = {
     {
         "transmute", "How's the weather up there?",

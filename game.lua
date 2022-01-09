@@ -37,8 +37,11 @@ function game_load()
     nowY = 100
     generationBag = {}
     atHeadquarters = false
+    atTransceiver = false
 
     hasReachedMissileDistance = false
+    hasReachedHeadquarters = false
+    hasReachedTransceiver = false
 
     backgroundHighlightCanvas = love.graphics.newCanvas(screenWidth, screenHeight)
 
@@ -60,16 +63,27 @@ function game_update(delta)
         cameraPos.x = math.max(cameraPos.x + scrollSpeed, objects.player[1].pos.x + cameraLookAhead)
         targetCameraY = targetCameraY + util.sign((math.max(nowY, lastY)-screenHeight/2) - targetCameraY) * cameraYSpeed
         cameraPos.y = (objects.player[1].pos.y + targetCameraY)/2
-    else
+    elseif cameraPos.y > lastY-transceiverHeight-50 then
         if cameraPos.x < lastX-20 then
             --why we use lastClimbY instead of lastY
             cameraPos.x = math.max(cameraPos.x + scrollSpeed, objects.player[1].pos.x + cameraLookAhead)
             targetCameraY = targetCameraY + util.sign((math.max(nowY, lastY)-screenHeight/2) - targetCameraY) * cameraYSpeed
             cameraPos.y = (objects.player[1].pos.y + targetCameraY)/2
         else
+            if not hasReachedHeadquarters then
+                hasReachedHeadquarters = true
+                triggerRandomDialog(phase3Dialog, true)
+            end
             cameraPos.y = math.min(cameraPos.y - scrollSpeed, objects.player[1].pos.y)
             cameraPos.x = math.max(cameraPos.x, objects.player[1].pos.x)
         end
+    else
+        if not hasReachedTransceiver then
+            hasReachedTransceiver = true
+            triggerRandomDialog(phase4Dialog, true)
+        end
+        cameraPos.y = lastY-transceiverHeight-50
+        cameraPos.x = math.min(math.max(cameraPos.x, objects.player[1].pos.x), lastX+200)
     end
 
     setBackgroundPos(delta)
@@ -80,7 +94,8 @@ function game_update(delta)
         generate()
     end
     while objects.player[1].pos.y < lastClimbY + screenHeight and
-        atHeadquarters do --tutorial has preset world
+        atHeadquarters and
+        not atTransceiver do --tutorial has preset world
         generatePhaseThree()
     end
 

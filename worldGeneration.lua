@@ -126,11 +126,10 @@ function generate(override)
 
     if lastX >= headquartersDistance then
         atHeadquarters = true
-        table.insert(objects.buildings, building:new(lastX + 100, lastY-crystalHeight, 400, crystalHeight+500))
+        table.insert(objects.buildings, building:new(lastX + 100, lastY-transceiverHeight, 400, transceiverHeight+500))
         lastX = lastX + 100
         generationBag = {}
         lastClimbY = lastY
-        triggerRandomDialog(phase3Dialog, true)
     end
 end
 
@@ -170,5 +169,9 @@ function generatePhaseThree(override)
         local offset = 800
         generateStrikeRight(lastX-offset, lastClimbY-offset, 300, 200, 10)
         lastClimbY = lastClimbY - 150
+    end
+
+    if lastClimbY <= lastY - transceiverHeight then
+        atTransceiver = true
     end
 end
