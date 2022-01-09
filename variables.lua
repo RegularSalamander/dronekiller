@@ -30,7 +30,7 @@ droneDistance = 550
 missileDistance =  5000
 headquartersDistance = 9950
 transceiverHeight = 2400
-purgeDistance = 320*3
+purgeDistance = 320*6
 
 debrisMovement = 1.5
 missileSpeed = 2

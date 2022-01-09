@@ -173,5 +173,6 @@ function generatePhaseThree(override)
 
     if lastClimbY <= lastY - transceiverHeight then
         atTransceiver = true
+        table.insert(objects.drones, transceiver:new(lastX+200, lastY-transceiverHeight-50))
     end
 end
