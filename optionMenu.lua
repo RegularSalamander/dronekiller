@@ -1,13 +1,9 @@
-optionMuteSounds = false
-optionMuteMusic = false
 optionFullscreen = false
 optionFullScreenScale = 0
 optionScale = 4
 
 function optionMenu_load()
     optionMenu = menu:new({
-        {name="Mute Sounds", action=function() optionMuteSounds = not optionMuteSounds end},
-        {name="Mute Music", action=function() optionMuteMusic = not optionMuteMusic end},
         {name="Toggle Fullscreen", action=function()
             optionFullScreenScale = math.min(love.graphics.getWidth()/screenWidth, love.graphics.getHeight()/screenHeight)
             optionFullscreen = not optionFullscreen

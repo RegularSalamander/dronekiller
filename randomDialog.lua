@@ -8,7 +8,7 @@ startDialog = {
     {
         "transmute", "Our time is running out.",
         "ceo", "It's already too late, Hero. Soon the city will be mine!",
-        "hero", "" --TODO
+        "hero", "Yep. Add some dialog here." --TODO
     },
     {
         "hero", "What's the mission, Transmute?",
@@ -95,5 +95,8 @@ deadDialog = {
     },
     {
         "ceo", "Game set, Hero."
+    },
+    {
+        "ceo", "The city is mine!"
     }
 }
