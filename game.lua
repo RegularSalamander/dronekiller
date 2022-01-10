@@ -44,6 +44,7 @@ function game_load()
     hasReachedTransceiver = false
 
     transceiverHealth = 20
+    gameEndedTimer = 0
 
     backgroundHighlightCanvas = love.graphics.newCanvas(screenWidth, screenHeight)
 
@@ -107,18 +108,18 @@ function game_update(delta)
 
     setBackgroundPos(delta)
 
-    while objects.player[1].pos.x > lastX - screenWidth and
+    while objects.player[1].pos.x > lastX - screenWidth and --phase 1 and 2
         not atHeadquarters and
         gameState ~= "tutorial" do --tutorial has preset world
         generate()
     end
-    while objects.player[1].pos.y < lastClimbY + screenHeight and
+    while objects.player[1].pos.y < lastClimbY + screenHeight and --phase 3
         atHeadquarters and
         not atTransceiver and
         gameState ~= "tutorial" do --tutorial has preset world
         generatePhaseThree()
     end
-    if transceiverHealth < 20 then
+    if transceiverHealth < 20 and transceiverHealth > 0 then --phase 4
         local numberOfMissiles = 0
         for i, v in ipairs(objects.drones) do
             if v.ang then numberOfMissiles = numberOfMissiles + 1 end
@@ -131,6 +132,20 @@ function game_update(delta)
                 objects.player[1].pos.x + math.cos(angle)*screenWidth, 
                 objects.player[1].pos.y + math.sin(angle)*screenWidth
             ))
+        end
+    end
+    if transceiverHealth <= 0 then --end of game
+        gameEndedTimer = gameEndedTimer + delta
+        if math.floor(gameEndedTimer) % 10 == 0 then
+            local newDrone = drone:new(
+                util.randRange(lastX+40, lastX+40+screenWidth),
+                lastY-transceiverHeight-screenHeight*2
+            )
+            newDrone:fall()
+            table.insert(objects.drones, newDrone)
+        end
+        if not inDialog() then
+            fadeTo("mainMenu")
         end
     end
 
@@ -188,12 +203,15 @@ function game_update(delta)
         triggerRandomDialog(highDialog)
     end
 
-    if objects.player[1].pos.x < cameraPos.x - screenWidth/2 - offScreenGraceX then
+    if objects.player[1].pos.x < cameraPos.x - screenWidth/2 - offScreenGraceX then --left barrier
         objects.player[1].pos.x = cameraPos.x - screenWidth/2  - offScreenGraceX
         if objects.player[1]:isColliding() then
             fadeTo("dead")
             objects.player[1].alive = false
         end
+    end
+    if objects.player[1].pos.x > cameraPos.x + screenWidth/2 + offScreenGraceX then --right barrier
+        objects.player[1].pos.x = cameraPos.x + screenWidth/2  + offScreenGraceX
     end
     if objects.player[1].pos.y > cameraPos.y + screenHeight/2 + offScreenGraceY then
         fadeTo("dead")

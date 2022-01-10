@@ -100,3 +100,11 @@ deadDialog = {
         "ceo", "The city is mine!"
     }
 }
+
+endDialog = {
+    {
+        "ceo", "No! My drones!",
+        "hero", "It's over.",
+        "transmute", "Well done, Hero."
+    }
+}

@@ -7,9 +7,19 @@ end
 
 function transceiver:draw()
     love.graphics.setColor(1, 1, 1, 1)
-    love.graphics.draw(images.transceiver, self.pos.x - 4, self.pos.y)
+    if transceiverHealth > 0 then
+        love.graphics.draw(images.transceiver, self.pos.x - 4, self.pos.y)
+    else
+        love.graphics.draw(images.transceiverDead, self.pos.x - 4, self.pos.y)
+    end
 end
 
 function transceiver:kill(dx, dy)
     transceiverHealth = transceiverHealth - 1
+    spawnLargeExplosion(self.pos.x, self.pos.y)
+    if transceiverHealth == 0 then
+        spawnGiantExplosion(self.pos.x, self.pos.y)
+        spawnGiantExplosion(self.pos.x, self.pos.y)
+        triggerRandomDialog(endDialog)
+    end
 end

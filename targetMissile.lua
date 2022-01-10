@@ -20,7 +20,7 @@ function targetMissile:update(delta, updateNum)
             allowedToTurn = false
         end
     end
-    if allowedToTurn then
+    if allowedToTurn and transceiverHealth > 0 then
         self.ang = self.ang%(math.pi*2)
         local targetAng = math.atan2(objects.player[1].pos.y - self.pos.y, objects.player[1].pos.x - self.pos.x)
         while self.ang < 0 do self.ang = self.ang + math.pi*2 end
