@@ -21,7 +21,7 @@ playerTargetThreshhold = 0.5
 playerMaxDashMultiplier = 2
 playerMaxCombo = 20
 playerExplosionMultiplier = -0.1
-iframes = 30
+iframes = 50/2+30
 
 animSpeedPlayerRun = 0.2
 animSlashRadius = 8
