@@ -46,6 +46,11 @@ function love.load()
     images.target = love.graphics.newImage("assets/target.png")
     images.portraits = love.graphics.newImage("assets/portraits.png")
 
+    sounds = {}
+    sounds.musicStart = love.audio.newSource("assets/DRONEKILLER_start.mp3", "stream")
+    sounds.musicLoop = love.audio.newSource("assets/DRONEKILLER_loop.mp3", "stream")
+    sounds.musicLoop:setLooping(true)
+
     font = love.graphics.newFont("assets/fancySalamander.ttf", 16)
     font:setFilter("nearest", "nearest")
     comboFont = love.graphics.newFont("assets/comboFont.ttf", 16)
@@ -99,6 +104,11 @@ end
 
 function setGameState()
     if gameState == nextGameState then return end
+    if gameState ~= "pauseMenu" and nextGameState ~= "pauseMenu" then
+        for k, v in pairs(sounds) do
+            sounds[k]:stop()
+        end
+    end
     gameState = nextGameState
     if _G[gameState .. "_load"] then
         _G[gameState .. "_load"]()

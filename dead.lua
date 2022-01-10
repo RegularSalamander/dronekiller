@@ -9,6 +9,7 @@ end
 
 function dead_update(delta)
     updateDialog(delta*60)
+    sounds.musicLoop:setVolume(sounds.musicLoop:getVolume()-0.01*delta*60)
 end
 
 function dead_draw()

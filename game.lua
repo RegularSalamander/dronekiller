@@ -48,11 +48,23 @@ function game_load()
     backgroundHighlightCanvas = love.graphics.newCanvas(screenWidth, screenHeight)
 
     triggerRandomDialog(startDialog, true)
+
+    for k, v in pairs(sounds) do
+        sounds[k]:stop()
+        sounds[k]:setVolume(soundVolume)
+    end
+    sounds.musicStart:setVolume(musicVolume)
+    sounds.musicLoop:setVolume(musicVolume)
+    sounds.musicStart:play()
 end
 
 function game_update(delta)
     delta = delta * 60
     delta = math.min(delta, 2)
+
+    if not sounds.musicStart:isPlaying() and not sounds.musicLoop:isPlaying() then
+        sounds.musicLoop:play()
+    end
 
     cameraShake = cameraShake - cameraShakeDeplete * delta
     cameraShake = math.max(0, cameraShake)

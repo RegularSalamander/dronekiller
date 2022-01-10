@@ -49,6 +49,9 @@ gravity = 0.05
 screenWidth = 320
 screenHeight = 180
 
+musicVolume = 0.6
+soundVolume = 1
+
 backgroundParallax = -0.05
 backgroundDefaultPosY = 50
 backgroundHighlightChange = 0.1

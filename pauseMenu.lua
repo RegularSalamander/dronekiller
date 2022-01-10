@@ -7,7 +7,9 @@ function pauseMenu_load()
 end
 
 function pauseMenu_update(delta)
-
+    if not sounds.musicStart:isPlaying() and not sounds.musicLoop:isPlaying() then
+        sounds.musicLoop:play()
+    end
 end
 
 function pauseMenu_draw()
