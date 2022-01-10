@@ -45,6 +45,10 @@ function drone:fall()
 end
 
 function drone:kill(dx, dy)
+    if dx ~= 0 or dy ~= 0 then
+        pointRally = pointRally + 100
+        dronesKilled = dronesKilled + 1
+    end
     self.active = false
     table.insert(objects.debris, debris:new(self.pos.x, self.pos.y, dx, dy))
     table.insert(objects.debris, debris:new(self.pos.x, self.pos.y, dx, dy))

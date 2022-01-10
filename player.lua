@@ -114,6 +114,9 @@ function player:control(delta)
         if self.state == "ground" then
             self.vel.y = playerGroundJumpVel
             self.state = "air"
+            points = points + pointRally * self.combo
+            pointRally = 0
+            highestCombo = math.max(highestCombo, self.combo)
             self.combo = 0
             self.canDash = true
             self.timeSinceJumped = 0
@@ -213,6 +216,9 @@ function player:update(delta, updateNum)
         self.canDash = true
     elseif self.state == "ground" then
         self.canDash = true
+        points = points + pointRally * self.combo
+        pointRally = 0
+        highestCombo = math.max(highestCombo, self.combo)
         self.combo = 0
     elseif self.state == "posthit" then
         return true

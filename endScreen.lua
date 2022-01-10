@@ -1,30 +1,33 @@
-function dead_load()
+function endScreen_load()
     triggerRandomDialog(deadDialog, true)
-    deadMenu = menu:new({
-        {name="Retry", action=function() fadeTo("game") end},
+    endScreenMenu = menu:new({
         {name="Quit to Menu", action=function() fadeTo("mainMenu") end},
         {name="Quit to Desktop", action=function() love.event.quit() end}
     })
 end
 
-function dead_update(delta)
+function endScreen_update(delta)
     updateDialog(delta*60)
     sounds.musicLoop:setVolume(sounds.musicLoop:getVolume()-0.01*delta*60)
 end
 
-function dead_draw()
+function endScreen_draw()
     love.graphics.setCanvas(gameCanvas)
     love.graphics.setColor(0, 0, 0, 1)
     love.graphics.rectangle("fill", 0, 0, screenWidth, screenHeight)
-    drawDialog()
-    deadMenu:draw()
+    endScreenMenu:draw()
 
     love.graphics.setColor(colorRed3)
-    love.graphics.setFont(comboFont)
-    love.graphics.print(points, 2, screenHeight-13)
+    love.graphics.printf(
+        "Points: " .. points .. "\n" ..
+        "Drones Destroyed: " .. dronesKilled .. "\n" ..
+        "Missiles Destroyed: " .. missilesKilled .. "\n" ..
+        "Highest Combo: " .. highestCombo,
+        0, 10, screenWidth, "center"
+    )
 end
 
-function dead_keypressed(key, scancode, isrepeat)
+function endScreen_keypressed(key, scancode, isrepeat)
     if isrepeat then return end
-    deadMenu:control(scancode)
+    endScreenMenu:control(scancode)
 end

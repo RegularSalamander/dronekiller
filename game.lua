@@ -60,6 +60,12 @@ function game_load()
     stopRumbleSound = true
     stopMissileSound = true
     closestMissileToPlayerDist = 0
+
+    dronesKilled = 0
+    missilesKilled = 0
+    points = 0
+    pointRally = 0
+    highestCombo = 0
 end
 
 function game_update(delta)
@@ -145,7 +151,7 @@ function game_update(delta)
             table.insert(objects.drones, newDrone)
         end
         if not inDialog() then
-            fadeTo("mainMenu")
+            fadeTo("endScreen")
         end
     end
 
@@ -257,7 +263,13 @@ function game_draw()
 
     drawDialog()
 
-    love.graphics.setCanvas()
+    love.graphics.setColor(colorRed3)
+    love.graphics.setFont(comboFont)
+    if pointRally > 0 then
+        love.graphics.print(points .. " + " .. pointRally .. "x" .. objects.player[1].combo, 2, screenHeight-13)
+    else
+        love.graphics.print(points, 2, screenHeight-13)
+    end
 end
 
 function game_keypressed(key, scancode, isrepeat)

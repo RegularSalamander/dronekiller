@@ -23,13 +23,13 @@ playerMaxCombo = 20
 playerExplosionMultiplier = -0.1
 iframes = 50/2+30
 
-animSpeedPlayerRun = 0.2
+animSpeedPlayerRun = 0.25
 animSlashRadius = 8
 
 cloudDistance = 50
 droneDistance = 550
-missileDistance =  500--0
-headquartersDistance = 995--0
+missileDistance =  5000
+headquartersDistance = 9950
 transceiverHeight = 2400
 purgeDistance = 320*6
 

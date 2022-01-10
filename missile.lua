@@ -53,6 +53,10 @@ function missile:draw()
 end
 
 function missile:kill(dx, dy)
+    if (dx or dy) and transceiverHealth >= 20 then
+        pointRally = pointRally + 1000
+        missilesKilled = missilesKilled + 1
+    end
     cameraShake = cameraShakeLevel * 0.5
     self.active = false
     --table.insert(objects.debris, debris:new(self.pos.x, self.pos.y, dx, dy))

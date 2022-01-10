@@ -18,8 +18,9 @@ function transceiver:kill(dx, dy)
     transceiverHealth = transceiverHealth - 1
     spawnLargeExplosion(self.pos.x, self.pos.y)
     if transceiverHealth == 0 then
+        pointRally = pointRally + 10000
         spawnGiantExplosion(self.pos.x, self.pos.y)
         spawnGiantExplosion(self.pos.x, self.pos.y)
-        triggerRandomDialog(endDialog)
+        triggerRandomDialog(endDialog, true)
     end
 end
