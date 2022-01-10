@@ -30,6 +30,8 @@ function player:init()
     self.dir = 1
     self.runFrame = 0
     self.alive = true
+    self.timeSinceJumped = 0
+    self.timeSinceDashed = 0
 end
 
 function player:checkTargets()
@@ -67,6 +69,18 @@ function player:control(delta)
         end
 
         self.vel.x = util.constrain(self.vel.x, -1 * maxControlSpeed, maxControlSpeed)
+
+        --getting direction
+        local x = 0
+        if controls.left > 0 then x = x - 1 end
+        if controls.right > 0 then x = x + 1 end
+        local y = 0
+        if controls.up > 0 then y = y - 1 end
+        if controls.down > 0 then y = y + 1 end
+        if y > 0 and x ~= 0 then x = x + self.vel.x*playerVelToDirInfluence end
+        if x ~= 0 or y ~= 0 then
+            self.spinAngle = math.atan2(y, x)
+        end
     elseif self.state == "air" then
         --getting direction
         local x = 0
@@ -102,16 +116,18 @@ function player:control(delta)
             self.state = "air"
             self.combo = 0
             self.canDash = true
+            self.timeSinceJumped = 0
         elseif self.state == "walled" then
             self.state = "air"
             self.vel.y = playerWallJumpVelY
             self.vel.x = playerWallJumpVelX * self.walledDir
+            self.timeSinceJumped = 0
         end
     end
 
-    if controls.x > 0 and self.canDash then
-        if self.state == "air" then
-            self.state = "dash"
+    if controls.x > 0 and self.canDash and self.timeSinceJumped > 10 then
+        if self.state == "air" or self.state == "ground" then
+            self.timeSinceDashed = 0
             self.canDash = false
             if self:checkTargets() then
                 self.spinAngle = self.targetAngle
@@ -120,6 +136,10 @@ function player:control(delta)
             local dashMultiplier = util.map(effectiveCombo, 0, playerMaxCombo, 1, playerMaxDashMultiplier)
             self.vel.x = math.cos(self.spinAngle) * playerDashSpeed * dashMultiplier
             self.vel.y = math.sin(self.spinAngle) * playerDashSpeed * dashMultiplier
+            if self.state == "ground" and math.abs(self.vel.y) < 0.1 then
+                self.vel.y = math.abs(self.vel.x) --go down
+            end
+            self.state = "dash"
             self.stateChange = playerDashDuration
         end
     end
@@ -139,8 +159,10 @@ end
 function player:update(delta, updateNum)
     self.runFrame = self.runFrame + animSpeedPlayerRun * delta
     self.runFrame = self.runFrame % 8
-
     self.stateChange = self.stateChange - delta
+    self.timeSinceJumped = self.timeSinceJumped + delta
+    self.timeSinceDashed = self.timeSinceDashed + delta
+
     if self.stateChange <= 0 then
         if self.state == "dash" then
             self.state = "missed"

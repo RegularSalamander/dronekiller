@@ -34,13 +34,15 @@ phase2Dialog = {
 
 phase3Dialog = {
     {
-        "transmute", "hehe."
+        "transmute", "This is C-CORP's HQ. Get to the top of the building.",
+        "ceo", "Give up, Hero.",
+        "hero", "What's the matter? Too close for comfort?"
     }
 }
 
 phase4Dialog = {
     {
-        "transmute", "hoho."
+        "transmute", "That transmitter controls all the drones."
     }
 }
 

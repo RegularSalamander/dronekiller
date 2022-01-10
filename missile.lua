@@ -24,9 +24,11 @@ function missile:update(delta, updateNum)
     end
 
     if util.intersect(self.hitBox, objects.player[1].hurtBox) and (objects.player[1].state == "air" or objects.player[1].state == "ground") then
-        self:kill()
-        fadeTo("dead")
-        objects.player[1].alive = false
+        if objects.player[1].timeSinceDashed > iframes then
+            self:kill()
+            fadeTo("dead")
+            objects.player[1].alive = false
+        end
     end
 
     for i, v in ipairs(objects.buildings) do

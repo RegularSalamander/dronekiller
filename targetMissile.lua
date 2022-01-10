@@ -1,7 +1,7 @@
 targetMissile = missile:new()
 function targetMissile:update(delta, updateNum)
-    self.vel.x = math.cos(self.ang) * missileSpeed * delta
-    self.vel.y = math.sin(self.ang) * missileSpeed * delta
+    self.vel.x = math.cos(self.ang) * targetMissileSpeed * delta
+    self.vel.y = math.sin(self.ang) * targetMissileSpeed * delta
     self.pos.x = self.pos.x + self.vel.x
     self.pos.y = self.pos.y + self.vel.y
 
@@ -34,9 +34,11 @@ function targetMissile:update(delta, updateNum)
     end
 
     if util.intersect(self.hitBox, objects.player[1].hurtBox) and (objects.player[1].state == "air" or objects.player[1].state == "ground") then
-        self:kill()
-        fadeTo("dead")
-        objects.player[1].alive = false
+        if objects.player[1].timeSinceDashed > iframes then
+            self:kill()
+            fadeTo("dead")
+            objects.player[1].alive = false
+        end
     end
 
     for i, v in ipairs(objects.buildings) do

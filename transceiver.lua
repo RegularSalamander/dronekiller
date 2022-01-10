@@ -13,6 +13,7 @@ end
 
 function transceiver:kill(dx, dy)
     self.health = self.health - 1
+    transceiverHealth = transceiverHealth - 1
     if self.health <= 0 then
         --end game
     end

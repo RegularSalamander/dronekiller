@@ -56,10 +56,8 @@ function generate(override)
             if v == r then isDone = true end
         end
     until not isDone
-    io.write(r .. "\n")
     table.insert(generationBag, r)
     if #generationBag >= options then
-        io.write(lastX .. "\n")
         generationBag = {}
     end
 
@@ -119,7 +117,7 @@ function generate(override)
         --medium gap + giant building + air strike
         table.insert(objects.buildings, building:new(lastX + 100, lastY, 400))
         local offset = 800
-        generateStrikeLeft(lastX+100+offset, lastY-offset, 300, 200, 10)
+        generateStrikeLeft(lastX+100+offset, lastY-offset, 300, 200, 5)
         lastX = lastX + 100 + 400
         lastY = lastY
     end
@@ -167,7 +165,7 @@ function generatePhaseThree(override)
     elseif r == 4 then
         --medium gap + giant building + air strike
         local offset = 800
-        generateStrikeRight(lastX-offset, lastClimbY-offset, 300, 200, 10)
+        generateStrikeRight(lastX-offset, lastClimbY-offset, 300, 200, 5)
         lastClimbY = lastClimbY - 150
     end
 

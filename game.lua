@@ -43,6 +43,8 @@ function game_load()
     hasReachedHeadquarters = false
     hasReachedTransceiver = false
 
+    transceiverHealth = 20
+
     backgroundHighlightCanvas = love.graphics.newCanvas(screenWidth, screenHeight)
 
     triggerRandomDialog(startDialog, true)
@@ -63,7 +65,7 @@ function game_update(delta)
         cameraPos.x = math.max(cameraPos.x + scrollSpeed, objects.player[1].pos.x + cameraLookAhead)
         targetCameraY = targetCameraY + util.sign((math.max(nowY, lastY)-screenHeight/2) - targetCameraY) * cameraYSpeed
         cameraPos.y = (objects.player[1].pos.y + targetCameraY)/2
-    elseif cameraPos.y > lastY-transceiverHeight-50 then
+    elseif cameraPos.y > lastY-transceiverHeight-80 then
         if cameraPos.x < lastX-20 then
             --why we use lastClimbY instead of lastY
             cameraPos.x = math.max(cameraPos.x + scrollSpeed, objects.player[1].pos.x + cameraLookAhead)
@@ -82,7 +84,7 @@ function game_update(delta)
             hasReachedTransceiver = true
             triggerRandomDialog(phase4Dialog, true)
         end
-        cameraPos.y = lastY-transceiverHeight-50
+        cameraPos.y = lastY-transceiverHeight-80
         cameraPos.x = math.min(math.max(cameraPos.x, objects.player[1].pos.x), lastX+200)
     end
 
@@ -97,6 +99,21 @@ function game_update(delta)
         atHeadquarters and
         not atTransceiver do --tutorial has preset world
         generatePhaseThree()
+    end
+    if transceiverHealth < 20 then
+        local numberOfMissiles = 0
+        for i, v in ipairs(objects.drones) do
+            if v.ang then numberOfMissiles = numberOfMissiles + 1 end
+        end
+        io.write(numberOfMissiles .. "\n")
+        if numberOfMissiles == 0 then
+            local onRight = math.random() > 0.5
+            local angle = onRight and math.pi*7/4 or math.pi*5/4
+            table.insert(objects.drones, targetMissile:new(
+                objects.player[1].pos.x + math.cos(angle)*screenWidth, 
+                objects.player[1].pos.y + math.sin(angle)*screenWidth
+            ))
+        end
     end
 
     objects.player[1]:control(delta)

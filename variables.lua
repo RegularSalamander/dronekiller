@@ -21,20 +21,22 @@ playerTargetThreshhold = 0.5
 playerMaxDashMultiplier = 2
 playerMaxCombo = 20
 playerExplosionMultiplier = -0.1
+iframes = 30
 
 animSpeedPlayerRun = 0.2
 animSlashRadius = 8
 
 cloudDistance = 50
 droneDistance = 550
-missileDistance =  5000
-headquartersDistance = 9950
-transceiverHeight = 2400
+missileDistance =  500--0
+headquartersDistance = 995--0
+transceiverHeight = 240--0
 purgeDistance = 320*6
 
 debrisMovement = 1.5
 missileSpeed = 2
 missileTurnSpeed = 0.1
+targetMissileSpeed = 1.3
 missileExplosionSpeed = -2
 
 explosionSpread = 0.3
