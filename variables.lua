@@ -35,7 +35,7 @@ purgeDistance = 320*6
 
 debrisMovement = 1.5
 missileSpeed = 2
-missileTurnSpeed = 0.1
+missileTurnSpeed = 0.06
 targetMissileSpeed = 1.3
 missileExplosionSpeed = -2
 
@@ -50,7 +50,7 @@ screenWidth = 320
 screenHeight = 180
 
 musicVolume = 0.6
-soundVolume = 1
+soundVolume = 0.4
 
 backgroundParallax = -0.05
 backgroundDefaultPosY = 50

@@ -13,6 +13,7 @@ end
 function setDialog(table, forced)
     forced = forced or false
     if inDialog() and not forced then return end
+    sounds.dialog:play()
     currentDialog = table
     dialogIndex = 1
     dialogLetter = 0
@@ -27,6 +28,8 @@ function updateDialog(delta)
         dialogIndex = dialogIndex + 2
         if not currentDialog[dialogIndex] then
             currentDialog = {}
+        else
+            sounds.dialog:play()
         end
     end
 end

@@ -47,5 +47,12 @@ function targetMissile:update(delta, updateNum)
         end
     end
 
+    stopMissileSound = false
+
+    local d = util.dist(self.pos.x, self.pos.y, cameraPos.x, cameraPos.y)
+    if d < closestMissileToPlayerDist then
+        closestMissileToPlayerDist = d
+    end
+
     return self.active and lastX - self.pos.x < purgeDistance and lastClimbY - self.pos.y < purgeDistance
 end

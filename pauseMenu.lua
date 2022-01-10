@@ -10,6 +10,8 @@ function pauseMenu_update(delta)
     if not sounds.musicStart:isPlaying() and not sounds.musicLoop:isPlaying() then
         sounds.musicLoop:play()
     end
+    sounds.rumble:stop()
+    sounds.missile:stop()
 end
 
 function pauseMenu_draw()

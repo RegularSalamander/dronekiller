@@ -17,6 +17,9 @@ function spawnLargeExplosion(x, y, delay)
         ))
     end
     table.insert(objects.explosions, explosion:new(x, y, "flash", 0, 0, delay))
+    local soundRandom = util.randInt(1, 4)
+    sounds["explosion" .. soundRandom]:stop()
+    sounds["explosion" .. soundRandom]:play()
 end
 
 function spawnSmallExplosion(x, y)
@@ -49,6 +52,9 @@ function spawnGiantExplosion(x, y)
             i*6
         )
     end
+    local soundRandom = util.randInt(1, 2)
+    sounds["bigExplosion" .. soundRandom]:stop()
+    sounds["bigExplosion" .. soundRandom]:play()
 end
 
 explosion = class:new()

@@ -220,6 +220,7 @@ function player:update(delta, updateNum)
         self.vel.x = self.vel.x * (1 - playerMissEffect * delta)
         self.vel.y = self.vel.y * (1 - playerMissEffect * delta)
     elseif self.state == "dash" then
+        stopRumbleSound = false
         if updateNum == 1 then
             spawnDirectionalExplosion(self.pos.x, self.pos.y+3, self.vel.x * playerExplosionMultiplier, self.vel.y * playerExplosionMultiplier)
         end

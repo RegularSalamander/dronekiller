@@ -56,6 +56,9 @@ function game_load()
     sounds.musicStart:setVolume(musicVolume)
     sounds.musicLoop:setVolume(musicVolume)
     sounds.musicStart:play()
+    stopRumbleSound = true
+    stopMissileSound = true
+    closestMissileToPlayerDist = 0
 end
 
 function game_update(delta)
@@ -65,6 +68,8 @@ function game_update(delta)
     if not sounds.musicStart:isPlaying() and not sounds.musicLoop:isPlaying() then
         sounds.musicLoop:play()
     end
+    stopRumbleSound = true
+    stopMissileSound = true
 
     cameraShake = cameraShake - cameraShakeDeplete * delta
     cameraShake = math.max(0, cameraShake)
@@ -131,6 +136,7 @@ function game_update(delta)
 
     objects.player[1]:control(delta)
 
+    closestMissileToPlayerDist = screenWidth+screenHeight
 
     local slowMoDelta = delta
     if not objects.player[1].alive then slowMoDelta = delta * slowMoMultiplier end
@@ -151,6 +157,25 @@ function game_update(delta)
             for i = #inactive, 1, -1 do
                 table.remove(objects[k], inactive[i])
             end
+        end
+    end
+
+    if stopRumbleSound then
+        sounds.rumble:stop()
+    else
+        if not sounds.rumble:isPlaying() then
+            sounds.rumble:play()
+        end
+    end
+    if stopMissileSound then
+        sounds.missile:stop()
+    else
+        local v = util.map(closestMissileToPlayerDist, 0, screenWidth, 1, 0)
+        v = math.min(v, 1)
+        v = math.max(v, 0)
+        sounds.missile:setVolume(v*soundVolume)
+        if not sounds.missile:isPlaying() then
+            sounds.missile:play()
         end
     end
 
