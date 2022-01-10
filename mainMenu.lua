@@ -2,6 +2,7 @@ function mainMenu_load()
     mainMenu = menu:new({
         {name="Start", action=function() fadeTo("game") end},
         {name="Tutorial", action=function() fadeTo("tutorial") end},
+        {name="Options", action=function() fadeTo("optionMenu") end},
         {name="Quit", action=function() love.event.quit() end}
     })
 end

@@ -15,6 +15,7 @@ require "transceiver"
 require "menu"
 require "mainMenu"
 require "pauseMenu"
+require "optionMenu"
 require "worldGeneration"
 require "background"
 require "dialog"
@@ -26,14 +27,13 @@ require "tutorial"
 
 gameState = ""
 nextGameState = ""
-scale = 3
 
 function love.load()
     math.randomseed(os.time())
     
     love.graphics.setDefaultFilter("nearest", "nearest")
     love.graphics.setLineStyle("rough")
-    love.window.setMode(screenWidth*scale, screenHeight*scale, { vsync = true, msaa = 0, highdpi = true })
+    love.window.setMode(screenWidth*optionScale, screenHeight*optionScale, { vsync = true, msaa = 0, highdpi = true })
 
     images = {}
     images.player = love.graphics.newImage("assets/playerrun.png")

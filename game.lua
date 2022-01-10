@@ -97,7 +97,8 @@ function game_update(delta)
     end
     while objects.player[1].pos.y < lastClimbY + screenHeight and
         atHeadquarters and
-        not atTransceiver do --tutorial has preset world
+        not atTransceiver and
+        gameState ~= "tutorial" do --tutorial has preset world
         generatePhaseThree()
     end
     if transceiverHealth < 20 then
