@@ -5,16 +5,28 @@ function mainMenu_load()
         {name="Options", action=function() fadeTo("optionMenu") end},
         {name="Quit", action=function() love.event.quit() end}
     })
+    
+    bgPos = {x=0, y=backgroundDefaultPosY}
+    bgHighlightX = 0
+    backgroundHighlightCanvas = love.graphics.newCanvas(screenWidth, screenHeight)
+    cameraPos = {x=0, y=0}
 end
 
 function mainMenu_update(delta)
-
+    setBackgroundPos(delta*60*2)
 end
 
 function mainMenu_draw()
     love.graphics.setCanvas(gameCanvas)
     love.graphics.setColor(0, 0, 0, 1)
-    love.graphics.rectangle("fill", 0, 0, screenWidth, screenHeight)
+    
+    love.graphics.setCanvas(backgroundHighlightCanvas)
+    drawBackgroundHighlight()
+    love.graphics.setCanvas(gameCanvas)
+    love.graphics.setBackgroundColor(colorGray4)
+    love.graphics.clear()
+    drawBackground()
+
     mainMenu:draw()
 end
 

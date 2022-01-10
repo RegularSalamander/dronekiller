@@ -9,6 +9,7 @@ end
 function drawBackgroundHighlight()
     love.graphics.setBackgroundColor(0, 0, 0, 0)
     love.graphics.clear()
+    love.graphics.setColor(1, 1, 1, 1)
     love.graphics.draw(images.bg2)
     love.graphics.setBlendMode("multiply", "premultiplied")
     love.graphics.draw(images.bgmask, bgHighlightX%screenWidth - screenWidth, 0)
