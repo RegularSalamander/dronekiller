@@ -49,6 +49,8 @@ function love.load()
     images.sign = love.graphics.newImage("assets/sign.png")
     images.transceiver = love.graphics.newImage("assets/transceiver.png")
     images.transceiverDead = love.graphics.newImage("assets/transceiverDead.png")
+    images.logo1 = love.graphics.newImage("assets/logo1.png")
+    images.logo2 = love.graphics.newImage("assets/logo2.png")
 
     sounds = {}
     sounds.musicStart = love.audio.newSource("assets/DRONEKILLER_start.mp3", "stream")

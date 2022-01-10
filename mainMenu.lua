@@ -9,6 +9,7 @@ function mainMenu_load()
     bgPos = {x=0, y=backgroundDefaultPosY}
     bgHighlightX = 0
     backgroundHighlightCanvas = love.graphics.newCanvas(screenWidth, screenHeight)
+    logoCanvas = love.graphics.newCanvas(screenWidth, screenHeight)
     cameraPos = {x=0, y=0}
 end
 
@@ -26,6 +27,19 @@ function mainMenu_draw()
     love.graphics.setBackgroundColor(colorGray4)
     love.graphics.clear()
     drawBackground()
+
+    love.graphics.setCanvas(logoCanvas)
+    love.graphics.clear()
+    love.graphics.setColor(1, 1, 1, 1)
+    love.graphics.draw(images.logo2, 63, 20)
+    love.graphics.setBlendMode("multiply", "premultiplied")
+    love.graphics.draw(images.bgmask, bgHighlightX%screenWidth - screenWidth, 0)
+    love.graphics.draw(images.bgmask, bgHighlightX%screenWidth, 0)
+    love.graphics.setBlendMode("alpha")
+    love.graphics.setColor(1, 1, 1, 1)
+    love.graphics.setCanvas(gameCanvas)
+    love.graphics.draw(images.logo1, 63, 20)
+    love.graphics.draw(logoCanvas)
 
     mainMenu:draw()
 end
