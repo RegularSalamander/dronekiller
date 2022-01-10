@@ -1,25 +1,25 @@
 startDialog = {
     {
-        "ceo", "It's too late, Hero. My drones have already been\nreleased.",
+        "ceo", "It's too late, Hero. My drones have already been released.",
         "hero", "Transmute, do these drones have any weaknesses?",
         "transmute", "Explosions.",
         "hero", "Perfect."
     },
     {
         "transmute", "Our time is running out.",
-        "ceo", "You're already too late, Hero. Soon the city will be\nmine."
+        "ceo", "It's already too late, Hero. Soon the city will be mine!",
+        "hero", "" --TODO
     },
     {
         "hero", "What's the mission, Transmute?",
-        "transmute", "C-CORP's drones have already been released. But I\nhave an idea of how to stop them."
+        "transmute", "C-CORP's drones have already been released. But I have an idea of how to stop them."
     }
 }
 
 phase2Dialog = {
     {
         "transmute", "You're about halfway to C-CORP's HQ.",
-        "ceo", "I'm afraid I can't let you get any further.",
-        "transmute", "Be careful, Hero."
+        "ceo", "I'm afraid I can't let you get any further."
     },
     {
         "ceo", "I've been dying to test out these new toys.",
@@ -28,21 +28,30 @@ phase2Dialog = {
     },
     {
         "ceo", "I'm always two steps ahead of you, Hero.",
-        "hero", "Guess I'll just have to speed up then."
+        "transmute", "You're closing in on C-CORP's HQ."
+    },
+    {
+        "ceo", "You call those explosions? I'll show you explosions!",
+        "hero", "Bring it on."
     }
 }
 
 phase3Dialog = {
     {
-        "transmute", "This is C-CORP's HQ. Get to the top of the building.",
+        "transmute", "This is C-CORP's HQ. Get to the roof.",
         "ceo", "Give up, Hero.",
         "hero", "What's the matter? A little too close to home?"
+    },
+    {
+        "ceo", "Just how do you plan to stop me, Hero?",
+        "ceo", "The whole city is hostage to my drones.",
+        "transmute", "Get to the roof ASAP."
     }
 }
 
 phase4Dialog = {
     {
-        "transmute", "That transmitter controls all the drones.",
+        "transmute", "There! That transmitter controls all the drones!",
         "ceo", "Hey, don't touch that!"
     }
 }

@@ -75,7 +75,7 @@ function drawDialog()
             6
         )
         love.graphics.setColor(colorChoice)
-        love.graphics.print(string.sub(currentDialog[dialogIndex+1], 1, dialogLetter), 40, 4)
+        love.graphics.printf(string.sub(currentDialog[dialogIndex+1], 1, dialogLetter), 40, 4, 272, "left")
     else
         love.graphics.setColor(1, 1, 1, 1)
         love.graphics.draw(
@@ -85,7 +85,7 @@ function drawDialog()
             6
         )
         love.graphics.setColor(colorChoice)
-        love.graphics.print(string.sub(currentDialog[dialogIndex+1], 1, dialogLetter), 40-32, 4)
+        love.graphics.printf(string.sub(currentDialog[dialogIndex+1], 1, dialogLetter), 40-32, 4, 272, "left")
     end
 end
 
