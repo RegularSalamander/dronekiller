@@ -35,7 +35,7 @@ function love.load()
     love.graphics.setDefaultFilter("nearest", "nearest")
     love.graphics.setLineStyle("rough")
     love.window.setMode(screenWidth*optionScale, screenHeight*optionScale, { vsync = true, msaa = 0, highdpi = true })
-    love.window.setTitle("DRONEKILLERZ")
+    love.window.setTitle("DRONEKILLER")
 
     images = {}
     images.player = love.graphics.newImage("assets/playerrun.png")
