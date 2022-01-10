@@ -42,7 +42,8 @@ phase3Dialog = {
 
 phase4Dialog = {
     {
-        "transmute", "That transmitter controls all the drones."
+        "transmute", "That transmitter controls all the drones.",
+        "ceo", "Hey, don't touch that!"
     }
 }
 
