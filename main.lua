@@ -45,6 +45,7 @@ function love.load()
     images.textbox = love.graphics.newImage("assets/textbox.png")
     images.target = love.graphics.newImage("assets/target.png")
     images.portraits = love.graphics.newImage("assets/portraits.png")
+    images.sign = love.graphics.newImage("assets/sign.png")
 
     sounds = {}
     sounds.musicStart = love.audio.newSource("assets/DRONEKILLER_start.mp3", "stream")

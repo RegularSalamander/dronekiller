@@ -36,7 +36,7 @@ phase3Dialog = {
     {
         "transmute", "This is C-CORP's HQ. Get to the top of the building.",
         "ceo", "Give up, Hero.",
-        "hero", "What's the matter? Too close for comfort?"
+        "hero", "What's the matter? A little too close to home?"
     }
 }
 
