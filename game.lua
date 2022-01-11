@@ -297,5 +297,4 @@ function game_keyreleased(key, scancode, isrepeat)
     if scancode == "k" then scancode = "z" end
     if scancode == "j" then scancode = "x" end
     if controls[scancode] ~= nil then controls[scancode] = 0 end
-    
 end
