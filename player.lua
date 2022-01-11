@@ -128,7 +128,7 @@ function player:control(delta)
         end
     end
 
-    if controls.x > 0 and self.canDash and self.timeSinceJumped > 10 then
+    if (controls.x > 0 and self.state == "ground") or controls.x == 1 and self.canDash and self.timeSinceJumped > 10 then 
         if self.state == "air" or self.state == "ground" then
             self.timeSinceDashed = 0
             self.canDash = false
