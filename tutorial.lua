@@ -4,7 +4,7 @@ function tutorial_load()
     objects.buildings = {
         building:new(0, 100, 100),
         building:new(150, 100, 100),
-        building:new(400, 100, 100),
+        building:new(400, 100, 150),
         building:new(550, 0, 100)
     }
     objects.drones = {
@@ -35,7 +35,7 @@ function tutorial_update(delta)
         if objects.player[1].pos.x > 90 then
             tutorialProgress = 2
             setDialog({
-                "transmute", "Press z, space, or k to jump."
+                "transmute", "Press Z, space, or K to jump."
             })
         end
     elseif tutorialProgress == 2 then --stop for player to jump
@@ -74,7 +74,7 @@ function tutorial_update(delta)
             tutorialProgress = 6
             setDialog({
                 "transmute", "Ooh, maybe not this time.",
-                "transmute", "Hold right and press x, shift, or j to activate your explosion sword."
+                "transmute", "Hold right and press X, shift, or J to activate your explosion sword."
             })
         end
     elseif tutorialProgress == 6 then --stop for the player to dash right
@@ -117,7 +117,7 @@ function tutorial_update(delta)
                 "transmute", "Jump and dash up to destroy it."
             })
         end
-    elseif tutorialProgress == 10 then --wait for the player to  attack the drone
+    elseif tutorialProgress == 10 then --wait for the player to attack the drone
         tutorialPaused = false
         objects.player[1].pos.x = 450 --keep em steady
         if objects.player[1].state == "posthit" then
@@ -135,7 +135,7 @@ function tutorial_update(delta)
         end
     elseif tutorialProgress == 12 then --wait for the player to  attack the drone
         tutorialPaused = false
-        if objects.player[1].state == "posthit" then
+        if objects.player[1].state == "hit" then
             tutorialProgress = 13
             setDialog({
                 "transmute", "You can tell that you'll hit a drone when you see a crosshair around it.",
