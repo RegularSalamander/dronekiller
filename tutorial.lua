@@ -16,7 +16,7 @@ function tutorial_load()
     tutorialPaused = false
 
     setDialog({
-        "transmute", "Use the arrow keys to move."
+        "transmute", "Use the arrow keys or WASD to move."
     }, true)
 end
 
@@ -35,7 +35,7 @@ function tutorial_update(delta)
         if objects.player[1].pos.x > 90 then
             tutorialProgress = 2
             setDialog({
-                "transmute", "Press z to jump."
+                "transmute", "Press z, space, or k to jump."
             })
         end
     elseif tutorialProgress == 2 then --stop for player to jump
@@ -74,7 +74,7 @@ function tutorial_update(delta)
             tutorialProgress = 6
             setDialog({
                 "transmute", "Ooh, maybe not this time.",
-                "transmute", "Hold right and press x to activate your explosion\nsword."
+                "transmute", "Hold right and press x, shift, or j to activate your explosion sword."
             })
         end
     elseif tutorialProgress == 6 then --stop for the player to dash right
@@ -123,8 +123,8 @@ function tutorial_update(delta)
         if objects.player[1].state == "posthit" then
             tutorialProgress = 11
             setDialog({
-                "transmute", "After you destroy a drone, you can use the\nexplosion to bounce yourself in any direction.",
-                "transmute", "Hold up and right to get to that other drone,\nthen dash up into it."
+                "transmute", "After you destroy a drone, you can use the explosion to bounce yourself in any direction.",
+                "transmute", "Hold up and right to get to that other drone, then dash up into it."
             })
         end
     elseif tutorialProgress == 11 then --stop for the player to move right and up
@@ -137,6 +137,10 @@ function tutorial_update(delta)
         tutorialPaused = false
         if objects.player[1].state == "posthit" then
             tutorialProgress = 13
+            setDialog({
+                "transmute", "You can tell that you'll hit a drone when you see a crosshair around it.",
+                "transmute", "Anyway, that's enough messing around. Tutorial over."
+            })
         end
     end
     if tutorialPaused then

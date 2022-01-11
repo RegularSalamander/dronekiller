@@ -274,12 +274,28 @@ end
 
 function game_keypressed(key, scancode, isrepeat)
     if isrepeat then return end
+    if scancode == "w" then scancode = "up" end
+    if scancode == "a" then scancode = "left" end
+    if scancode == "s" then scancode = "down" end
+    if scancode == "d" then scancode = "right" end
+    if scancode == "space" then scancode = "z" end
+    if scancode == "lshift" then scancode = "x" end
+    if scancode == "k" then scancode = "z" end
+    if scancode == "j" then scancode = "x" end
     if controls[scancode] ~= nil then controls[scancode] = 1 end
     if scancode == "escape" then changeGameState("pauseMenu") end
 end
 
 function game_keyreleased(key, scancode, isrepeat)
     if isrepeat then return end
+    if scancode == "w" then scancode = "up" end
+    if scancode == "a" then scancode = "left" end
+    if scancode == "s" then scancode = "down" end
+    if scancode == "d" then scancode = "right" end
+    if scancode == "space" then scancode = "z" end
+    if scancode == "lshift" then scancode = "x" end
+    if scancode == "k" then scancode = "z" end
+    if scancode == "j" then scancode = "x" end
     if controls[scancode] ~= nil then controls[scancode] = 0 end
     
 end
